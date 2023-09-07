@@ -11,16 +11,22 @@
 
 #pragma once
 
+#include "time.h"
 #include <map>
 
 namespace LocalMachine {
 
 // TODO - Use avros here for data storing, temporary types here
 typedef std::string storedValue;
-typedef double storageId;
+typedef int storageId;
 
-typedef std::map<double, std::string> keyMap;
-typedef std::map<double, std::string> valueMap;
+typedef struct ValueStruct {
+    double val; // Actual Value
+    clock_t timestamp; // timestamp of the value
+} Value;
+
+typedef std::map<storageId, std::string> keyMap;
+typedef std::map<storageId, ValueStruct> valueMap;
 
 class VirtualTable {
 
@@ -33,7 +39,7 @@ class VirtualTable {
         keyMap GetKeyMap();
         valueMap GetValueMap();
 
-        storedValue * GetStoredValue(storageId id);
+        Value * GetStoredValue(storageId id);
 
     private:
         

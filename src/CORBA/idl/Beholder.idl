@@ -1,0 +1,30 @@
+//
+//   Interface Beholder
+//
+//   Engenharia da computação
+//   Escola Politécnica - PUCPR
+//   Gabriel Vitor Cezário
+//
+
+module DSMComms {
+
+    enum EventEnum {
+        TEST,
+        NONE,
+        HAHA
+    };
+
+    struct Value {
+        double storedValue;
+        long timestamp;
+    };
+
+    interface POA_Beholder {
+
+        // operações
+        void LogEventAll(in string valor, in EventEnum event);
+        
+        void getValue(in string valueId, out Value toGetValue);
+    };
+
+};

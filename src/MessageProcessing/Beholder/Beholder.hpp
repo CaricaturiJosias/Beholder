@@ -11,12 +11,21 @@
 
 #include "../../DataModels/MsgInfo/MsgInfo.hpp"
 #include "../../LocalHelpers/MachineUtils/MachineUtils.hpp"
+#include "../../LocalHelpers/VirtualTable/VirtualTable.hpp"
+#include <memory>
 
 class Beholder {
 
-    // Should look for surrounding beholder on the start
-    void UpdateOtherTables(MsgInfo updateData);
+    public:
+        Beholder();
+        ~Beholder();
 
-    void LogEventAll(std::string msg, LocalMachine::EventType event);
+        // Should look for surrounding beholder on the start
+        void UpdateOtherTables(MsgInfo updateData);
 
+        void LogEventAll(std::string msg, LocalMachine::EventType event);
+
+    private:
+
+        static std::unique_ptr<LocalMachine::VirtualTable> s_virtualTable;
 };
