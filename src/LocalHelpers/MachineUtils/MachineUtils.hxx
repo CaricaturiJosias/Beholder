@@ -14,10 +14,10 @@
 #include <string.h>
 #include <vector>
 
-#include "../../MessageProcessing/Actors/Sender.hpp"
-#include "../../DataModels/Information/Information.hpp"
-#include "../../DataModels/MsgInfo/MsgInfo.hpp"
-#include "../VirtualTable/VirtualTable.hpp"
+#include "../../MessageProcessing/Actors/Sender.hxx"
+#include "../../DataModels/Information/Information.hxx"
+#include "../../DataModels/MsgInfo/MsgInfo.hxx"
+#include "../VirtualTable/VirtualTable.hxx"
 
 namespace LocalMachine {
 

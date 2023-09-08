@@ -8,10 +8,10 @@ include $(ACE_ROOT)/include/makeinclude/platform_macros.GNU
 # Parâmetros:
 #
 
-PROJECT = TCCExec
+PROJECT = cliente
 SERVER = false
 
-IDL.idl = Conta.idl
+IDL.idl = Beholder.idl
 COMMON.cpp =
 SOURCES.cpp = \
 	cliente.cpp

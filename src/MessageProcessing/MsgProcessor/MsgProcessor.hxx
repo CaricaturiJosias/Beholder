@@ -9,9 +9,9 @@
  * 
  */
 
-#include "../../DataModels/MsgInfo/MsgInfo.hpp"
-#include "../../DataModels/Msg/SOAPMsg.hpp"
-#include "../Actors/Sender.hpp"
+#include "../../DataModels/MsgInfo/MsgInfo.hxx"
+#include "../../DataModels/Msg/SOAPMsg.hxx"
+#include "../Actors/Sender.hxx"
 
 #include <string.h>
 #include <vector>

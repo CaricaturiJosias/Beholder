@@ -8,14 +8,14 @@ include $(ACE_ROOT)/include/makeinclude/platform_macros.GNU
 # Parâmetros:
 #
 
-PROJECT = TCC
+PROJECT = servidor
 SERVER = true
 
 IDL.idl = Beholder.idl
 COMMON.cpp =
 SOURCES.cpp = \
 	BeholderI.cpp \
-	servidor.cpp
+	servidor.cpp \
 
 BINDIR = ../bin
 IDLDIR = ../idl

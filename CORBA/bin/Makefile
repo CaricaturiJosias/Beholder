@@ -6,7 +6,7 @@
 
 PROJECTS = \
 	../cliente		\
-	../servidor
+	../servidor \
 
 TARGETS = $(addsuffix _dir,$(PROJECTS))
 CLEAN_TARGS = $(addsuffix _rm,$(PROJECTS))

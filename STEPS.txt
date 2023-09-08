@@ -4,3 +4,17 @@ sudo apt-get install libgl1-mesa-dev
 sudo apt-get install libfltk1.3-dev
 sudo apt-get install libssl-dev
 sudo apt-get install tk-dev
+
+// Create into $ACE_ROOT/include/makeinclude/plataform_macros.GNU and insert the following
+include $(ACE_ROOT)/include/makeinclude/platform_linux.GNU
+INSTALL_PREFIX = /usr/local
+install_rpath=0
+
+TAO_ORBSVCS = Naming Time Trader ImplRepo
+
+x11 = 1
+xt = 1
+ssl = 1
+gl = 1
+tk = 1
+fl = 1

@@ -9,7 +9,7 @@
  * 
  */
 
-#include "Beholder.hpp"
+#include "Beholder.hxx"
 
 std::unique_ptr<LocalMachine::VirtualTable> Beholder::s_virtualTable = nullptr;
 
