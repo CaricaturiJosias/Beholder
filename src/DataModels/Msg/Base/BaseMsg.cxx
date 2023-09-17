@@ -1,5 +1,5 @@
 /**
- * @file SOAPMsg.h
+ * @file BaseMsg.cxx
  * @author Gabriel Cezario (gabriel.argacezario@gmail.com)
  * @brief 
  * @version 0.1
@@ -9,17 +9,16 @@
  * 
  */
 
-#include "./Base/BaseMsg.hxx"
+#include "BaseMsg.hxx"
 
 namespace Message {
 
-    class SOAPMsg : BaseMsg {
+    BaseMsg::BaseMsg() {
+        // TODO
+    }
 
-        public:
-        
-            SOAPMsg();
-            
-            ~SOAPMsg();
-    };
+    BaseMsg::~BaseMsg() {
+        // TODO
+    }
 
 };

@@ -1,5 +1,5 @@
 /**
- * @file SOAPMsg.h
+ * @file GenericMsg.h
  * @author Gabriel Cezario (gabriel.argacezario@gmail.com)
  * @brief 
  * @version 0.1
@@ -13,13 +13,13 @@
 
 namespace Message {
 
-    class SOAPMsg : BaseMsg {
+    class GenericMsg : BaseMsg {
 
         public:
         
-            SOAPMsg();
+            GenericMsg();
             
-            ~SOAPMsg();
+            ~GenericMsg();
     };
 
 };
