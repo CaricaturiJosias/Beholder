@@ -1,5 +1,5 @@
 /**
- * @file MsgProcessor.h
+ * @file MsgProcessor.hxx
  * @author Gabriel Cezario (gabriel.argacezario@gmail.com)
  * @brief 
  * @version 0.1
@@ -13,7 +13,7 @@
 #include "../../DataModels/Msg/SOAPMsg.hxx"
 #include "../Actors/Sender.hxx"
 
-#include <string.h>
+#include <string>
 #include <vector>
 
 namespace SOA {
