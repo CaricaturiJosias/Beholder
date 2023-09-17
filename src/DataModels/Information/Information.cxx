@@ -1,5 +1,5 @@
 /**
- * @file Information.hxx
+ * @file Information.cxx
  * @author Gabriel Cezario (gabriel.argacezario@gmail.com)
  * @brief 
  * @version 0.1
@@ -10,14 +10,9 @@
  */
 
 #pragma once
-#include "Base/Info.hxx"
 
-namespace Information {
+#include "Information.hxx"
 
-class Information : Info {
-
-    Information();
-
-};
-
-};
+Information::Information() {
+    // TODO
+}

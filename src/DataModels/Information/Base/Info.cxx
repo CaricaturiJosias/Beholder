@@ -1,5 +1,5 @@
 /**
- * @file Information.hxx
+ * @file Info.cxx
  * @author Gabriel Cezario (gabriel.argacezario@gmail.com)
  * @brief 
  * @version 0.1
@@ -10,14 +10,16 @@
  */
 
 #pragma once
-#include "Base/Info.hxx"
+
+#include "Info.hxx"
 
 namespace Information {
 
-class Information : Info {
+Info::Info() {
+    s_ptr_data = std::string(DEFAULT_VALUE);
+    s_infoId = std::string(DEFAULT_ID);
+}
 
-    Information();
 
-};
 
 };
