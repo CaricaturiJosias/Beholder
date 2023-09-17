@@ -12,6 +12,7 @@
 #pragma once
 
 #include "time.h"
+#include <string>
 #include <map>
 
 namespace LocalMachine {
@@ -43,12 +44,12 @@ class VirtualTable {
 
     private:
         
-        double numRows;
+        static double numRows;
 
-        keyMap dataMapKey;
-        valueMap dataMapValue;
+        static keyMap dataMapKey;
+        static valueMap dataMapValue;
 
-        VirtualTable * table;
+        static VirtualTable * table;
 };
 
 } // Namespace LocalMachine
