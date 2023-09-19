@@ -9,7 +9,7 @@
  * 
  */
 
-#include "../../DataModels/MsgInfo/MsgInfo.hxx"
+#include "../../DataModels/Msg/Base/BaseMsg.hxx"
 #include "../../LocalHelpers/MachineUtils/MachineUtils.hxx"
 #include "../../LocalHelpers/VirtualTable/VirtualTable.hxx"
 #include <memory>
@@ -21,7 +21,7 @@ class Beholder {
         ~Beholder();
 
         // Should look for surrounding beholder on the start
-        void UpdateOtherTables(MsgInfo updateData);
+        void UpdateOtherTables(BaseMsg updateData);
 
         void LogEventAll(std::string msg, LocalMachine::EventType event);
 
