@@ -39,7 +39,7 @@ class SchemaUtils { //  Acts like an interface
 
         void * CompressData(MsgInfo data);
 
-        bool SaveData(void * data);
+        bool SaveData(void * data, DataType dataType);
 
         bool SaveData(MsgInfo data);
 

@@ -14,10 +14,18 @@
 #include <string.h>
 #include <vector>
 
+#include "./GeneratedHeaders/AnalogData.hh"
+#include "./GeneratedHeaders/DigitalData.hh"
+
 #include "../../MessageProcessing/Actors/Sender.hxx"
 #include "../../DataModels/Information/Information.hxx"
 #include "../../DataModels/MsgInfo/MsgInfo.hxx"
 #include "../VirtualTable/VirtualTable.hxx"
+
+// Apache Avro related imports
+#include <avro/Decoder.hh>
+#include <avro/Encoder.hh>
+
 
 namespace LocalMachine {
 
@@ -45,7 +53,7 @@ class SchemaUtils { //  Acts like an interface
 
         }
 
-        bool SchemaUtils::SaveData(void * data) {
+        bool SchemaUtils::SaveData(void * data, DataType dataType); {
 
         }
 
