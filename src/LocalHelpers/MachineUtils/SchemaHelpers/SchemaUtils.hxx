@@ -1,7 +1,7 @@
 /**
- * @file MachineUtils.cxx
+ * @file SchemaUtils.hxx
  * @author Gabriel Cezario (gabriel.argacezario@gmail.com)
- * @brief 
+ * @brief Interface to help on schema operations
  * @version 0.1
  * @date 2023-06-21
  * 
@@ -21,15 +21,15 @@
 
 namespace LocalMachine {
 
-enum EventType {
-    Something // TODO
+enum DataType {
+    ANALOG,
+    DIGITAL,
+    default = ANALOG
 };
 
-class MachineUtils { //  Acts like an interface
+class SchemaUtils { //  Acts like an interface
 
     public:
-    
-        bool CheckPermission(std::string command, Sender sender);
 
         Information DecompressInfo(void * encryptedInfo);
 
@@ -39,25 +39,9 @@ class MachineUtils { //  Acts like an interface
 
         void * CompressData(MsgInfo data);
 
-        double GetRecordsAmmount();
-
-        bool DataLookUp(MsgInfo data);
-
-        bool hasSpace(void * encryptedData);
-
-        void LogEvent(std::string msg, EventType eventType);
-
         bool SaveData(void * data);
 
         bool SaveData(MsgInfo data);
-
-        void UpdateTable(void * data, double dataOwner);
-
-        MsgInfo LookUpData(MsgInfo data);
-
-        VirtualTable GetVirtualTable();
-
-        std::vector<Information> GetDataInArray(MsgInfo dataInfo);
 
 };
 

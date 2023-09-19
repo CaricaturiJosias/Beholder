@@ -1,5 +1,5 @@
 /**
- * @file MachineUtils.h
+ * @file MachineUtils.hxx
  * @author Gabriel Cezario (gabriel.argacezario@gmail.com)
  * @brief 
  * @version 0.1

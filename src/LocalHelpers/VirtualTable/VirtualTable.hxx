@@ -42,6 +42,7 @@ class VirtualTable {
 
         Value * GetStoredValue(storageId id);
 
+        bool storeValue ()
     private:
         
         static double numRows;
