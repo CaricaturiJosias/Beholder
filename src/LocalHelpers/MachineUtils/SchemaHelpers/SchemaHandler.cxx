@@ -12,55 +12,74 @@
 #pragma once
 
 #include <string.h>
+#include <ffstream>
 #include <vector>
 
 #include "./GeneratedHeaders/AnalogData.hh"
 #include "./GeneratedHeaders/DigitalData.hh"
 
-#include "../../MessageProcessing/Actors/Sender.hxx"
-#include "../../DataModels/Information/Information.hxx"
-#include "../../DataModels/MsgInfo/MsgInfo.hxx"
-#include "../VirtualTable/VirtualTable.hxx"
+#include "../../../Entities/Base/Entity.hxx"
+#include "../../../DataModels/Information/Information.hxx"
+#include "../../VirtualTable/VirtualTable.hxx"
+
+#include "SchemaHandler.hxx"
 
 // Apache Avro related imports
+#include <avro/ValidSchema.hh>
+#include <avro/Compiler.hh>
 #include <avro/Decoder.hh>
 #include <avro/Encoder.hh>
 
-
 namespace LocalMachine {
+        
 
-enum EventType {
-    Something // TODO
+    
+    Information::Information SchemaUtils::DecompressInfo(void * encryptedInfo) {
+
+    }
+
+    void * SchemaUtils::DecryptInfo(void * encryptedInfo) {
+
+    }
+
+    void * SchemaUtils::EncryptCompressedData(void * compressedInfo) {
+
+    }
+
+    void * SchemaUtils::CompressData(Information::Information * data) {
+        // Check if information is correct, creates pointer to stored info
+        if (data->getInfoId() == Information::DEFAULT_ID) {
+            return nullptr; //Nothing to store, TODO get logging going
+        } else if (data->getInfoValue() == Information::DEFAULT_VALUE) {
+            return nullptr; //Nothing to store, TODO get logging going
+        }
+
+        std::string schemaPath;
+        if (data->getDataType == Information::ANALOG) {
+            schemaPath = LocalMachine::ANALOG_SCHEMA;
+        } else {
+            schemaPath = LocalMachine::DIGITAL_SCHEMA;
+        }
+
+        // Create handler for serialization encoding
+        std::unique_ptr<avro::OutputStream> out = avro::memoryOutputStream();
+        avro::EncoderPtr e = avro::binaryEncoder();
+    }
+
+    bool SchemaUtils::SaveData(void * dataPointer, Information::Information data) {
+
+    }
+
+    bool SchemaUtils::SaveData(Information::Information data) {
+
+    }
+
+    bool SchemaUtils::checkSchema(std::string schemaLoc) {
+        // For sanity check
+        std::ifstream input(schemaLoc);
+
+        avro::ValidSchema dataSchema;
+        avro::compileJsonSchema(input, dataSchema);
+    }
+
 };
-
-class SchemaUtils { //  Acts like an interface
-
-    public:
-
-        Information SchemaUtils::DecompressInfo(void * encryptedInfo) {
-
-        }
-
-        void * SchemaUtils::DecryptInfo(void * encryptedInfo) {
-
-        }
-
-        void * SchemaUtils::EncryptCompressedData(void * compressetInfo) {
-
-        }
-
-        void * SchemaUtils::CompressData(MsgInfo data) {
-
-        }
-
-        bool SchemaUtils::SaveData(void * data, DataType dataType); {
-
-        }
-
-        bool SchemaUtils::SaveData(MsgInfo data) {
-
-        }
-
-};
-
-}

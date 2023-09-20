@@ -14,7 +14,7 @@
 
 namespace Information {
 
-class Information : Info {
+class Information : public Info {
 
     Information();
 

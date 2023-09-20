@@ -21,27 +21,30 @@
 
 namespace LocalMachine {
 
-enum DataType {
-    ANALOG,
-    DIGITAL,
-    default = ANALOG
-};
+constexpr std::string_view ANALOG_SCHEMA = "./Schemas/AnalogData.json";
+constexpr std::string_view DIGITAL_SCHEMA = "./Schemas/DigitalData.json";
 
 class SchemaUtils { //  Acts like an interface
 
     public:
 
-        Information DecompressInfo(void * encryptedInfo);
+        static Information DecompressInfo(void * encryptedInfo);
 
-        void * DecryptInfo(void * encryptedInfo);
+        static void * DecryptInfo(void * encryptedInfo);
 
-        void * EncryptCompressedData(void * compressetInfo);
+        static void * EncryptCompressedData(void * compressedInfo);
 
-        void * CompressData(MsgInfo data);
+        static void * CompressData(Information::Information data);
 
-        bool SaveData(void * data, DataType dataType);
+        static bool SaveData(void * datPointer, Information::Information data);
 
-        bool SaveData(MsgInfo data);
+        static bool SaveData(Information::Information data);
+
+
+    private:
+
+        static bool checkSchema(std::string schemaLoc);
+
 
 };
 
