@@ -53,17 +53,38 @@ namespace LocalMachine {
         } else if (data->getInfoValue() == Information::DEFAULT_VALUE) {
             return nullptr; //Nothing to store, TODO get logging going
         }
+        Information::DataType infoDataType = data->getDataType;
 
         std::string schemaPath;
-        if (data->getDataType == Information::ANALOG) {
-            schemaPath = LocalMachine::ANALOG_SCHEMA;
-        } else {
-            schemaPath = LocalMachine::DIGITAL_SCHEMA;
+        bool validSchema = false;
+        switch (infoDataType) {
+            case Information::ANALOG:
+                validSchema = checkSchema(LocalMachine::ANALOG_SCHEMA);
+                break;
+            case Information::DIGITAL:
+                validSchema = checkSchema(LocalMachine::DIGITAL_SCHEMA);
+                break;
+        }
+
+        // Sanity Check
+        if (!validSchema) {
+            // Logging for schema error
+            return nullptr;
         }
 
         // Create handler for serialization encoding
         std::unique_ptr<avro::OutputStream> out = avro::memoryOutputStream();
         avro::EncoderPtr e = avro::binaryEncoder();
+
+        if (infoDataType == Information::ANALOG) {
+            e->init(*out);
+            c::Analog analog;
+            analog.value = double(data->getInfoValue());
+            avro::encode(*e, analog)    
+        }
+        e->init(*out);
+        c::cpx c1;
+        avro::encode(*e, c1)
     }
 
     bool SchemaUtils::SaveData(void * dataPointer, Information::Information data) {
