@@ -24,7 +24,8 @@ constexpr std::string_view TIME_FORMAT {"%Y-%m-%d %H:%M:%S"};
 
 enum DataType {
     ANALOG,
-    DIGITAL
+    DIGITAL,
+    UNKNOWN
 };
 
 class Information {

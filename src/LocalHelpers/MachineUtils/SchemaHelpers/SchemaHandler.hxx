@@ -14,21 +14,22 @@
 #include <string.h>
 #include <vector>
 
-#include "../../MessageProcessing/Actors/Sender.hxx"
-#include "../../DataModels/Information/Information.hxx"
-#include "../../DataModels/MsgInfo/MsgInfo.hxx"
-#include "../VirtualTable/VirtualTable.hxx"
+#include "../../../Entities/Base/Entity.hxx"
+#include "../../../DataModels/Information/Information.hxx"
+#include "../../../DataModels/Msg/Base/BaseMsg.hxx"
+#include "../../VirtualTable/VirtualTable.hxx"
 
 namespace LocalMachine {
 
 constexpr std::string_view ANALOG_SCHEMA = "./Schemas/AnalogData.json";
 constexpr std::string_view DIGITAL_SCHEMA = "./Schemas/DigitalData.json";
+constexpr std::string_view UNKNOWN_SCHEMA = "./Schemas/ErrorSchema.json";
 
 class SchemaUtils { //  Acts like an interface
 
     public:
 
-        static Information DecompressInfo(void * encryptedInfo);
+        static Information::Information DecompressInfo(void * encryptedInfo);
 
         static void * DecryptInfo(void * encryptedInfo);
 
@@ -44,6 +45,8 @@ class SchemaUtils { //  Acts like an interface
     private:
 
         static bool checkSchema(std::string schemaLoc);
+
+        static std::string getCorrectSchema(Information::DataType inputType)
 
 
 };

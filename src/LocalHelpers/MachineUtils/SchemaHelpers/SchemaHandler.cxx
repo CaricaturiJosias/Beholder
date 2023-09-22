@@ -18,11 +18,9 @@
 #include "./GeneratedHeaders/AnalogData.hh"
 #include "./GeneratedHeaders/DigitalData.hh"
 
-#include "../../../Entities/Base/Entity.hxx"
-#include "../../../DataModels/Information/Information.hxx"
-#include "../../VirtualTable/VirtualTable.hxx"
-
 #include "SchemaHandler.hxx"
+
+#include "../MachineUtils.hxx"
 
 // Apache Avro related imports
 #include <avro/ValidSchema.hh>
@@ -48,6 +46,29 @@ namespace LocalMachine {
 
     }
 
+    /**
+     * @brief Gets correct schema location, tests it and returns it
+     * 
+     * @param[in] inputType value recognizing if it is ANALOG or DIGITAL
+    */
+    std::string getCorrectSchema(Information::DataType inputType) {
+        std::string schemaLocation;
+        switch (infoDataType) {
+            case Information::ANALOG:
+                schemaLocation = LocalMachine::ANALOG_SCHEMA;
+                break;
+            case Information::DIGITAL:
+                schemaLocation = LocalMachine::DIGITAL_SCHEMA;
+                break;
+            default:
+                schemaLocation = LocalMachine::UNKNOWN_SCHEMA;
+                break;
+        }
+        // Should throw an exception
+        checkSchema(schemaLocation);
+        return schemaLocation;
+    }
+
     void * SchemaUtils::CompressData(Information::Information * data) {
         // Check if information is correct, creates pointer to stored info
         if (data->getInfoId() == Information::DEFAULT_ID) {
@@ -56,37 +77,48 @@ namespace LocalMachine {
             return nullptr; //Nothing to store, TODO get logging going
         }
         Information::DataType infoDataType = data->getDataType;
-
-        std::string schemaPath;
-        bool validSchema = false;
-        switch (infoDataType) {
-            case Information::ANALOG:
-                validSchema = checkSchema(LocalMachine::ANALOG_SCHEMA);
-                break;
-            case Information::DIGITAL:
-                validSchema = checkSchema(LocalMachine::DIGITAL_SCHEMA);
-                break;
-        }
+        std::string schemaPath = getCorrectSchema(infoDataType);
 
         // Sanity Check
-        if (!validSchema) {
+        if (schemaPath == LocalMachine::UNKNOWN_SCHEMA) {
             // Logging for schema error
             return nullptr;
         }
 
+        // Check timestamp value sent, if default define the local system time
+        std::string timestamp = data->GetInfoTimeStamp();
+        if (timestamp == Information::DEFAULT_TIME) {
+            // TODO - Log occurance
+            timestamp = LocalMachine::MachineUtils::GetCurrentTime();
+        }
+
         // Create handler for serialization encoding
         std::unique_ptr<avro::OutputStream> out = avro::memoryOutputStream();
-        avro::EncoderPtr e = avro::binaryEncoder();
+        avro::EncoderPtr encoder = avro::binaryEncoder();
 
+        // Encoding necessary for each
         if (infoDataType == Information::ANALOG) {
-            e->init(*out);
+            if (!LocalMachine::MachineUtils::IsStringType<double>(data->getInfoValue())) {
+                // Log number is not valid
+                return nullptr;
+            }
+            encoder->init(*out);
             c::Analog analog;
-            analog.value = double(data->getInfoValue());
-            avro::encode(*e, analog);   
+            analog.value = std::stod(data->getInfoValue());
+            avro::encode(*encoder, analog);   
+        } else {
+            // DIGITAL
+            if (!LocalMachine::MachineUtils::IsStringType<int>(data->getInfoValue())) {
+                // Log number is not valid
+                return nullptr;
+            }
+            encoder->init(*out);
+            c::Analog analog;
+            analog.value = std::stoi(data->getInfoValue());
+            avro::encode(*encoder, analog); 
         }
-        e->init(*out);
-        c::cpx c1;
-        avro::encode(*e, c1)
+        // Will be encrypted
+        return encoder;
     }
 
     bool SchemaUtils::SaveData(void * dataPointer, Information::Information data) {
