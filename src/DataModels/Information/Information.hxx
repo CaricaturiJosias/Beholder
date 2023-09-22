@@ -33,16 +33,17 @@ class Information {
     public:
         
         Information();
-        virtual ~Information();
+        Information(std::string id, std::string value, std::string timestamp, DataType dataType);
+        ~Information();
 
-        virtual std::string GetInfoId();
-        virtual std::string GetInfoValue();
-        virtual std::string GetInfoTimeStamp();
-        virtual DataType GetDataType();
+        std::string GetInfoId();
+        std::string GetInfoValue();
+        std::string GetInfoTimeStamp();
+        DataType GetDataType();
 
     protected:
 
-        std::string a_ptr_data;
+        std::string a_data;
 
         std::string a_infoId;
 

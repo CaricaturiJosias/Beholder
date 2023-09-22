@@ -1,5 +1,5 @@
 /**
- * @file SchemaUtils.hxx
+ * @file SchemaHandler.hxx
  * @author Gabriel Cezario (gabriel.argacezario@gmail.com)
  * @brief Interface to help on schema operations
  * @version 0.1
@@ -41,12 +41,12 @@ class SchemaUtils { //  Acts like an interface
 
         static bool SaveData(Information::Information data);
 
+        static std::string getCorrectSchema(Information::DataType inputType);
 
     private:
 
         static bool checkSchema(std::string schemaLoc);
 
-        static std::string getCorrectSchema(Information::DataType inputType)
 
 
 };

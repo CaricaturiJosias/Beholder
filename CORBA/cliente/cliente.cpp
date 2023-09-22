@@ -10,6 +10,9 @@
 #include <string>
 #include "../idl/BeholderC.h"
 
+#include "../../src/LocalHelpers/MachineUtils/SchemaHelpers/SchemaHandler.hxx"
+#include "../../src/DataModels/Information/Information.hxx"
+
 using namespace std;
 using namespace DSMComms;
 
@@ -39,14 +42,12 @@ int main(int argc, char* argv[])
 		string dest_ior;
 
 		cout << "Teste:\n\ta\n\tfim" << endl;
-
+		int a = 1;
 		do {
-			cout << "> ";
-			cin >> command;
-			if (command == "a") {
-				cout << "Bah" << endl;
-			} else {
-				cout << "HUH" << endl;
+			if (a == 1) {
+				std::string test = LocalMachine::SchemaUtils::getCorrectSchema(Information::ANALOG);
+				cout << "Schema: " << test;
+				// Information::Information * info = new Information::Information();
 			}
 		} while (command != "fim");
 

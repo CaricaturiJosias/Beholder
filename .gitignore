@@ -3,3 +3,7 @@ CMakeFiles/
 build/
 3PP/
 .vscode/
+*cmake_install.cmake
+src/*/Makefile
+Makefile
+*.o

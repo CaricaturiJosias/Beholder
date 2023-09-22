@@ -2,6 +2,8 @@
 # ASDPC - Escola Politécnica - PUCPR
 # Prof. Luiz Lima Jr.
 
+# Modificado por Gabriel Vitor Cezário
+
 include $(ACE_ROOT)/include/makeinclude/platform_macros.GNU
 
 #
@@ -14,7 +16,7 @@ SERVER = false
 IDL.idl = Beholder.idl
 COMMON.cpp =
 SOURCES.cpp = \
-	cliente.cpp
+	cliente.cpp \
 
 BINDIR = ../bin
 IDLDIR = ../idl
