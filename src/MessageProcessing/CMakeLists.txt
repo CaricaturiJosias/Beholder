@@ -1,17 +1,20 @@
-cmake_minimum_required(VERSION 3.16)
+# CMakeLists.txt in src/MessageProcessing
 
-project(MessageProcessingBuild LANGUAGES CXX)
+# Define a library for the MessageProcessing component
+add_library(MessageProcessingLib STATIC
+    Beholder/Beholder.cxx
+    MsgProcessor/MsgProcessor.cxx
+)
 
-set(CMAKE_BINARY_DIR ../CMAKE)
+# Include directories for the MessageProcessing component
+target_include_directories(MessageProcessingLib PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+# Link any required libraries (if any) to MessageProcessingLib
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-add_executable(Sender ./Actors/Sender.cxx)
-add_executable(Beholder ./Beholder/Beholder.cxx)
-add_executable(MsgProcessor ./MsgProcessor/MsgProcessor.cxx)
+# Define a target for the Makefile in this directory (if needed)
+add_custom_target(MessageProcessingMakefile
+    COMMAND make
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)

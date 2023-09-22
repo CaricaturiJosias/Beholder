@@ -1,5 +1,5 @@
 /**
- * @file MachineUtils.h
+ * @file Machine.hxx
  * @author Gabriel Cezario (gabriel.argacezario@gmail.com)
  * @brief 
  * @version 0.1
@@ -20,9 +20,9 @@ class Machine {
     
     private:
 
-        double memory;
+        static double memory;
 
-        std::string virtualTablePath;
+        static std::string virtualTablePath;
 
     public: 
 

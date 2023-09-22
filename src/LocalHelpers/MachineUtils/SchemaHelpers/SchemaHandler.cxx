@@ -138,3 +138,63 @@ namespace LocalMachine {
     }
 
 };
+
+src/
+    DataModels/
+        Information/
+            Information.cxx
+            Information.hxx
+        Msg/
+            Base/
+                BaseMsg.cxx
+                BaseMsg.hxx
+            GenericMsg.cxx
+            GenericMsg.hxx
+            SOAPMsg.cxx
+            SOAPMsg.hxx
+        Makefile
+    Entities/
+        Base/
+            Entity.cxx
+            Entity.hxx
+        EntityManager.cxx
+        EntityManager.hxx
+        Makefile
+    Lib/
+        Pugi/
+            Makefile
+            pugiconfig.hpp
+            pugixml.cpp
+            pugixml.hpp
+    LocalHelpers/
+        MachineUtils/
+            SchemaHelpers/
+                GeneratedHeaders/
+                    AnalogData.hh
+                    DigitalData.hh
+                Schemas/
+                    AnalogData.json
+                    DigitalData.json
+                    ErrorSchema.json
+                SchemaHandler.cxx
+                SchemaHandler.hxx
+            Machine.hxx
+            MachineUtils.cxx
+            MachineUtils.hxx
+        VirtualTable/
+            Helper/
+                AvrosHelper.cxx
+                AvrosHelper.hxx
+            VirtualTable.cxx
+            VirtualTable.hxx
+        Makefile
+    MessageProcessing/
+        Beholder/
+            Beholder.cxx
+            Beholder.hxx
+        MsgProcessor/
+            MsgProcessor.cxx
+            MsgProcessor.hxx
+        Makefile
+    Makefile
+
