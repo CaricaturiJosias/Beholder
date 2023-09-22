@@ -13,50 +13,87 @@
 
 namespace LocalMachine {
 
-enum EventType {
-    Something // TODO
-};
+    enum EventType {
+        Something // TODO
+    };
+   
+    bool MachineUtils::CheckPermission(std::string command, Entity::Entity sender) {
 
-class MachineUtils { //  Acts like an interface
+    }
 
-    public:
-    
-        bool CheckPermission(std::string command, Sender sender);
+    Information::Information MachineUtils::DecompressInfo(void * encryptedInfo) {
 
-        Information::Information DecompressInfo(void * encryptedInfo);
+    }
 
-        void * DecryptInfo(void * encryptedInfo);
+    void * MachineUtils::DecryptInfo(void * encryptedInfo) {
 
-        void * EncryptCompressedData(void * compressetInfo);
+    }
 
-        void * CompressData(Message::BaseMsg data);
+    void * MachineUtils::EncryptCompressedData(void * compressetInfo) {
 
-        double GetRecordsAmmount();
+    }
 
-        bool DataLookUp(Message::BaseMsg data);
+    void * MachineUtils::CompressData(Message::BaseMsg data) {
 
-        bool hasSpace(void * encryptedData);
+    }
 
-        void LogEvent(std::string msg, EventType eventType);
+    double MachineUtils::GetRecordsAmmount() {
 
-        bool SaveData(void * data);
+    }
 
-        bool SaveData(Message::BaseMsg data);
+    bool MachineUtils::DataLookUp(Message::BaseMsg data) {
 
-        void UpdateTable(void * data, double dataOwner);
+    }
 
-        Message::BaseMsg LookUpData(Message::BaseMsg data);
+    bool MachineUtils::hasSpace(void * encryptedData) {
 
-        VirtualTable GetVirtualTable();
+    }
 
-        std::vector<Information::Information> GetDataInArray(Message::BaseMsg dataInfo);
+    void MachineUtils::LogEvent(std::string msg, EventType eventType) {
 
-        std::string GetCurrentTime() {
-            // Get time in the following format
-            time_t currentTime;
-            time(&currentTime);
-        }
+    }
 
-};
+    bool MachineUtils::SaveData(void * data) {
+
+    }
+
+    bool MachineUtils::SaveData(Message::BaseMsg data) {
+
+    }
+
+    void MachineUtils::UpdateTable(void * data, double dataOwner) {
+
+    }
+
+    Information::Information MachineUtils::LookUpData(Message::BaseMsg data) {
+
+    }
+
+    VirtualTable MachineUtils::GetVirtualTable() {
+
+    }
+
+    std::vector<Information::Information> MachineUtils::GetDataInArray(Message::BaseMsg dataInfo) {
+
+    }
+
+    std::string MachineUtils::GetCurrentTime() {
+        // Get time in the following format
+        time_t currentTime;
+        time(&currentTime);
+        struct tm* timeInfo = localtime(&currentTime);
+
+        char timeString[50];
+        strftime(timeString, sizeof(timeString), "%Y-%m-%d %H:%M:%S", timeInfo);
+        return std::string(timeString);
+    }
+
+    // Doest belong to the class because contains template
+    template<typename Number>
+    bool IsStringType(std::string& value) {
+        Number n;
+        std::string::iterator it = value.begin();
+        return((std::istringstream(value) >> n >> std::ws).eof());
+    }
 
 }

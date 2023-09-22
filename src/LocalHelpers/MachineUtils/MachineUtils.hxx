@@ -29,37 +29,43 @@ class MachineUtils { //  Acts like an interface
 
     public:
     
-        bool CheckPermission(std::string command, Sender sender);
+        static bool CheckPermission(std::string command, Entity::Entity sender);
 
-        Information::Information DecompressInfo(void * encryptedInfo);
+        static Information::Information DecompressInfo(void * encryptedInfo);
 
-        void * DecryptInfo(void * encryptedInfo);
+        static void * DecryptInfo(void * encryptedInfo);
 
-        void * EncryptCompressedData(void * compressetInfo);
+        static void * EncryptCompressedData(void * compressetInfo);
 
-        void * CompressData(Message::BaseMsg data);
+        static void * CompressData(Message::BaseMsg data);
 
-        double GetRecordsAmmount();
+        static double GetRecordsAmmount();
 
-        bool DataLookUp(Message::BaseMsg data);
+        static bool DataLookUp(Message::BaseMsg data);
 
-        bool hasSpace(void * encryptedData);
+        static bool hasSpace(void * encryptedData);
 
-        void LogEvent(std::string msg, EventType eventType);
+        static void LogEvent(std::string msg, EventType eventType);
 
-        bool SaveData(void * data);
+        static bool SaveData(void * data);
 
-        bool SaveData(Message::BaseMsg data);
+        static bool SaveData(Message::BaseMsg data);
 
-        void UpdateTable(void * data, double dataOwner);
+        static void UpdateTable(void * data, double dataOwner);
 
-        Information::Information LookUpData(Information::Information data);
+        static Information::Information LookUpData(Message::BaseMsg data);
 
-        VirtualTable GetVirtualTable();
+        static VirtualTable GetVirtualTable();
 
-        std::vector<Information::Information> GetDataInArray(Message::BaseMsg dataInfo);
+        static std::vector<Information::Information> GetDataInArray(Message::BaseMsg dataInfo);
 
-        std::string GetCurrentTime();
+        static std::string GetCurrentTime();
+
+        static bool IsStringInt(std::string value);
+
 };
+
+template<typename Number>
+bool IsStringType(std::string& value);
 
 }
