@@ -9,15 +9,7 @@
  * 
  */
 
-#pragma once
-
-#include <string.h>
-#include <vector>
-
-#include "../../MessageProcessing/Actors/Sender.hxx"
-#include "../../DataModels/Information/Information.hxx"
-#include "../../DataModels/MsgInfo/MsgInfo.hxx"
-#include "../VirtualTable/VirtualTable.hxx"
+#include "MachineUtils.hxx"
 
 namespace LocalMachine {
 
@@ -31,17 +23,17 @@ class MachineUtils { //  Acts like an interface
     
         bool CheckPermission(std::string command, Sender sender);
 
-        Information DecompressInfo(void * encryptedInfo);
+        Information::Information DecompressInfo(void * encryptedInfo);
 
         void * DecryptInfo(void * encryptedInfo);
 
         void * EncryptCompressedData(void * compressetInfo);
 
-        void * CompressData(MsgInfo data);
+        void * CompressData(Message::BaseMsg data);
 
         double GetRecordsAmmount();
 
-        bool DataLookUp(MsgInfo data);
+        bool DataLookUp(Message::BaseMsg data);
 
         bool hasSpace(void * encryptedData);
 
@@ -49,15 +41,21 @@ class MachineUtils { //  Acts like an interface
 
         bool SaveData(void * data);
 
-        bool SaveData(MsgInfo data);
+        bool SaveData(Message::BaseMsg data);
 
         void UpdateTable(void * data, double dataOwner);
 
-        MsgInfo LookUpData(MsgInfo data);
+        Message::BaseMsg LookUpData(Message::BaseMsg data);
 
         VirtualTable GetVirtualTable();
 
-        std::vector<Information> GetDataInArray(MsgInfo dataInfo);
+        std::vector<Information::Information> GetDataInArray(Message::BaseMsg dataInfo);
+
+        std::string GetCurrentTime() {
+            // Get time in the following format
+            time_t currentTime;
+            time(&currentTime);
+        }
 
 };
 

@@ -30,6 +30,8 @@
 #include <avro/Decoder.hh>
 #include <avro/Encoder.hh>
 
+#include <time.h>
+
 namespace LocalMachine {
         
 
@@ -80,7 +82,7 @@ namespace LocalMachine {
             e->init(*out);
             c::Analog analog;
             analog.value = double(data->getInfoValue());
-            avro::encode(*e, analog)    
+            avro::encode(*e, analog);   
         }
         e->init(*out);
         c::cpx c1;

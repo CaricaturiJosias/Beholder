@@ -10,14 +10,44 @@
  */
 
 #pragma once
-#include "Base/Info.hxx"
+#include <string>
+
+// Base class for information
 
 namespace Information {
 
-class Information : public Info {
+constexpr std::string_view DEFAULT_ADDRESS {"UNDEFINED_ADDRESS"};
+constexpr std::string_view DEFAULT_ID {"UNDEFINED_ID"};
+constexpr std::string_view DEFAULT_VALUE {"UNDEFINED_VALUE"};
+constexpr std::string_view DEFAULT_TIME {"2000-01-01 00:00:00"};
+constexpr std::string_view TIME_FORMAT {"%Y-%m-%d %H:%M:%S"};
 
-    Information();
+enum DataType {
+    ANALOG,
+    DIGITAL
+};
 
+class Information {
+    
+    public:
+        
+        Information();
+        virtual ~Information();
+
+        virtual std::string GetInfoId();
+        virtual std::string GetInfoValue();
+        virtual std::string GetInfoTimeStamp();
+        virtual DataType GetDataType();
+
+    protected:
+
+        std::string a_ptr_data;
+
+        std::string a_infoId;
+
+        std::string a_timeStamp;
+
+        DataType a_DataType;
 };
 
 };

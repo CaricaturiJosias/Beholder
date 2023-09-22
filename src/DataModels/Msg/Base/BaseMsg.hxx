@@ -9,7 +9,7 @@
  * 
  */
 
-#include "../../Entities/"
+#include "../../../Entities/Base/Entity.hxx"
 
 namespace Message {
 

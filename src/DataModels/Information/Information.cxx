@@ -13,6 +13,14 @@
 
 #include "Information.hxx"
 
+namespace Information {
+
 Information::Information() {
-    // TODO
+    a_ptr_data = std::string(DEFAULT_VALUE);
+    a_infoId = std::string(DEFAULT_ID);
+    a_timeStamp = std::string(DEFAULT_TIME);
 }
+
+
+
+};
