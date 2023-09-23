@@ -7,3 +7,5 @@ build/
 src/*/Makefile
 Makefile
 *.o
+*.a
+*/install_manifest.txt

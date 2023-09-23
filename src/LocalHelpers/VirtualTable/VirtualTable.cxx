@@ -9,13 +9,11 @@
  * 
  */
 
-#pragma once
-
 #include "VirtualTable.hxx"
 
 namespace LocalMachine {
 
-// TODO - Use avros here for data storing, temporary types here
+// TODO - Use Avro here for data storing, temporary types here
 typedef std::string storedValue;
 typedef int storageId;
 
@@ -28,19 +26,19 @@ VirtualTable::VirtualTable() {
 }
 
 VirtualTable::~VirtualTable() {
-    // TODO
+    // Nothing
 }
 
 keyMap VirtualTable::GetKeyMap() {
-    // TODO
+    return keyMap{};
 }
 
 valueMap VirtualTable::GetValueMap() {
-    // TODO
+    return valueMap{};
 }
 
 Value * VirtualTable::GetStoredValue(storageId id) {
-    // TODO
+    return new Value();
 }
 
 double VirtualTable::numRows = 0;

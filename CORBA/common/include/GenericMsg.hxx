@@ -1,5 +1,5 @@
 /**
- * @file BaseMsg.hxx
+ * @file GenericMsg.h
  * @author Gabriel Cezario (gabriel.argacezario@gmail.com)
  * @brief 
  * @version 0.1
@@ -9,22 +9,17 @@
  * 
  */
 
-#pragma once
-
-#include "../../../Entities/Base/Entity.hxx"
+#include "./Base/BaseMsg.hxx"
 
 namespace Message {
 
-    class BaseMsg {
+    class GenericMsg : BaseMsg {
 
         public:
-
-            BaseMsg();
-
-            ~BaseMsg();
-
-        protected:
-
+        
+            GenericMsg();
+            
+            ~GenericMsg();
     };
 
 };

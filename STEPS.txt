@@ -18,3 +18,11 @@ ssl = 1
 gl = 1
 tk = 1
 fl = 1
+
+// building the library for corba
+cd Beholder/src
+cmake .
+make install
+
+// All includes should be in Beholder/CORBA/common/include/ for use
+// libraries would be on Beholder/CORBA/common/lib/

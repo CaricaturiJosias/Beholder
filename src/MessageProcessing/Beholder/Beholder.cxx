@@ -21,7 +21,7 @@ Beholder::~Beholder() {
     s_virtualTable.reset(nullptr); // Effectivelly deletes the pointer
 }
 
-void Beholder::UpdateOtherTables(BaseMsg updateData) {
+void Beholder::UpdateOtherTables(Message::BaseMsg updateData) {
     // Not implemented now
 }
 

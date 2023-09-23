@@ -52,8 +52,8 @@ src/
             MachineUtils.hxx
         VirtualTable/
             Helper/
-                AvrosHelper.cxx
-                AvrosHelper.hxx
+                AvroHelper.cxx
+                AvroHelper.hxx
             VirtualTable.cxx
             VirtualTable.hxx
         Makefile

@@ -13,32 +13,32 @@
 
 namespace SOA {
 
-    bool ValidateMessage(MsgInfo data) {
+    bool MsgProcessor::ValidateMessage(Message::BaseMsg data) {
         return true;
     }
 
-    bool IsSenderKnown(SOAPMsg message) {
+    bool MsgProcessor::IsSenderKnown(Message::BaseMsg message) {
         return true;
     }
 
-    bool ProcessMsg(SOAPMsg message) {
+    bool MsgProcessor::ProcessMsg(Message::BaseMsg message) {
         return true;
     }
 
-    bool ProcessMsg(MsgInfo message) {
+    bool MsgProcessor::ProcessMsg(Message::SOAPMsg message) {
         return true;
     }
 
-    void ReturnToSender(Sender sender, MsgInfo message) {
-        
+    void MsgProcessor::ReturnToSender(Entity::Entity sender, Message::BaseMsg message) {
+        // TODO
     }
 
-    MsgInfo GetCommandInfo(std::string command) {
-        MsgInfo lmao;
+    Message::BaseMsg MsgProcessor::GetCommandInfo(std::string command) {
+        Message::BaseMsg lmao;
         return lmao;
     }
 
-    std::vector<std::string> GetCommandInfo(SOAPMsg message) {
+    std::vector<std::string> GetCommandInfo(Message::SOAPMsg message) {
         std::vector<std::string> temporario;
         return temporario;
     }

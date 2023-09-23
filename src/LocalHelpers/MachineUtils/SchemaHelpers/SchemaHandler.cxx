@@ -9,10 +9,8 @@
  * 
  */
 
-#pragma once
-
 #include <string.h>
-#include <ffstream>
+#include <fstream>
 #include <vector>
 
 #include "./GeneratedHeaders/AnalogData.hh"
@@ -35,15 +33,15 @@ namespace LocalMachine {
 
     
     Information::Information SchemaUtils::DecompressInfo(void * encryptedInfo) {
-
+        return Information::Information{};
     }
 
     void * SchemaUtils::DecryptInfo(void * encryptedInfo) {
-
+        return nullptr;
     }
 
     void * SchemaUtils::EncryptCompressedData(void * compressedInfo) {
-
+        return nullptr;
     }
 
     /**
@@ -51,9 +49,9 @@ namespace LocalMachine {
      * 
      * @param[in] inputType value recognizing if it is ANALOG or DIGITAL
     */
-    std::string getCorrectSchema(Information::DataType inputType) {
+    std::string SchemaUtils::getCorrectSchema(Information::DataType inputType) {
         std::string schemaLocation;
-        switch (infoDataType) {
+        switch (inputType) {
             case Information::ANALOG:
                 schemaLocation = LocalMachine::ANALOG_SCHEMA;
                 break;
@@ -71,12 +69,12 @@ namespace LocalMachine {
 
     void * SchemaUtils::CompressData(Information::Information * data) {
         // Check if information is correct, creates pointer to stored info
-        if (data->getInfoId() == Information::DEFAULT_ID) {
+        if (data->GetInfoId() == Information::DEFAULT_ID) {
             return nullptr; //Nothing to store, TODO get logging going
-        } else if (data->getInfoValue() == Information::DEFAULT_VALUE) {
+        } else if (data->GetInfoValue() == Information::DEFAULT_VALUE) {
             return nullptr; //Nothing to store, TODO get logging going
         }
-        Information::DataType infoDataType = data->getDataType;
+        Information::DataType infoDataType = data->GetDataType();
         std::string schemaPath = getCorrectSchema(infoDataType);
 
         // Sanity Check
@@ -98,35 +96,35 @@ namespace LocalMachine {
 
         // Encoding necessary for each
         if (infoDataType == Information::ANALOG) {
-            if (!LocalMachine::MachineUtils::IsStringType<double>(data->getInfoValue())) {
+            if (!IsStringType<double>(data->GetInfoValue())) {
                 // Log number is not valid
                 return nullptr;
             }
             encoder->init(*out);
             c::Analog analog;
-            analog.value = std::stod(data->getInfoValue());
+            analog.value = std::stod(data->GetInfoValue());
             avro::encode(*encoder, analog);   
         } else {
             // DIGITAL
-            if (!LocalMachine::MachineUtils::IsStringType<int>(data->getInfoValue())) {
+            if (!IsStringType<int>(data->GetInfoValue())) {
                 // Log number is not valid
                 return nullptr;
             }
             encoder->init(*out);
             c::Analog analog;
-            analog.value = std::stoi(data->getInfoValue());
+            analog.value = std::stoi(data->GetInfoValue());
             avro::encode(*encoder, analog); 
         }
         // Will be encrypted
-        return encoder;
+        return static_cast<void *>(encoder.get());
     }
 
     bool SchemaUtils::SaveData(void * dataPointer, Information::Information data) {
-
+        return true;
     }
 
     bool SchemaUtils::SaveData(Information::Information data) {
-
+        return true;
     }
 
     bool SchemaUtils::checkSchema(std::string schemaLoc) {
@@ -135,66 +133,7 @@ namespace LocalMachine {
 
         avro::ValidSchema dataSchema;
         avro::compileJsonSchema(input, dataSchema);
+        return true;
     }
 
 };
-
-src/
-    DataModels/
-        Information/
-            Information.cxx
-            Information.hxx
-        Msg/
-            Base/
-                BaseMsg.cxx
-                BaseMsg.hxx
-            GenericMsg.cxx
-            GenericMsg.hxx
-            SOAPMsg.cxx
-            SOAPMsg.hxx
-        Makefile
-    Entities/
-        Base/
-            Entity.cxx
-            Entity.hxx
-        EntityManager.cxx
-        EntityManager.hxx
-        Makefile
-    Lib/
-        Pugi/
-            Makefile
-            pugiconfig.hpp
-            pugixml.cpp
-            pugixml.hpp
-    LocalHelpers/
-        MachineUtils/
-            SchemaHelpers/
-                GeneratedHeaders/
-                    AnalogData.hh
-                    DigitalData.hh
-                Schemas/
-                    AnalogData.json
-                    DigitalData.json
-                    ErrorSchema.json
-                SchemaHandler.cxx
-                SchemaHandler.hxx
-            Machine.hxx
-            MachineUtils.cxx
-            MachineUtils.hxx
-        VirtualTable/
-            Helper/
-                AvrosHelper.cxx
-                AvrosHelper.hxx
-            VirtualTable.cxx
-            VirtualTable.hxx
-        Makefile
-    MessageProcessing/
-        Beholder/
-            Beholder.cxx
-            Beholder.hxx
-        MsgProcessor/
-            MsgProcessor.cxx
-            MsgProcessor.hxx
-        Makefile
-    Makefile
-

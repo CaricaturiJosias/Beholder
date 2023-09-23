@@ -1,7 +1,7 @@
 /**
- * @file VirtualTable.h
+ * @file AvroHelper.hxx
  * @author Gabriel Cezario (gabriel.argacezario@gmail.com)
- * @brief Contains the class declaration to treating the data table in a Beholder instance
+ * @brief Contains the class definitions to the Avro library helpers
  * @version 0.1
  * @date 2023-06-21
  * 
@@ -29,27 +29,14 @@ typedef struct ValueStruct {
 typedef std::map<storageId, std::string> keyMap;
 typedef std::map<storageId, ValueStruct> valueMap;
 
-class VirtualTable {
+class AvroHelper {
 
     public:
-        VirtualTable * GetInstance();
 
-        VirtualTable();
-        ~VirtualTable();
+        AvroHelper();
+        ~AvroHelper();
 
-        keyMap GetKeyMap();
-        valueMap GetValueMap();
 
-        Value * GetStoredValue(storageId id);
-
-    private:
-        
-        static double numRows;
-
-        static keyMap dataMapKey;
-        static valueMap dataMapValue;
-
-        static VirtualTable * table;
 };
 
 } // Namespace LocalMachine

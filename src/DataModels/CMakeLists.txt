@@ -1,7 +1,7 @@
 # CMakeLists.txt in src/DataModels
 
 # Define a library for the DataModels component
-add_library(DataModelsLib STATIC
+add_library(DataModels STATIC
     Information/Information.cxx
     Msg/Base/BaseMsg.cxx
     Msg/GenericMsg.cxx
@@ -9,7 +9,7 @@ add_library(DataModelsLib STATIC
 )
 
 # Include directories for the DataModels component
-target_include_directories(DataModelsLib PUBLIC
+target_include_directories(DataModels PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
@@ -20,4 +20,16 @@ add_custom_target(DataModelsMakefile
     COMMAND make
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+
+# Set the installation path for your library and headers
+install(TARGETS DataModels
+        DESTINATION lib)  # Specify the desired installation directory for libraries
+
+install(FILES 
+        Information/Information.hxx
+        Msg/Base/BaseMsg.hxx 
+        Msg/GenericMsg.hxx
+        Msg/SOAPMsg.hxx
+        DESTINATION include)  # Specify the desired installation directory for headers
 
