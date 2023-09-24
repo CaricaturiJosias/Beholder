@@ -9,6 +9,20 @@ project(Beholder)
 # Set the C++ standard
 set(CMAKE_CXX_STANDARD 20)
 
+set (LIB_PATH "/usr/local/lib/cmake/")
+set (INC_PATH "/usr/local/include/cmake/")
+
+# Check if the folder exists
+if(NOT EXISTS "${LIB_PATH}")
+    # Create the folder if it doesn't exist
+    file(MAKE_DIRECTORY "${LIB_PATH}")
+endif()
+
+if(NOT EXISTS "${INC_PATH}")
+    # Create the folder if it doesn't exist
+    file(MAKE_DIRECTORY "${INC_PATH}")
+endif()
+
 set(LIB_DIRS
     DataModels
     Entities

@@ -1,7 +1,7 @@
 #ifndef BEHOLDERIMPL_H_
 #define BEHOLDERIMPL_H_
 
-#include "BeholderS.h"
+#include "../idl/BeholderS.h"
 #include <string>
 
 #if !defined (ACE_LACKS_PRAGMA_ONCE)

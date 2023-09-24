@@ -23,7 +23,9 @@ add_custom_target(LocalHelpersMakefile
 
 # Set the installation path for your library and headers
 install(TARGETS LocalHelpers
-        DESTINATION lib)  # Specify the desired installation directory for libraries
+    LIBRARY DESTINATION ${LIB_PATH}  # You can change this destination as needed
+    ARCHIVE DESTINATION ${LIB_PATH}
+)
 
 install(FILES 
     MachineUtils/SchemaHelpers/GeneratedHeaders/AnalogData.hh

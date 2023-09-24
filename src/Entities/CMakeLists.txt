@@ -21,7 +21,9 @@ add_custom_target(EntitiesMakefile
 
 # Set the installation path for your library and headers
 install(TARGETS Entities
-        DESTINATION lib)  # Specify the desired installation directory for libraries
+    LIBRARY DESTINATION ${LIB_PATH}  # You can change this destination as needed
+    ARCHIVE DESTINATION ${LIB_PATH}
+)  # Specify the desired installation directory for libraries
 
 install(FILES 
         Base/Entity.hxx

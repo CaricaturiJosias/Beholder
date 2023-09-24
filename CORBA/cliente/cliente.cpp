@@ -10,8 +10,8 @@
 #include <string>
 #include "../idl/BeholderC.h"
 
-#include "../common/include/SchemaHandler.hxx"
-#include "../common/include/Information.hxx"
+// #include "../common/include/SchemaHandler.hxx"
+// #include "../common/include/Information.hxx"
 
 using namespace std;
 using namespace DSMComms;
@@ -45,8 +45,8 @@ int main(int argc, char* argv[])
 		int a = 1;
 		do {
 			if (a == 1) {
-				std::string test = LocalMachine::SchemaUtils::getCorrectSchema(Information::ANALOG);
-				cout << "Schema: " << test;
+				// std::string test = LocalMachine::SchemaUtils::getCorrectSchema(Information::ANALOG);
+				// cout << "Schema: " << test;
 				// Information::Information * info = new Information::Information();
 			}
 		} while (command != "fim");
