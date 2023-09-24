@@ -1,7 +1,7 @@
 TestAvro/
 CMakeFiles/
 build/
-3PP/
+3PPIGNORE
 .vscode/
 *cmake_install.cmake
 src/*/Makefile
