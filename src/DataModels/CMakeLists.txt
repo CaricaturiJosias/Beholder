@@ -1,7 +1,7 @@
 # CMakeLists.txt in src/DataModels
 
 # Define a library for the DataModels component
-add_library(DataModels STATIC
+add_library(DataModels SHARED
     Information/Information.cxx
     Msg/Base/BaseMsg.cxx
     Msg/GenericMsg.cxx

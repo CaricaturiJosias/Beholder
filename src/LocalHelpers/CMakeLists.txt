@@ -1,7 +1,7 @@
 # CMakeLists.txt in src/LocalHelpers
 
 # Define a library for the LocalHelpers component
-add_library(LocalHelpers STATIC
+add_library(LocalHelpers SHARED
     MachineUtils/SchemaHelpers/SchemaHandler.cxx
     MachineUtils/Machine.cxx
     VirtualTable/Helper/AvroHelper.cxx

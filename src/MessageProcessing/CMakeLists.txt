@@ -1,30 +1,30 @@
 # CMakeLists.txt in src/MessageProcessing
 
-# Define a library for the MessageProcessing component
-add_library(MessageProcessing STATIC
+set (SOURCES
     Beholder/Beholder.cxx
     MsgProcessor/MsgProcessor.cxx
 )
 
-# Include directories for the MessageProcessing component
-target_include_directories(MessageProcessing PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
-# Link any required libraries (if any) to MessageProcessing
-
-# Define a target for the Makefile in this directory (if needed)
-add_custom_target(MessageProcessingMakefile
-    COMMAND make
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
-# Set the installation path for your library and headers
-install(TARGETS MessageProcessing
-        DESTINATION lib)  # Specify the desired installation directory for libraries
-
-install(FILES 
+set (HEADERS
     Beholder/Beholder.hxx
     MsgProcessor/MsgProcessor.hxx
-    DESTINATION include)  # Specify the desired installation directory for headers
+)
 
+# Define a library for the MessageProcessing component
+add_library(MessageProcessing SHARED ${SOURCES})
+
+# Include directories if needed (replace 'include' with your actual include directory)
+target_include_directories(MessageProcessing PUBLIC lib)
+
+# Specify the installation directories
+install(TARGETS MessageProcessing
+    LIBRARY DESTINATION /usr/local/lib  # You can change this destination as needed
+    ARCHIVE DESTINATION /usr/local/lib
+)
+
+# Install header files if you have any
+foreach(header ${HEADERS})
+    install(DIRECTORY /include
+            DESTINATION /usr/local/include  # You can change this destination as needed
+    )
+endforeach()

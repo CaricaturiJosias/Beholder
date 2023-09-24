@@ -1,7 +1,7 @@
 # CMakeLists.txt in src/Entities
 
 # Define a library for the Entities component
-add_library(Entities STATIC
+add_library(Entities SHARED
     Base/Entity.cxx
     EntityManager.cxx
 )

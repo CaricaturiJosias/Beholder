@@ -7,5 +7,8 @@ build/
 src/*/Makefile
 Makefile
 *.o
+*.so
 *.a
 */install_manifest.txt
+*platform_macros.GNU
+*CMakeCache.txt

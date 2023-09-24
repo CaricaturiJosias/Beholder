@@ -176,20 +176,6 @@ cliente/fast:
 .PHONY : cliente/fast
 
 # Convenience name for target.
-CORBA/cliente/CMakeFiles/generate_stubs_skeletons.dir/rule:
-	cd /home/cezario/Dev/Beholder && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CORBA/cliente/CMakeFiles/generate_stubs_skeletons.dir/rule
-.PHONY : CORBA/cliente/CMakeFiles/generate_stubs_skeletons.dir/rule
-
-# Convenience name for target.
-generate_stubs_skeletons: CORBA/cliente/CMakeFiles/generate_stubs_skeletons.dir/rule
-.PHONY : generate_stubs_skeletons
-
-# fast build rule for target.
-generate_stubs_skeletons/fast:
-	cd /home/cezario/Dev/Beholder && $(MAKE) $(MAKESILENT) -f CORBA/cliente/CMakeFiles/generate_stubs_skeletons.dir/build.make CORBA/cliente/CMakeFiles/generate_stubs_skeletons.dir/build
-.PHONY : generate_stubs_skeletons/fast
-
-# Convenience name for target.
 CORBA/cliente/CMakeFiles/BuildBeholder.dir/rule:
 	cd /home/cezario/Dev/Beholder && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CORBA/cliente/CMakeFiles/BuildBeholder.dir/rule
 .PHONY : CORBA/cliente/CMakeFiles/BuildBeholder.dir/rule
@@ -240,7 +226,6 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... BuildBeholder"
-	@echo "... generate_stubs_skeletons"
 	@echo "... cliente"
 	@echo "... cliente.o"
 	@echo "... cliente.i"

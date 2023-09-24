@@ -10,8 +10,8 @@
 #include <string>
 #include "../idl/BeholderC.h"
 
-#include "../../src/LocalHelpers/MachineUtils/SchemaHelpers/SchemaHandler.hxx"
-#include "../../src/DataModels/Information/Information.hxx"
+#include "../common/include/SchemaHandler.hxx"
+#include "../common/include/Information.hxx"
 
 using namespace std;
 using namespace DSMComms;
