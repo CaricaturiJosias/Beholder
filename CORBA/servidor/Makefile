@@ -2,6 +2,9 @@
 # ASDPC - Escola Politécnica - PUCPR
 # Prof. Luiz Lima Jr.
 
+# Modified by Gabriel Vitor Cezario
+
+ACE_ROOT = /home/cezario/Dev/ACE_wrappers
 include $(ACE_ROOT)/include/makeinclude/platform_macros.GNU
 
 #
