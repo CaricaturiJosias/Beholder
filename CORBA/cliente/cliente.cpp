@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include <string>
-#include <beholder/SchemaHandler.hxx>
+#include <beholder/MachineUtils.hxx>
 #include "BeholderC.h"
 
 using namespace std;
@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
 		int a = 1;
 		do {
 			if (a == 1) {
-				std::string test = LocalMachine::SchemaUtils::getCorrectSchema(Information::ANALOG);
+				std::string test = LocalMachine::MachineUtils::GetCurrentTime();
 				cout << "Schema: " << test;
 				Information::Information * info = new Information::Information();
 				command = "fim";

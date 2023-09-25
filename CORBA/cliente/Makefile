@@ -29,7 +29,7 @@ COMMONDIR = ${CORBA_DIR}/common
 
 INCLUDES  = $(IDLDIR) $(ACE_ROOT) $(TAO_ROOT) $(TAO_ROOT)/orbsvcs $(COMMONDIR)/include
 LIBRARIES = ACE TAO TAO_CosNaming TAO_AnyTypeCode TAO_IORTable beholder
-LIB_DIRS  = $(ACE_ROOT)/lib  $(TAO_ROOT)/lib $(COMMONDIR)/lib
+LIB_DIRS  = $(ACE_ROOT)/lib $(COMMONDIR)/lib
 
 # Derived variables
 
