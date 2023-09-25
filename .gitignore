@@ -13,3 +13,4 @@ Makefile
 *platform_macros.GNU
 *CMakeCache.txt
 *tmp/
+*CORBA/common/*
