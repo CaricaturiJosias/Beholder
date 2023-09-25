@@ -38,7 +38,7 @@ namespace Entity {
             */
             Entity(std::string id, std::string address, ENTITY_TYPE type);
 
-            virtual ~Entity();
+            ~Entity();
 
             bool registerEntity(Entity * newEntity);
 

@@ -65,7 +65,4 @@ class MachineUtils { //  Acts like an interface
 
 };
 
-template<typename Number>
-bool IsStringType(std::string value);
-
 }

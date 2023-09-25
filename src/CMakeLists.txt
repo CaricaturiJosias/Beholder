@@ -70,13 +70,20 @@ foreach(lib_dir ${LIB_DIRS})
     add_subdirectory(${lib_dir})
 endforeach()
 
+# Use find_library to locate libavrocpp.so in /usr/local/lib
+find_library(AVROCPP_LIBRARY
+    NAMES avrocpp
+    PATHS /usr/local/lib/
+)
+
 add_library(beholder SHARED ${MAIN_SOURCES})
+target_link_libraries(beholder PRIVATE ${AVROCPP_LIBRARY})
 
 # Generate the .so file
 if(UNIX AND NOT APPLE)
     set_target_properties(beholder PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "${PROJECT_DIR}/src"
-        PREFIX ""
+        PREFIX "lib"
     )
 endif()
 

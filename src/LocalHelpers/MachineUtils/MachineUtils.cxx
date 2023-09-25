@@ -88,12 +88,4 @@ namespace LocalMachine {
         return std::string(timeString);
     }
 
-    // Doest belong to the class because contains template
-    template<typename Number>
-    bool IsStringType(std::string& value) {
-        Number n;
-        std::string::iterator it = value.begin();
-        return((std::istringstream(value) >> n >> std::ws).eof());
-    }
-
-}
+};

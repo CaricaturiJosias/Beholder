@@ -21,6 +21,10 @@ namespace Entity {
         entityType = type;
     }
 
+    Entity::~Entity() {
+        // TODO
+    }
+
     std::string Entity::getEntityId(){
         return entityId;
     }
