@@ -11,9 +11,6 @@
 #include <beholder/SchemaHandler.hxx>
 #include "BeholderC.h"
 
-// #include "../common/include/SchemaHandler.hxx"
-// #include "../common/include/Information.hxx"
-
 using namespace std;
 using namespace DSMComms;
 
