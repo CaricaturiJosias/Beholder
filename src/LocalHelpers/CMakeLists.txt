@@ -1,22 +1,24 @@
 # CMakeLists.txt in src/LocalHelpers
 
+set (HEADERS
+MachineUtils/SchemaHelpers/AnalogData.hh
+MachineUtils/SchemaHelpers/DigitalData.hh
+MachineUtils/SchemaHelpers/SchemaHandler.hxx
+MachineUtils/MachineUtils.hxx
+MachineUtils/Machine.hxx
+VirtualTable/Helper/AvroHelper.hxx
+VirtualTable/VirtualTable.hxx
+)
+
 # Define a library for the LocalHelpers component
-add_library(LocalHelpers SHARED
+set(LOCAL_SOURCES
     MachineUtils/SchemaHelpers/SchemaHandler.cxx
     MachineUtils/Machine.cxx
     VirtualTable/Helper/AvroHelper.cxx
     VirtualTable/VirtualTable.cxx
 )
 
-set (HEADERS
-    MachineUtils/SchemaHelpers/AnalogData.hh
-    MachineUtils/SchemaHelpers/DigitalData.hh
-    MachineUtils/SchemaHelpers/SchemaHandler.hxx
-    MachineUtils/MachineUtils.hxx
-    MachineUtils/Machine.hxx
-    VirtualTable/Helper/AvroHelper.hxx
-    VirtualTable/VirtualTable.hxx
-)
+add_library(LocalHelpers SHARED ${LOCAL_SOURCES})
 
 # Include directories for the LocalHelpers component
 target_include_directories(LocalHelpers PUBLIC
@@ -29,12 +31,6 @@ target_include_directories(LocalHelpers PUBLIC
 add_custom_target(LocalHelpersMakefile
     COMMAND make
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
-# Set the installation path for your library and headers
-install(TARGETS LocalHelpers
-    LIBRARY DESTINATION ${LIB_PATH}  # You can change this destination as needed
-    ARCHIVE DESTINATION ${LIB_PATH}
 )
 
 # Specify dependencies for the 'install' target

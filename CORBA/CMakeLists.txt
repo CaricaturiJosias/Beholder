@@ -76,10 +76,6 @@ add_custom_target(BuildBeholder
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
-# Clean the content of the target folder
-file(REMOVE_RECURSE "${CORBA_DIR}/common/lib/")
-file(REMOVE_RECURSE "${CORBA_DIR}/common/include/")
-
 # Copy the content from /usr/local/lib/something/
 execute_process(
     COMMAND ${CMAKE_COMMAND} -E copy_directory

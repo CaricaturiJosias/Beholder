@@ -1,6 +1,6 @@
 # CMakeLists.txt in src/MessageProcessing
 
-set (SOURCES
+set (LOCAL_SOURCES
     Beholder/Beholder.cxx
     MsgProcessor/MsgProcessor.cxx
 )
@@ -11,16 +11,7 @@ set (HEADERS
 )
 
 # Define a library for the MessageProcessing component
-add_library(MessageProcessing SHARED ${SOURCES})
-
-# Include directories if needed (replace 'include' with your actual include directory)
-target_include_directories(MessageProcessing PUBLIC lib)
-
-# Specify the installation directories
-install(TARGETS MessageProcessing
-    LIBRARY DESTINATION ${LIB_PATH}  # You can change this destination as needed
-    ARCHIVE DESTINATION ${LIB_PATH}
-)
+add_library(MessageProcessing SHARED ${LOCAL_SOURCES} ${HEADERS})
 
 # Specify dependencies for the 'install' target
 install(
