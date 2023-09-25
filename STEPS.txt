@@ -26,3 +26,23 @@ make install
 
 // All includes should be in Beholder/CORBA/common/include/ for use
 // libraries would be on Beholder/CORBA/common/lib/
+
+// To build ALL
+// in Beholder/
+sudo cmake .
+cd src/
+sudo make clean -s
+sudo make install -s
+cd ../CORBA
+sudo make clean -s
+sudo make install -s
+cd cliente
+make
+cd ../servidor
+make
+cd ../bin
+# On two terminals (first one v)
+./servidor name_of_ior
+
+# Second terminal v
+./cliente file://name_of_ior
