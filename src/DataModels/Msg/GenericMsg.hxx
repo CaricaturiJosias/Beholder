@@ -9,7 +9,7 @@
  * 
  */
 
-#include "./Base/BaseMsg.hxx"
+#include <BaseMsg.hxx>
 
 namespace Message {
 

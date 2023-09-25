@@ -31,6 +31,26 @@ set(LIB_DIRS
     LocalHelpers        
 )
 
+set (SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+include_directories( PUBLIC
+    ${SRC_DIR}/3PP/Pugi
+    ${SRC_DIR}/DataModels/Information
+    ${SRC_DIR}/DataModels/Msg
+    ${SRC_DIR}/DataModels/Msg/Base
+    ${SRC_DIR}/Entities
+    ${SRC_DIR}/Entities/Base
+    ${SRC_DIR}/LocalHelpers/SchemaHelpers/GeneratedHeaders
+    ${SRC_DIR}/LocalHelpers/MachineUtils
+    ${SRC_DIR}/LocalHelpers/VirtualTable
+    ${SRC_DIR}/MessageProcessing/Beholder
+    ${SRC_DIR}/MessageProcessing/MsgProcessor
+    # Add other include directories as needed
+)
+
+# Clean the lib and include folders before doing anything
+file(REMOVE_RECURSE "/usr/local/lib/beholder")
+file(REMOVE_RECURSE "/usr/local/include/beholder")
+
 # Loop through the library directories and add them using add_subdirectory
 foreach(lib_dir ${LIB_DIRS})
     add_subdirectory(${lib_dir})

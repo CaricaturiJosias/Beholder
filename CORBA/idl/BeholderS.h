@@ -25,8 +25,8 @@
 // TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_codegen.cpp:454
 
-#ifndef _TAO_IDL_BEHOLDERS_48EB7A_H_
-#define _TAO_IDL_BEHOLDERS_48EB7A_H_
+#ifndef _TAO_IDL__HOME_CEZARIO_DEV_BEHOLDER_CORBA_IDL_BEHOLDERS_VABABR_H_
+#define _TAO_IDL__HOME_CEZARIO_DEV_BEHOLDER_CORBA_IDL_BEHOLDERS_VABABR_H_
 
 
 #include "BeholderC.h"

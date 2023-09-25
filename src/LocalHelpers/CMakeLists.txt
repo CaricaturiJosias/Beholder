@@ -9,8 +9,8 @@ add_library(LocalHelpers SHARED
 )
 
 set (HEADERS
-    MachineUtils/SchemaHelpers/GeneratedHeaders/AnalogData.hh
-    MachineUtils/SchemaHelpers/GeneratedHeaders/DigitalData.hh
+    MachineUtils/SchemaHelpers/AnalogData.hh
+    MachineUtils/SchemaHelpers/DigitalData.hh
     MachineUtils/SchemaHelpers/SchemaHandler.hxx
     MachineUtils/MachineUtils.hxx
     MachineUtils/Machine.hxx

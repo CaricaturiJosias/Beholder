@@ -13,7 +13,7 @@
 
 #include "EntityManager.hxx"
 // For DEFAULT_ID and DEFAULT_ADDRESS
-#include "../DataModels/Information/Information.hxx"
+#include <Information.hxx>
 
 namespace Entity {
 

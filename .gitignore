@@ -12,3 +12,4 @@ Makefile
 */install_manifest.txt
 *platform_macros.GNU
 *CMakeCache.txt
+*tmp/

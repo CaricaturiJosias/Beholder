@@ -25,8 +25,8 @@
 // TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_codegen.cpp:148
 
-#ifndef _TAO_IDL_BEHOLDERC_QTFGTG_H_
-#define _TAO_IDL_BEHOLDERC_QTFGTG_H_
+#ifndef _TAO_IDL__HOME_CEZARIO_DEV_BEHOLDER_CORBA_IDL_BEHOLDERC_S4MU0X_H_
+#define _TAO_IDL__HOME_CEZARIO_DEV_BEHOLDER_CORBA_IDL_BEHOLDERC_S4MU0X_H_
 
 
 #include /**/ "ace/config-all.h"

@@ -76,44 +76,38 @@ add_custom_target(BuildBeholder
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
-# # Libraries from the src should be here
-# set( LIB_FOLDER "${CORBA_DIR}/common/lib")
+# Clean the content of the target folder
+file(REMOVE_RECURSE "${CORBA_DIR}/common/lib")
+file(REMOVE_RECURSE "${CORBA_DIR}/common/include")
 
-# set(LIBRARIES 
-#         lib3PP.a
-#         libDataModels.a
-#         libEntities.a
-#         libLocalHelpers.a
-#         libMessageProcessing.a
-# )
-
-# # Set list of library paths.
-# foreach(lib ${LIBRARIES})
-#     list(APPEND LIBRARY_PATHS "${LIB_FOLDER}/${lib}" )
-# endforeach()
-
-# Include subdirectories for each component
-
-# add_subdirectory(cliente)
+# Copy the content from /usr/local/lib/something/
+execute_process(
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "/usr/local/lib/beholder/"
+    "${CORBA_DIR}/common/lib"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "/usr/local/include/beholder/"
+    "${CORBA_DIR}/common/include"
+)
 
 # For cliente
-
 include(ExternalProject)
 
 ExternalProject_Add(
     cliente
-    PREFIX ${CMAKE_BINARY_DIR}/cliente
+    PREFIX ${PROJECT_DIR}/build/cliente/
     DOWNLOAD_COMMAND ""  # No download step, since it's already in the source tree
     CONFIGURE_COMMAND ""
-    BUILD_COMMAND make -C ${CORBA_DIR}/cliente/
-    INSTALL_COMMAND ""
+    BUILD_COMMAND make -C ${CORBA_DIR}/cliente/ 
+    INSTALL_COMMAND make -C ${CORBA_DIR}/cliente/ install
 )
 
+# For servidor
 ExternalProject_Add(
     servidor
-    PREFIX ${CMAKE_BINARY_DIR}/servidor
+    PREFIX ${PROJECT_DIR}/build/servidor/
     DOWNLOAD_COMMAND ""  # No download step, since it's already in the source tree
     CONFIGURE_COMMAND ""
     BUILD_COMMAND make -C ${CORBA_DIR}/servidor
-    INSTALL_COMMAND ""
+    INSTALL_COMMAND make -C ${CORBA_DIR}/servidor/ install
 )

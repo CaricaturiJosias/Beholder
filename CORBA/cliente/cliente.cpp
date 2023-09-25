@@ -8,7 +8,8 @@
 
 #include <iostream>
 #include <string>
-#include "../idl/BeholderC.h"
+#include <beholder/SchemaHandler.hxx>
+#include "BeholderC.h"
 
 // #include "../common/include/SchemaHandler.hxx"
 // #include "../common/include/Information.hxx"

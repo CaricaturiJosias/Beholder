@@ -13,12 +13,12 @@
 #include <fstream>
 #include <vector>
 
-#include "./GeneratedHeaders/AnalogData.hh"
-#include "./GeneratedHeaders/DigitalData.hh"
+#include "AnalogData.hh"
+#include "DigitalData.hh"
 
 #include "SchemaHandler.hxx"
 
-#include "../MachineUtils.hxx"
+#include <MachineUtils.hxx>
 
 // Apache Avro related imports
 #include <avro/ValidSchema.hh>

@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "../../../Entities/Base/Entity.hxx"
+#include <Entity.hxx>
 
 namespace Message {
 

@@ -9,9 +9,9 @@
  * 
  */
 
-#include "../../DataModels/Msg/Base/BaseMsg.hxx"
-#include "../../LocalHelpers/MachineUtils/MachineUtils.hxx"
-#include "../../LocalHelpers/VirtualTable/VirtualTable.hxx"
+#include <BaseMsg.hxx>
+#include <MachineUtils.hxx>
+#include <VirtualTable.hxx>
 #include <memory>
 
 class Beholder {

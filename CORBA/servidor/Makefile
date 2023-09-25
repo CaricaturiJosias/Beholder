@@ -14,15 +14,18 @@ include $(ACE_ROOT)/include/makeinclude/platform_macros.GNU
 PROJECT = servidor
 SERVER = true
 
+PROJECT_DIR = /home/cezario/Dev/Beholder
+CORBA_DIR = ${PROJECT_DIR}/CORBA
+
 IDL.idl = Beholder.idl
 COMMON.cpp =
 SOURCES.cpp = \
 	BeholderI.cpp \
 	servidor.cpp
 
-BINDIR = ../bin
-IDLDIR = ../idl
-COMMONDIR = ../common
+BINDIR = ${CORBA_DIR}/bin
+IDLDIR = ${CORBA_DIR}/idl
+COMMONDIR = ${CORBA_DIR}/common
 
 INCLUDES  = $(IDLDIR) $(ACE_ROOT) $(TAO_ROOT) $(TAO_ROOT)/orbsvcs $(COMMONDIR)
 LIBRARIES = ACE TAO TAO_CosNaming TAO_AnyTypeCode TAO_IORTable
@@ -78,6 +81,12 @@ LINK.cpp = $(CXX) $(LDFLAGS)
 all: $(PROGRAM)
 objects: $(SOURCES) $(OBJECTS)
 sources: $(SOURCES)
+install:
+	# Copy the libraries to the desired location
+	@cp -r /usr/local/lib/beholder/* ../common/lib/
+
+	# Copy the headers to the desired location
+	@cp -r /usr/local/include/beholder/* ../common/include/
 teste:
 	@echo -e $(SOURCES)
 $(PROGRAM): $(SOURCES.cpp) $(OBJECTS)

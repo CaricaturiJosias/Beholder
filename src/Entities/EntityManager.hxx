@@ -14,7 +14,7 @@
 #include <string>
 #include <vector>
 
-#include "Base/Entity.hxx"
+#include <Entity.hxx>
 
 namespace Entity {
 

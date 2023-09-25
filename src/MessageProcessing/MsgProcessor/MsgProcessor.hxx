@@ -11,9 +11,9 @@
 
 #pragma once
 
-#include "../../DataModels/Msg/Base/BaseMsg.hxx"
-#include "../../DataModels/Msg/SOAPMsg.hxx"
-#include "../../Entities/Base/Entity.hxx"
+#include <BaseMsg.hxx>
+#include <SOAPMsg.hxx>
+#include <Entity.hxx>
 
 #include <string>
 #include <vector>
