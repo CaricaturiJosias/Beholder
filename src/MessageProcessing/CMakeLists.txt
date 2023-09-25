@@ -10,11 +10,6 @@ set (HEADERS
     MsgProcessor/MsgProcessor.hxx
 )
 
-set (HEADERS_PATH
-    Beholder/
-    MsgProcessor/
-)
-
 # Define a library for the MessageProcessing component
 add_library(MessageProcessing SHARED ${SOURCES})
 
@@ -27,9 +22,8 @@ install(TARGETS MessageProcessing
     ARCHIVE DESTINATION ${LIB_PATH}
 )
 
-# Install header files if you have any
-foreach(header ${HEADERS_PATH})
-    install(DIRECTORY "${header}"
-            DESTINATION /usr/local/include  # You can change this destination as needed
-    )
-endforeach()
+# Specify dependencies for the 'install' target
+install(
+    FILES ${HEADERS}
+    DESTINATION ${INC_PATH}
+)

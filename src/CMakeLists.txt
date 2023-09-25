@@ -9,8 +9,8 @@ project(Beholder)
 # Set the C++ standard
 set(CMAKE_CXX_STANDARD 20)
 
-set (LIB_PATH "/usr/local/lib/cmake/")
-set (INC_PATH "/usr/local/include/cmake/")
+set (LIB_PATH "/usr/local/lib/beholder/")
+set (INC_PATH "/usr/local/include/beholder/")
 
 # Check if the folder exists
 if(NOT EXISTS "${LIB_PATH}")

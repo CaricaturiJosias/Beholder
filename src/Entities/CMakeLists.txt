@@ -6,6 +6,11 @@ add_library(Entities SHARED
     EntityManager.cxx
 )
 
+set (HEADERS 
+    Base/Entity.hxx
+    EntityManager.hxx
+)
+
 # Include directories for the Entities component
 target_include_directories(Entities PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -25,7 +30,8 @@ install(TARGETS Entities
     ARCHIVE DESTINATION ${LIB_PATH}
 )  # Specify the desired installation directory for libraries
 
-install(FILES 
-        Base/Entity.hxx
-        EntityManager.hxx
-        DESTINATION include)  # Specify the desired installation directory for headers
+# Specify dependencies for the 'install' target
+install(
+    FILES ${HEADERS}
+    DESTINATION ${INC_PATH}
+)

@@ -5,6 +5,11 @@ add_library(3PP SHARED
     Pugi/pugixml.cpp
 )
 
+set (HEADERS
+    "Pugi/pugixml.hpp"
+    "Pugi/pugiconfig.hpp"
+)
+
 # Include directories for the 3PP component
 target_include_directories(3PP PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -24,7 +29,8 @@ install(TARGETS 3PP
     ARCHIVE DESTINATION ${LIB_PATH}
 )  # Specify the desired installation directory for libraries
 
-install(FILES 
-        Pugi/pugiconfig.hpp
-        Pugi/pugixml.hpp
-        DESTINATION include)  # Specify the desired installation directory for headers
+# Specify dependencies for the 'install' target
+install(
+    FILES ${HEADERS}
+    DESTINATION ${INC_PATH}
+)

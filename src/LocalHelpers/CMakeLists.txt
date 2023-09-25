@@ -8,6 +8,16 @@ add_library(LocalHelpers SHARED
     VirtualTable/VirtualTable.cxx
 )
 
+set (HEADERS
+    MachineUtils/SchemaHelpers/GeneratedHeaders/AnalogData.hh
+    MachineUtils/SchemaHelpers/GeneratedHeaders/DigitalData.hh
+    MachineUtils/SchemaHelpers/SchemaHandler.hxx
+    MachineUtils/MachineUtils.hxx
+    MachineUtils/Machine.hxx
+    VirtualTable/Helper/AvroHelper.hxx
+    VirtualTable/VirtualTable.hxx
+)
+
 # Include directories for the LocalHelpers component
 target_include_directories(LocalHelpers PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -27,12 +37,8 @@ install(TARGETS LocalHelpers
     ARCHIVE DESTINATION ${LIB_PATH}
 )
 
-install(FILES 
-    MachineUtils/SchemaHelpers/GeneratedHeaders/AnalogData.hh
-    MachineUtils/SchemaHelpers/GeneratedHeaders/DigitalData.hh
-    MachineUtils/SchemaHelpers/SchemaHandler.hxx
-    MachineUtils/MachineUtils.hxx
-    MachineUtils/Machine.hxx
-    VirtualTable/Helper/AvroHelper.hxx
-    VirtualTable/VirtualTable.hxx
-    DESTINATION include)  # Specify the desired installation directory for headers
+# Specify dependencies for the 'install' target
+install(
+    FILES ${HEADERS}
+    DESTINATION ${INC_PATH}
+)

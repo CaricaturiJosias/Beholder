@@ -8,6 +8,13 @@ add_library(DataModels SHARED
     Msg/SOAPMsg.cxx
 )
 
+set (HEADERS
+    Information/Information.hxx
+    Msg/Base/BaseMsg.hxx 
+    Msg/GenericMsg.hxx
+    Msg/SOAPMsg.hxx
+)
+
 # Include directories for the DataModels component
 target_include_directories(DataModels PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -28,10 +35,8 @@ install(TARGETS DataModels
     ARCHIVE DESTINATION ${LIB_PATH}
 )  # Specify the desired installation directory for libraries
 
-install(FILES 
-        Information/Information.hxx
-        Msg/Base/BaseMsg.hxx 
-        Msg/GenericMsg.hxx
-        Msg/SOAPMsg.hxx
-        DESTINATION include)  # Specify the desired installation directory for headers
-
+# Specify dependencies for the 'install' target
+install(
+    FILES ${HEADERS}
+    DESTINATION ${INC_PATH}
+)
