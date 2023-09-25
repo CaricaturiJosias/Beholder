@@ -13,68 +13,65 @@
 
 namespace LocalMachine {
 
-    enum EventType {
-        Something // TODO
-    };
-   
     bool MachineUtils::CheckPermission(std::string command, Entity::Entity sender) {
-
+        return true;
     }
 
     Information::Information MachineUtils::DecompressInfo(void * encryptedInfo) {
-
+        return Information::Information{};
     }
 
     void * MachineUtils::DecryptInfo(void * encryptedInfo) {
-
+        return nullptr;
     }
 
     void * MachineUtils::EncryptCompressedData(void * compressetInfo) {
-
+        return nullptr;
     }
 
     void * MachineUtils::CompressData(Message::BaseMsg data) {
-
+        return nullptr;
     }
 
     double MachineUtils::GetRecordsAmmount() {
-
+        return 0;
     }
 
     bool MachineUtils::DataLookUp(Message::BaseMsg data) {
-
+        return true;
     }
 
     bool MachineUtils::hasSpace(void * encryptedData) {
-
+        return true;
     }
 
     void MachineUtils::LogEvent(std::string msg, EventType eventType) {
-
+        return;
     }
 
     bool MachineUtils::SaveData(void * data) {
-
+        return true;
     }
 
     bool MachineUtils::SaveData(Message::BaseMsg data) {
-
+        return true;
     }
 
     void MachineUtils::UpdateTable(void * data, double dataOwner) {
-
+        return;
     }
 
     Information::Information MachineUtils::LookUpData(Message::BaseMsg data) {
-
+        return Information::Information{};
     }
 
     VirtualTable MachineUtils::GetVirtualTable() {
-
+        VirtualTable * todo = new VirtualTable();
+        return *todo;
     }
 
     std::vector<Information::Information> MachineUtils::GetDataInArray(Message::BaseMsg dataInfo) {
-
+        return std::vector<Information::Information>{};
     }
 
     std::string MachineUtils::GetCurrentTime() {

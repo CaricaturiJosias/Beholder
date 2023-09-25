@@ -1,13 +1,13 @@
 # CMakeLists.txt in src/LocalHelpers
 
 set (HEADERS
-MachineUtils/SchemaHelpers/AnalogData.hh
-MachineUtils/SchemaHelpers/DigitalData.hh
-MachineUtils/SchemaHelpers/SchemaHandler.hxx
-MachineUtils/MachineUtils.hxx
-MachineUtils/Machine.hxx
-VirtualTable/Helper/AvroHelper.hxx
-VirtualTable/VirtualTable.hxx
+    MachineUtils/SchemaHelpers/AnalogData.hh
+    MachineUtils/SchemaHelpers/DigitalData.hh
+    MachineUtils/SchemaHelpers/SchemaHandler.hxx
+    MachineUtils/MachineUtils.hxx
+    MachineUtils/Machine.hxx
+    VirtualTable/Helper/AvroHelper.hxx
+    VirtualTable/VirtualTable.hxx
 )
 
 # Define a library for the LocalHelpers component

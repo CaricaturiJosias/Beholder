@@ -9,7 +9,7 @@ project(Beholder)
 # Set the C++ standard
 set(CMAKE_CXX_STANDARD 20)
 
-set (LIB_PATH "/usr/local/lib/beholder/")
+set (LIB_PATH "/usr/local/lib/")
 set (INC_PATH "/usr/local/include/beholder/")
 
 # # Check if the folder exists
@@ -59,6 +59,7 @@ set (MAIN_SOURCES
     ${SRC_DIR}/Entities/Base/Entity.cxx
     ${SRC_DIR}/LocalHelpers/MachineUtils/SchemaHelpers/SchemaHandler.cxx
     ${SRC_DIR}/LocalHelpers/MachineUtils/Machine.cxx
+    ${SRC_DIR}/LocalHelpers/MachineUtils/MachineUtils.cxx
     ${SRC_DIR}/LocalHelpers/VirtualTable/Helper/AvroHelper.cxx
     ${SRC_DIR}/LocalHelpers/VirtualTable/VirtualTable.cxx
     ${SRC_DIR}/MessageProcessing/Beholder/Beholder.cxx

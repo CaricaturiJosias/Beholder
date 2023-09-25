@@ -60,9 +60,6 @@ namespace LocalMachine {
             static std::vector<Information::Information> GetDataInArray(Message::BaseMsg dataInfo);
 
             static std::string GetCurrentTime();
-
-            static bool IsStringInt(std::string value);
-
     };
 
 }

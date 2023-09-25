@@ -34,18 +34,20 @@ int main(int argc, char* argv[])
 
 		// 3. Use Beholder
 
-		string command;
+		string command = "a";
 		string password;
 		CORBA::Float amount;
 		string dest_ior;
 
 		cout << "Teste:\n\ta\n\tfim" << endl;
+		cout << "TESTANDOOO" << endl;
 		int a = 1;
 		do {
 			if (a == 1) {
-				// std::string test = LocalMachine::SchemaUtils::getCorrectSchema(Information::ANALOG);
-				// cout << "Schema: " << test;
-				// Information::Information * info = new Information::Information();
+				std::string test = LocalMachine::SchemaUtils::getCorrectSchema(Information::ANALOG);
+				cout << "Schema: " << test;
+				Information::Information * info = new Information::Information();
+				command = "fim";
 			}
 		} while (command != "fim");
 
