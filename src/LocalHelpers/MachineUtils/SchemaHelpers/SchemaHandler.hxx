@@ -21,9 +21,9 @@
 
 namespace LocalMachine {
 
-constexpr std::string_view ANALOG_SCHEMA = "./Schemas/AnalogData.json";
-constexpr std::string_view DIGITAL_SCHEMA = "./Schemas/DigitalData.json";
-constexpr std::string_view UNKNOWN_SCHEMA = "./Schemas/ErrorSchema.json";
+constexpr std::string_view ANALOG_SCHEMA = "AnalogData.json";
+constexpr std::string_view DIGITAL_SCHEMA = "DigitalData.json";
+constexpr std::string_view UNKNOWN_SCHEMA = "ErrorSchema.json";
 
 class SchemaUtils { //  Acts like an interface
 

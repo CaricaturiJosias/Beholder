@@ -46,3 +46,9 @@ cd ../bin
 
 # Second terminal v
 ./cliente file://name_of_ior
+
+Run 
+# RUN THIS AS SUDO
+sudo bash buildall.sh
+# DO NOT RUN THIS AS SUDO
+bash buildcorba.sh

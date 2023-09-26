@@ -8,7 +8,8 @@
 
 #include <iostream>
 #include <string>
-#include <beholder/MachineUtils.hxx>
+#include <SchemaHandler.hxx>
+#include <Information.hxx>
 #include "BeholderC.h"
 
 using namespace std;
@@ -39,12 +40,11 @@ int main(int argc, char* argv[])
 		CORBA::Float amount;
 		string dest_ior;
 
-		cout << "Teste:\n\ta\n\tfim" << endl;
-		cout << "TESTANDOOO" << endl;
+		cout << "Teste:\n\ta" << endl;
 		int a = 1;
 		do {
 			if (a == 1) {
-				std::string test = LocalMachine::MachineUtils::GetCurrentTime();
+				std::string test = LocalMachine::SchemaUtils::getCorrectSchema(Information::ANALOG);
 				cout << "Schema: " << test;
 				Information::Information * info = new Information::Information();
 				command = "fim";

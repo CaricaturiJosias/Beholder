@@ -76,34 +76,24 @@ add_custom_target(BuildBeholder
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
-# Copy the content from /usr/local/lib/something/
-execute_process(
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-    "/usr/local/lib/beholder/"
-    "${CORBA_DIR}/common/lib"
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-    "/usr/local/include/beholder/"
-    "${CORBA_DIR}/common/include"
-)
-
 # For cliente
 include(ExternalProject)
 
-ExternalProject_Add(
-    cliente
-    PREFIX ${PROJECT_DIR}/build/cliente/
-    DOWNLOAD_COMMAND ""  # No download step, since it's already in the source tree
-    CONFIGURE_COMMAND ""
-    BUILD_COMMAND make -C ${CORBA_DIR}/cliente/ 
-    INSTALL_COMMAND make -C ${CORBA_DIR}/cliente/ install
-)
+# ExternalProject_Add(
+#     cliente
+#     PREFIX ${PROJECT_DIR}/build/cliente/
+#     DOWNLOAD_COMMAND ""  # No download step, since it's already in the source tree
+#     CONFIGURE_COMMAND ""
+#     BUILD_COMMAND make -C ${CORBA_DIR}/cliente/ 
+#     INSTALL_COMMAND make -C ${CORBA_DIR}/cliente/ install
+# )
 
-# For servidor
-ExternalProject_Add(
-    servidor
-    PREFIX ${PROJECT_DIR}/build/servidor/
-    DOWNLOAD_COMMAND ""  # No download step, since it's already in the source tree
-    CONFIGURE_COMMAND ""
-    BUILD_COMMAND make -C ${CORBA_DIR}/servidor
-    INSTALL_COMMAND make -C ${CORBA_DIR}/servidor/ install
-)
+# # For servidor
+# ExternalProject_Add(
+#     servidor
+#     PREFIX ${PROJECT_DIR}/build/servidor/
+#     DOWNLOAD_COMMAND ""  # No download step, since it's already in the source tree
+#     CONFIGURE_COMMAND ""
+#     BUILD_COMMAND make -C ${CORBA_DIR}/servidor
+#     INSTALL_COMMAND make -C ${CORBA_DIR}/servidor/ install
+# )

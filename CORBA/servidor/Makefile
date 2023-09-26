@@ -83,7 +83,7 @@ objects: $(SOURCES) $(OBJECTS)
 sources: $(SOURCES)
 install:
 	# Copy the libraries to the desired location
-	@cp -r /usr/local/lib/beholder/* ../common/lib/
+	@cp -r /usr/local/lib/ ../common/lib/
 
 	# Copy the headers to the desired location
 	@cp -r /usr/local/include/beholder/* ../common/include/
