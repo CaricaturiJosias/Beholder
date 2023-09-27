@@ -18,19 +18,17 @@ PROJECT_DIR = /home/cezario/Dev/Beholder
 CORBA_DIR = ${PROJECT_DIR}/CORBA
 
 IDL.idl = Beholder.idl
-COMMON.cpp =
 SOURCES.cpp = \
 	cliente.cpp \
 
 BINDIR = ${CORBA_DIR}/bin
 IDLDIR = ${CORBA_DIR}/idl
 
-COMMONDIR = ${CORBA_DIR}/common
 INCLUDEDIR = /usr/include/beholder
 
 INCLUDES  = $(IDLDIR) $(ACE_ROOT) $(TAO_ROOT) $(TAO_ROOT)/orbsvcs
 LIBRARIES = ACE TAO TAO_CosNaming TAO_AnyTypeCode TAO_IORTable beholder
-LIB_DIRS  = $(ACE_ROOT)/lib $(COMMONDIR)/lib
+LIB_DIRS  = $(ACE_ROOT)/lib $(HOME)/lib
 
 # Derived variables
 
@@ -38,8 +36,7 @@ PROGRAM = $(addprefix $(BINDIR)/,$(PROJECT))
 IDL = $(addprefix $(IDLDIR)/,$(IDL.idl))
 STUBS = $(IDL:%.idl=%C.cpp)
 SKELETONS = $(IDL:%.idl=%S.cpp)
-COMMON = $(addprefix $(COMMONDIR)/,$(COMMON.cpp))
-SOURCES_CLNT = $(STUBS) $(COMMON) $(SOURCES.cpp)
+SOURCES_CLNT = $(STUBS) $(SOURCES.cpp)
 SOURCES = $(SOURCES_CLNT)
 ifeq ($(SERVER),true)
 	SOURCES += $(SKELETONS)
@@ -82,9 +79,6 @@ LINK.cpp = $(CXX) $(LDFLAGS)
 all: $(PROGRAM)
 objects: $(SOURCES) $(OBJECTS)
 sources: $(SOURCES)
-install:
-	# Copy the libraries to the desired location
-	@sudo cp -r /usr/lib/beholder/* ../common/lib/
 teste:
 	@echo -e $(SOURCES)
 $(PROGRAM): $(SOURCES.cpp) $(OBJECTS)

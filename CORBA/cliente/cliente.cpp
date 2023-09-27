@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 				// LocalMachine::SchemaUtils::GetSchema(Information::ANALOG);
 				cout << "Memory: " << LocalMachine::Machine::GetMemory() << endl;
 				// std::string test = LocalMachine::Machine::GetGlobalFile();
-				// std::string test = LocalMachine::SchemaUtils::GetSchema(Information::ANALOG);
+				std::string test = LocalMachine::SchemaUtils::GetSchema(Information::ANALOG);
 				// cout << "Schema: " << test;
 				command = "fim";
 				// cout << "Global file " << test << endl;

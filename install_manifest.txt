@@ -1,4 +1,4 @@
-/usr/lib/beholder/libbeholder.so
+/lib/libbeholder.so
 /usr/include/beholder/Information.hxx
 /usr/include/beholder/BaseMsg.hxx
 /usr/include/beholder/GenericMsg.hxx

@@ -127,6 +127,7 @@ namespace LocalMachine {
      * @param[in] inputType value recognizing if it is ANALOG or DIGITAL
     */
     std::string SchemaUtils::GetSchema(int inputType) {
+        std::cout << "InputType: "<< inputType << std::endl;
         std::string globalFile = Machine::GetGlobalFile();
         std::string unknownSchemaFileName = s_schemaMap.find(std::string(UNKNOWN_TYPE))->second;
         std::string unknownSchema = globalFile + unknownSchemaFileName;
@@ -141,6 +142,7 @@ namespace LocalMachine {
         }
         std::string schemaName = s_schemaMap.find(typeName)->second;
         std::string schemaLocation = globalFile + schemaName;
+        std::cout << "Schema name: " << schemaName << ", Location: " << schemaLocation << std::endl;
         // Should throw an exception
         CheckSchema(schemaLocation);
         return schemaLocation;

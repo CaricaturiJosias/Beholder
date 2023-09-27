@@ -23,9 +23,9 @@ constexpr std::string_view DEFAULT_TIME {"2000-01-01 00:00:00"};
 constexpr std::string_view TIME_FORMAT {"%Y-%m-%d %H:%M:%S"};
 
 enum DataType {
+    UNKNOWN,
     ANALOG,
-    DIGITAL,
-    UNKNOWN
+    DIGITAL
 };
 
 class Information {
