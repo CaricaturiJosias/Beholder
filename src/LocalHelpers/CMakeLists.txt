@@ -1,5 +1,7 @@
 # CMakeLists.txt in src/LocalHelpers
 
+include_directories( PRIVATE ${SRC_DIRS} )
+
 set (HEADERS
     MachineUtils/SchemaHelpers/AnalogData.hh
     MachineUtils/SchemaHelpers/DigitalData.hh

@@ -1,11 +1,14 @@
 # CMakeLists.txt in src/3PP
 
+include_directories( PRIVATE ${SRC_DIRS} )
+
 set (HEADERS
 "Pugi/pugixml.hpp"
 "Pugi/pugiconfig.hpp"
 )
 
 # Define a library for the 3PP component
+
 set(LOCAL_SOURCES
     Pugi/pugixml.cpp
 )

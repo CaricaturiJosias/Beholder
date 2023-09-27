@@ -1,5 +1,7 @@
 # CMakeLists.txt in src/MessageProcessing
 
+include_directories( PRIVATE ${SRC_DIRS} )
+
 set (LOCAL_SOURCES
     Beholder/Beholder.cxx
     MsgProcessor/MsgProcessor.cxx

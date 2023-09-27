@@ -1,5 +1,7 @@
 # CMakeLists.txt in src/DataModels
 
+include_directories( PRIVATE ${SRC_DIRS} )
+
 # Define a library for the DataModels component
 set (HEADERS
     Information/Information.hxx

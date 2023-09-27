@@ -1,7 +1,8 @@
 # CMakeLists.txt in src/Entities
 
-# Define a library for the Entities component
+include_directories( PRIVATE ${SRC_DIRS} )
 
+# Define a library for the Entities component
 set (HEADERS 
     Base/Entity.hxx
     EntityManager.hxx
