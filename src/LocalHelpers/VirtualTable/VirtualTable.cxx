@@ -37,8 +37,8 @@ valueMap VirtualTable::GetValueMap() {
     return valueMap{};
 }
 
-Value * VirtualTable::GetStoredValue(storageId id) {
-    return new Value();
+void * VirtualTable::GetStoredValue(storageId id) {
+    return nullptr;
 }
 
 double VirtualTable::numRows = 0;

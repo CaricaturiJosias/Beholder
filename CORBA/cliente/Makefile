@@ -26,8 +26,9 @@ BINDIR = ${CORBA_DIR}/bin
 IDLDIR = ${CORBA_DIR}/idl
 
 COMMONDIR = ${CORBA_DIR}/common
+INCLUDEDIR = /usr/include/beholder
 
-INCLUDES  = $(IDLDIR) $(ACE_ROOT) $(TAO_ROOT) $(TAO_ROOT)/orbsvcs $(COMMONDIR)/include
+INCLUDES  = $(IDLDIR) $(ACE_ROOT) $(TAO_ROOT) $(TAO_ROOT)/orbsvcs
 LIBRARIES = ACE TAO TAO_CosNaming TAO_AnyTypeCode TAO_IORTable beholder
 LIB_DIRS  = $(ACE_ROOT)/lib $(COMMONDIR)/lib
 
@@ -56,7 +57,7 @@ LIBDIRS = $(foreach d, $(LIB_DIRS), -L$d)
 # C++ Adtional Compliler and Linker Flags
 # -Wno-tautological-undefined-compare
 
-CPPFLAGS += -I$(COMMONDIR)/include
+CPPFLAGS += -I$(INCLUDEDIR)
 LDFLAGS +=
 
 # Rules for C++.
@@ -83,10 +84,7 @@ objects: $(SOURCES) $(OBJECTS)
 sources: $(SOURCES)
 install:
 	# Copy the libraries to the desired location
-	@cp -r /usr/local/lib/* ../common/lib/
-
-	# Copy the headers to the desired location
-	@cp -r /usr/local/include/beholder/* ../common/include/
+	@sudo cp -r /usr/lib/beholder/* ../common/lib/
 teste:
 	@echo -e $(SOURCES)
 $(PROGRAM): $(SOURCES.cpp) $(OBJECTS)

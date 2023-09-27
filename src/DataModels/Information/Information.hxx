@@ -29,17 +29,17 @@ enum DataType {
 };
 
 class Information {
-    
+ 
     public:
-        
+   
         Information();
-        Information(std::string id, std::string value, std::string timestamp, DataType dataType);
+        Information(std::string id, std::string value, std::string timestamp, int dataType);
         ~Information();
 
         std::string GetInfoId();
         std::string GetInfoValue();
         std::string GetInfoTimeStamp();
-        DataType GetDataType();
+        int GetDataType();
 
     protected:
 
@@ -49,7 +49,7 @@ class Information {
 
         std::string a_timeStamp;
 
-        DataType a_DataType;
+        int a_DataType;
 };
 
 };

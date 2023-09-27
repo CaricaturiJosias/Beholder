@@ -11,6 +11,21 @@
 
 #include "Machine.hxx"
 
-double Machine::memory = 0;
+namespace LocalMachine {
 
-std::string Machine::virtualTablePath = "./";
+    double Machine::memory = 0;
+
+    std::string Machine::virtualTablePath = "./";
+
+    std::string Machine::GetGlobalFile() {
+        std::string systemFile;
+        #ifdef __linux__
+            systemFile = "/usr/lib/schema/";
+        #elif _WIN32
+            // TODO - SCAVANGE WINDOWS INFO WHEN ITS THE TARGET DISTRO
+            systemFile = "C:\\Users\\YourUsername\\Documents\\Project\\schema\\";
+        #endif
+        return systemFile;
+    }
+
+}; // Namespace

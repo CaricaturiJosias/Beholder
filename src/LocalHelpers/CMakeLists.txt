@@ -3,7 +3,7 @@
 set (HEADERS
     MachineUtils/SchemaHelpers/AnalogData.hh
     MachineUtils/SchemaHelpers/DigitalData.hh
-    MachineUtils/SchemaHelpers/SchemaHandler.hxx
+    MachineUtils/SchemaHelpers/SchemaUtils.hxx
     MachineUtils/MachineUtils.hxx
     MachineUtils/Machine.hxx
     VirtualTable/Helper/AvroHelper.hxx
@@ -12,7 +12,7 @@ set (HEADERS
 
 # Define a library for the LocalHelpers component
 set(LOCAL_SOURCES
-    MachineUtils/SchemaHelpers/SchemaHandler.cxx
+    MachineUtils/SchemaHelpers/SchemaUtils.cxx
     MachineUtils/Machine.cxx
     VirtualTable/Helper/AvroHelper.cxx
     VirtualTable/VirtualTable.cxx

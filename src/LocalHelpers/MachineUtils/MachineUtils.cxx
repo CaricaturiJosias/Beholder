@@ -13,6 +13,13 @@
 
 namespace LocalMachine {
 
+    // Default value for error throwing
+    DataType MachineUtils::typeMap{
+        std::make_pair(UNKNOWN, std::string(UNKNOWN_TYPE)),
+        std::make_pair(ANALOG, std::string(ANALOG_TYPE)),
+        std::make_pair(DIGITAL, std::string(DIGITAL_TYPE))   
+    };
+    
     bool MachineUtils::CheckPermission(std::string command, Entity::Entity sender) {
         return true;
     }
@@ -83,6 +90,30 @@ namespace LocalMachine {
         char timeString[50];
         strftime(timeString, sizeof(timeString), "%Y-%m-%d %H:%M:%S", timeInfo);
         return std::string(timeString);
+    }
+
+    std::string MachineUtils::GetType(int typeValue) {
+        DataType::iterator it = typeMap.find(typeValue);
+        if (it == typeMap.end()) {
+            // TODO - Log error
+            return typeMap[UNKNOWN];
+        }
+        return it->second;
+    }
+
+    bool MachineUtils::InsertType(int typeValue, std::string valueName) {
+        // Nothing to do
+        if (typeValue == 0) {
+            // TODO - Log error
+            return false;
+        }
+        // Value already exists
+        if (GetType(typeValue) != UNKNOWN_TYPE) {
+            return false;
+        }
+
+        typeMap[typeValue] = valueName;
+        return true;
     }
 
 };

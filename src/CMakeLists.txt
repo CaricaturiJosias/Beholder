@@ -9,8 +9,8 @@ project(Beholder)
 # Set the C++ standard
 set(CMAKE_CXX_STANDARD 20)
 
-set (LIB_PATH "/usr/local/lib/")
-set (INC_PATH "/usr/local/include/beholder/")
+set (LIB_PATH "/usr/lib/beholder/")
+set (INC_PATH "/usr/include/beholder/")
 
 # # Check if the folder exists
 # if(NOT EXISTS "${LIB_PATH}")
@@ -57,7 +57,7 @@ set (MAIN_SOURCES
     ${SRC_DIR}/DataModels/Msg/SOAPMsg.cxx
     ${SRC_DIR}/Entities/EntityManager.cxx
     ${SRC_DIR}/Entities/Base/Entity.cxx
-    ${SRC_DIR}/LocalHelpers/MachineUtils/SchemaHelpers/SchemaHandler.cxx
+    ${SRC_DIR}/LocalHelpers/MachineUtils/SchemaHelpers/SchemaUtils.cxx
     ${SRC_DIR}/LocalHelpers/MachineUtils/Machine.cxx
     ${SRC_DIR}/LocalHelpers/MachineUtils/MachineUtils.cxx
     ${SRC_DIR}/LocalHelpers/VirtualTable/Helper/AvroHelper.cxx
@@ -74,7 +74,7 @@ endforeach()
 # Use find_library to locate libavrocpp.so in /usr/local/lib
 find_library(AVROCPP_LIBRARY
     NAMES avrocpp
-    PATHS /usr/local/lib/
+    PATHS /usr/lib/
 )
 
 add_library(beholder SHARED ${MAIN_SOURCES})

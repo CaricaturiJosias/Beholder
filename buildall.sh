@@ -16,16 +16,17 @@ sudo rm Makefile
 # Run CMake with sudo
 sudo cmake .
 
-# Change to the 'src' directory
-cd src/
+#Clean all items in /usr/lib/beholder and /usr/include/beholder
+sudo rm -rf /usr/lib/beholder/*
+sudo rm -rf /usr/include/beholder/*
 
-# Clean and install the project in 'src' with sudo
-sudo make clean -s
+# Build source
 sudo make install -s || true
 
-# Change to project directory
-cd ../
-sudo make install -s || true
+# Now binaries are at /usr/lib/, we must clear the CORBA/common/lib
+sudo rm -rf CORBA/common/lib/*
+
+sudo cp -r /usr/lib/beholder/* CORBA/common/lib/
 
 username="$SUDO_USER"
 script_path="./buildcorba.sh"

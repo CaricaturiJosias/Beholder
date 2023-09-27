@@ -20,14 +20,11 @@ namespace LocalMachine {
 // TODO - Use Avro here for data storing, temporary types here
 typedef std::string storedValue;
 typedef int storageId;
+typedef std::string keyName;
+typedef void * AvroValue;
 
-typedef struct ValueStruct {
-    double val; // Actual Value
-    clock_t timestamp; // timestamp of the value
-} Value;
-
-typedef std::map<storageId, std::string> keyMap;
-typedef std::map<storageId, ValueStruct> valueMap;
+typedef std::map<storageId, keyName> keyMap;
+typedef std::map<storageId, AvroValue> valueMap;
 
 class VirtualTable {
 
@@ -40,7 +37,7 @@ class VirtualTable {
         keyMap GetKeyMap();
         valueMap GetValueMap();
 
-        Value * GetStoredValue(storageId id);
+        void * GetStoredValue(storageId id);
 
     private:
         

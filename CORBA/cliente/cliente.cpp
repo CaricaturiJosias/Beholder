@@ -8,8 +8,9 @@
 
 #include <iostream>
 #include <string>
-#include <SchemaHandler.hxx>
-#include <Information.hxx>
+#include <beholder/SchemaUtils.hxx>
+#include <beholder/Information.hxx>
+#include <beholder/Machine.hxx>
 #include "BeholderC.h"
 
 using namespace std;
@@ -44,10 +45,14 @@ int main(int argc, char* argv[])
 		int a = 1;
 		do {
 			if (a == 1) {
-				std::string test = LocalMachine::SchemaUtils::getCorrectSchema(Information::ANALOG);
-				cout << "Schema: " << test;
-				Information::Information * info = new Information::Information();
+				int b = Information::ANALOG;
+				// LocalMachine::SchemaUtils::GetSchema(Information::ANALOG);
+				cout << "Memory: " << LocalMachine::Machine::GetMemory() << endl;
+				// std::string test = LocalMachine::Machine::GetGlobalFile();
+				// std::string test = LocalMachine::SchemaUtils::GetSchema(Information::ANALOG);
+				// cout << "Schema: " << test;
 				command = "fim";
+				// cout << "Global file " << test << endl;
 			}
 		} while (command != "fim");
 

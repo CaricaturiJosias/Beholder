@@ -17,9 +17,10 @@
 #include "AnalogData.hh"
 #include "DigitalData.hh"
 
-#include "SchemaHandler.hxx"
+#include "SchemaUtils.hxx"
 
 #include <MachineUtils.hxx>
+#include <Machine.hxx>
 
 // Apache Avro related imports
 #include <avro/ValidSchema.hh>
@@ -38,9 +39,16 @@ bool IsStringType(std::string value) {
 }
 
 namespace LocalMachine {
-        
-
     
+    SCHEMA_MAP SchemaUtils::s_schemaMap {
+        std::make_pair(std::string(UNKNOWN_TYPE),
+        std::string(UNKNOWN_SCHEMA)),
+        std::make_pair(std::string(ANALOG_TYPE),
+        std::string(ANALOG_SCHEMA)),
+        std::make_pair(std::string(DIGITAL_TYPE),
+        std::string(DIGITAL_SCHEMA))
+    };
+
     Information::Information SchemaUtils::DecompressInfo(void * encryptedInfo) {
         return Information::Information{};
     }
@@ -53,29 +61,6 @@ namespace LocalMachine {
         return nullptr;
     }
 
-    /**
-     * @brief Gets correct schema location, tests it and returns it
-     * 
-     * @param[in] inputType value recognizing if it is ANALOG or DIGITAL
-    */
-    std::string SchemaUtils::getCorrectSchema(Information::DataType inputType) {
-        std::string schemaLocation;
-        switch (inputType) {
-            case Information::ANALOG:
-                schemaLocation = LocalMachine::ANALOG_SCHEMA;
-                break;
-            case Information::DIGITAL:
-                schemaLocation = LocalMachine::DIGITAL_SCHEMA;
-                break;
-            default:
-                schemaLocation = LocalMachine::UNKNOWN_SCHEMA;
-                break;
-        }
-        // Should throw an exception
-        checkSchema(schemaLocation);
-        return schemaLocation;
-    }
-
     void * SchemaUtils::CompressData(Information::Information * data) {
         // Check if information is correct, creates pointer to stored info
         if (data->GetInfoId() == Information::DEFAULT_ID) {
@@ -83,11 +68,11 @@ namespace LocalMachine {
         } else if (data->GetInfoValue() == Information::DEFAULT_VALUE) {
             return nullptr; //Nothing to store, TODO get logging going
         }
-        Information::DataType infoDataType = data->GetDataType();
-        std::string schemaPath = getCorrectSchema(infoDataType);
+        int infoDataType = data->GetDataType();
+        std::string schemaPath = GetSchema(infoDataType);
 
         // Sanity Check
-        if (schemaPath == LocalMachine::UNKNOWN_SCHEMA) {
+        if (schemaPath == LocalMachine::UNKNOWN_TYPE) {
             // Logging for schema error
             return nullptr;
         }
@@ -135,8 +120,52 @@ namespace LocalMachine {
     bool SchemaUtils::SaveData(Information::Information data) {
         return true;
     }
+    
+    /**
+     * @brief Gets correct schema location, tests it and returns it
+     * 
+     * @param[in] inputType value recognizing if it is ANALOG or DIGITAL
+    */
+    std::string SchemaUtils::GetSchema(int inputType) {
+        std::string globalFile = Machine::GetGlobalFile();
+        std::string unknownSchemaFileName = s_schemaMap.find(std::string(UNKNOWN_TYPE))->second;
+        std::string unknownSchema = globalFile + unknownSchemaFileName;
+        // Only the error schema
+        if (s_schemaMap.size() == 1) {
+            // TODO - Log empty
+            return unknownSchema;
+        }
+        std::string typeName = MachineUtils::GetType(inputType);
+        if (!SchemaExists(typeName)){
+            return unknownSchema;
+        }
+        std::string schemaName = s_schemaMap.find(typeName)->second;
+        std::string schemaLocation = globalFile + schemaName;
+        // Should throw an exception
+        CheckSchema(schemaLocation);
+        return schemaLocation;
+    }
 
-    bool SchemaUtils::checkSchema(std::string schemaLoc) {
+    /** 
+     * @brief Called after creating entry in typeMap
+     * 
+     * @param[in] schemaName Name of the schema, will be checked
+     * @param[in] schemaLocation If the schema can be created, will be included
+     * 
+     * @return success of creation
+     * 
+     * @note global file path is added to the location in GetSchema output
+     * 
+     */ 
+    bool SchemaUtils::CreateSchema(std::string schemaName, std::string schemaLocation) {
+        if (!SchemaExists(schemaName)) {
+            return false;
+        }
+        s_schemaMap[schemaName] = schemaLocation;
+        return true;
+    }
+
+    bool SchemaUtils::CheckSchema(std::string schemaLoc) {
         // For sanity check
         std::ifstream input(schemaLoc);
 
@@ -145,4 +174,12 @@ namespace LocalMachine {
         return true;
     }
 
+    bool SchemaUtils::SchemaExists(std::string schemaName) {
+        SCHEMA_MAP::iterator it = s_schemaMap.find(schemaName);
+        if (it == s_schemaMap.end()) {
+            // TODO - Log not existant
+            return false;
+        }
+        return true;
+    }
 };

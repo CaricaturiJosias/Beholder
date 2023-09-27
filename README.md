@@ -45,8 +45,8 @@ src/
                     AnalogData.json
                     DigitalData.json
                     ErrorSchema.json
-                SchemaHandler.cxx
-                SchemaHandler.hxx
+                SchemaUtils.cxx
+                SchemaUtils.hxx
             Machine.hxx
             MachineUtils.cxx
             MachineUtils.hxx

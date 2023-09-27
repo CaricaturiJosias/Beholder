@@ -17,14 +17,14 @@ Information::Information() {
     a_data = std::string(DEFAULT_VALUE);
     a_infoId = std::string(DEFAULT_ID);
     a_timeStamp = std::string(DEFAULT_TIME);
-    a_DataType = UNKNOWN;
+    a_DataType = 0;
 }
 
-Information::Information(std::string id, std::string value, std::string timestamp, DataType dataType) {
+Information::Information(std::string id, std::string value, std::string timestamp, int dataType) {
     a_infoId = id;
     a_data = value;
     a_timeStamp = timestamp;
-    a_DataType = dataType;
+    a_DataType = 0;
 }
 
 Information::~Information() {
@@ -43,7 +43,7 @@ std::string Information::GetInfoTimeStamp() {
     return a_timeStamp;
 }
 
-DataType Information::GetDataType() {
+int Information::GetDataType() {
     return a_DataType;
 }
 

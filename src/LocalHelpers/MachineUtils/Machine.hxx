@@ -16,17 +16,23 @@
 #include <iostream>
 #include <string.h>
 
-class Machine {
-    
-    private:
+namespace LocalMachine {
 
-        static double memory;
+    class Machine {
 
-        static std::string virtualTablePath;
+        private:
 
-    public: 
+            static double memory;
 
-        double GetMemory() { return memory; }
+            static std::string virtualTablePath;
 
-        std::string GetVirtualTablePath() { return virtualTablePath; }
-};
+        public: 
+
+            static double GetMemory() { return memory; }
+
+            static std::string GetVirtualTablePath() { return virtualTablePath; }
+
+            static std::string GetGlobalFile();
+    };
+
+}; // Namespace

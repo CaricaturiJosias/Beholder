@@ -21,6 +21,19 @@
 
 namespace LocalMachine {
 
+    constexpr std::string_view UNKNOWN_TYPE {"UNKNOWN"};
+    constexpr std::string_view ANALOG_TYPE {"ANALOG"};
+    constexpr std::string_view DIGITAL_TYPE {"DIGITAL"};
+    // Defaults
+    constexpr std::string_view UNKNOWN_SCHEMA {"ErrorSchema.json"};
+    constexpr std::string_view ANALOG_SCHEMA = "AnalogData.json";
+    constexpr std::string_view DIGITAL_SCHEMA = "DigitalData.json";
+
+    typedef std::map<int, std::string> DataType;
+    const int UNKNOWN = 0;
+    const int ANALOG = 1;
+    const int DIGITAL = 2;
+
     enum EventType {
         Something // TODO
     };
@@ -60,6 +73,14 @@ namespace LocalMachine {
             static std::vector<Information::Information> GetDataInArray(Message::BaseMsg dataInfo);
 
             static std::string GetCurrentTime();
+
+            static std::string GetType(int typeValue);
+
+            static bool InsertType(int typeValue, std::string valueName);
+            
+        private:
+
+            static DataType typeMap;
     };
 
 }

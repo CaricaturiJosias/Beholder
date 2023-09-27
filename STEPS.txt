@@ -7,7 +7,7 @@ sudo apt-get install tk-dev
 
 // Create into $ACE_ROOT/include/makeinclude/plataform_macros.GNU and insert the following
 include $(ACE_ROOT)/include/makeinclude/platform_linux.GNU
-INSTALL_PREFIX = /usr/local
+INSTALL_PREFIX = /usr/
 install_rpath=0
 
 TAO_ORBSVCS = Naming Time Trader ImplRepo
