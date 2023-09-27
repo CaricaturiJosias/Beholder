@@ -13,39 +13,50 @@
 
 namespace LocalMachine {
 
-// TODO - Use Avro here for data storing, temporary types here
-typedef std::string storedValue;
-typedef int storageId;
+    double VirtualTable::numRows = 0;
 
-VirtualTable * VirtualTable::GetInstance() {
-    return new VirtualTable();
-}
+    valueMap VirtualTable::dataMapValue = valueMap{};
 
-VirtualTable::VirtualTable() {
-    // TODO
-}
+    VirtualTable * VirtualTable::table = nullptr;
 
-VirtualTable::~VirtualTable() {
-    // Nothing
-}
+    VirtualTable * VirtualTable::GetInstance() {
+        if (table == nullptr) {
+            table = new VirtualTable();
+        }
+        return table;
+    }
 
-keyMap VirtualTable::GetKeyMap() {
-    return keyMap{};
-}
+    VirtualTable::VirtualTable() {
+        // TODO
+    }
 
-valueMap VirtualTable::GetValueMap() {
-    return valueMap{};
-}
+    VirtualTable::~VirtualTable() {
+        // Nothing
+    }
 
-void * VirtualTable::GetStoredValue(storageId id) {
-    return nullptr;
-}
+    valueMap VirtualTable::GetValueMap() {
+        return dataMapValue;
+    }
 
-double VirtualTable::numRows = 0;
+    EncryptedValue VirtualTable::GetStoredValue(keyName id) {
+        
+        return std::shared_ptr<dataPointer>(nullptr);
+    }
 
-keyMap VirtualTable::dataMapKey = keyMap();
-valueMap VirtualTable::dataMapValue = valueMap();
+    bool VirtualTable::StoreValue(dataPointer value, keyName valueName) {
+        if (value == nullptr) {
+            // TODO - LOG error
+            return false;
+        }
 
-VirtualTable * VirtualTable::table = nullptr;
+        valueMap::iterator it = dataMapValue.find(valueName);
+        if (it != dataMapValue.end()) {
+            // TODO - Log existing value
+            return false;
+        }
+        EncryptedValue valueToSave = std::make_shared<dataPointer>(value);
+        dataMapValue.insert(valueName, valueToSave);
+        return true;
+    }
 
 } // Namespace LocalMachine

@@ -13,40 +13,46 @@
 
 #include "time.h"
 #include <string>
-#include <map>
+#include <set>
+#include <memory>
 
 namespace LocalMachine {
 
-// TODO - Use Avro here for data storing, temporary types here
-typedef std::string storedValue;
-typedef int storageId;
-typedef std::string keyName;
-typedef void * AvroValue;
+    // Should come after avros and openssl3
 
-typedef std::map<storageId, keyName> keyMap;
-typedef std::map<storageId, AvroValue> valueMap;
+    typedef std::string keyName;
+    typedef void * dataPointer;
+    typedef std::shared_ptr<dataPointer> EncryptedValue;
 
-class VirtualTable {
+    typedef struct {
+        EncryptedValue data;
+        int dataType; // Most likely digital and analog from default type
+    } fileDataValue;
 
-    public:
-        VirtualTable * GetInstance();
+    typedef std::set<std::pair<keyName, EncryptedValue>> valueMap;
 
-        VirtualTable();
-        ~VirtualTable();
+    class VirtualTable {
 
-        keyMap GetKeyMap();
-        valueMap GetValueMap();
+        public:
 
-        void * GetStoredValue(storageId id);
+            VirtualTable * GetInstance();
 
-    private:
-        
-        static double numRows;
+            VirtualTable();
+            ~VirtualTable();
 
-        static keyMap dataMapKey;
-        static valueMap dataMapValue;
+            valueMap GetValueMap();
 
-        static VirtualTable * table;
-};
+            EncryptedValue GetStoredValue(keyName id);
+
+            bool StoreValue(dataPointer value, keyName valueName);
+
+        private:
+            
+            static double numRows;
+
+            static valueMap dataMapValue;
+
+            static VirtualTable * table;
+    };
 
 } // Namespace LocalMachine
