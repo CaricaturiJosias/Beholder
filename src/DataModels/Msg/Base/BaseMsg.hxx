@@ -11,7 +11,10 @@
 
 #pragma once
 
+#include <vector>
+
 #include <Entity.hxx>
+#include <Information.hxx>
 
 namespace Message {
 

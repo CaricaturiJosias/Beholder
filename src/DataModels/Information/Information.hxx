@@ -11,6 +11,7 @@
 
 #pragma once
 #include <string>
+#include <cstdint>
 
 // Base class for information
 
@@ -33,13 +34,13 @@ class Information {
     public:
    
         Information();
-        Information(std::string id, std::string value, std::string timestamp, int dataType);
+        Information(std::string id, std::string value, std::string timestamp, int32_t dataType);
         ~Information();
 
         std::string GetInfoId();
         std::string GetInfoValue();
         std::string GetInfoTimeStamp();
-        int GetDataType();
+        int32_t GetDataType();
 
     protected:
 
@@ -49,7 +50,7 @@ class Information {
 
         std::string a_timeStamp;
 
-        int a_DataType;
+        int32_t a_DataType;
 };
 
 };

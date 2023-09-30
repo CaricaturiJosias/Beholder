@@ -13,6 +13,8 @@
 
 #include <string.h>
 #include <vector>
+#include <cstdint>
+#include <map>
 
 #include <Entity.hxx>
 #include <Information.hxx>
@@ -29,10 +31,10 @@ namespace LocalMachine {
     constexpr std::string_view ANALOG_SCHEMA = "AnalogData.json";
     constexpr std::string_view DIGITAL_SCHEMA = "DigitalData.json";
 
-    typedef std::map<int, std::string> DataType;
-    const int UNKNOWN = 0;
-    const int ANALOG = 1;
-    const int DIGITAL = 2;
+    typedef std::map<int32_t, std::string> DataType;
+    const int32_t UNKNOWN = 0;
+    const int32_t ANALOG = 1;
+    const int32_t DIGITAL = 2;
 
     enum EventType {
         Something // TODO
@@ -54,8 +56,6 @@ namespace LocalMachine {
 
             static double GetRecordsAmmount();
 
-            static bool DataLookUp(Message::BaseMsg data);
-
             static bool hasSpace(void * encryptedData);
 
             static void LogEvent(std::string msg, EventType eventType);
@@ -64,7 +64,7 @@ namespace LocalMachine {
 
             static bool SaveData(Message::BaseMsg data);
 
-            static void UpdateTable(void * data, double dataOwner);
+            static void UpdateTable(void * data, Entity::Entity dataOwner);
 
             static Information::Information LookUpData(Message::BaseMsg data);
 
@@ -74,9 +74,9 @@ namespace LocalMachine {
 
             static std::string GetCurrentTime();
 
-            static std::string GetType(int typeValue);
+            static std::string GetType(int32_t typeValue);
 
-            static bool InsertType(int typeValue, std::string valueName);
+            static bool InsertType(int32_t typeValue, std::string valueName);
             
         private:
 

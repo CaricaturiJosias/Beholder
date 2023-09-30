@@ -55,7 +55,7 @@ namespace LocalMachine {
             return false;
         }
         EncryptedValue valueToSave = std::make_shared<dataPointer>(value);
-        dataMapValue.insert(valueName, valueToSave);
+        dataMapValue[valueName] = valueToSave;
         return true;
     }
 

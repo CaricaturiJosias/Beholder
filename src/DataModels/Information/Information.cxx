@@ -20,7 +20,7 @@ Information::Information() {
     a_DataType = 0;
 }
 
-Information::Information(std::string id, std::string value, std::string timestamp, int dataType) {
+Information::Information(std::string id, std::string value, std::string timestamp, int32_t dataType) {
     a_infoId = id;
     a_data = value;
     a_timeStamp = timestamp;
@@ -43,7 +43,7 @@ std::string Information::GetInfoTimeStamp() {
     return a_timeStamp;
 }
 
-int Information::GetDataType() {
+int32_t Information::GetDataType() {
     return a_DataType;
 }
 

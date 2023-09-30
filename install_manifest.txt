@@ -14,5 +14,4 @@
 /usr/include/beholder/SchemaUtils.hxx
 /usr/include/beholder/MachineUtils.hxx
 /usr/include/beholder/Machine.hxx
-/usr/include/beholder/AvroHelper.hxx
 /usr/include/beholder/VirtualTable.hxx

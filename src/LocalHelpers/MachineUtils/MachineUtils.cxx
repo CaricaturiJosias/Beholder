@@ -44,10 +44,6 @@ namespace LocalMachine {
         return 0;
     }
 
-    bool MachineUtils::DataLookUp(Message::BaseMsg data) {
-        return true;
-    }
-
     bool MachineUtils::hasSpace(void * encryptedData) {
         return true;
     }
@@ -64,7 +60,7 @@ namespace LocalMachine {
         return true;
     }
 
-    void MachineUtils::UpdateTable(void * data, double dataOwner) {
+    void MachineUtils::UpdateTable(void * data, Entity::Entity dataOwner) {
         return;
     }
 
@@ -92,7 +88,7 @@ namespace LocalMachine {
         return std::string(timeString);
     }
 
-    std::string MachineUtils::GetType(int typeValue) {
+    std::string MachineUtils::GetType(int32_t typeValue) {
         DataType::iterator it = typeMap.find(typeValue);
         if (it == typeMap.end()) {
             // TODO - Log error
@@ -101,7 +97,7 @@ namespace LocalMachine {
         return it->second;
     }
 
-    bool MachineUtils::InsertType(int typeValue, std::string valueName) {
+    bool MachineUtils::InsertType(int32_t typeValue, std::string valueName) {
         // Nothing to do
         if (typeValue == 0) {
             // TODO - Log error

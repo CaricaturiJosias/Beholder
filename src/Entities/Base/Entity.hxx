@@ -40,8 +40,6 @@ namespace Entity {
 
             ~Entity();
 
-            bool registerEntity(Entity * newEntity);
-
             std::string getEntityId();
             void setEntityId(std::string newId);
 

@@ -62,7 +62,6 @@ set (MAIN_SOURCES
     ${SRC_DIR}/LocalHelpers/MachineUtils/Machine.cxx
     ${SRC_DIR}/LocalHelpers/MachineUtils/MachineUtils.cxx
     ${SRC_DIR}/LocalHelpers/MachineUtils/SchemaHelpers/SchemaUtils.cxx
-    ${SRC_DIR}/LocalHelpers/VirtualTable/Helper/AvroHelper.cxx
     ${SRC_DIR}/LocalHelpers/VirtualTable/VirtualTable.cxx
     ${SRC_DIR}/MessageProcessing/Beholder/Beholder.cxx
     ${SRC_DIR}/MessageProcessing/MsgProcessor/MsgProcessor.cxx

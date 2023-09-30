@@ -12,9 +12,11 @@
 #pragma once
 
 #include "time.h"
+#include <cstdint>
 #include <string>
-#include <set>
 #include <memory>
+#include <set>
+#include <map>
 
 namespace LocalMachine {
 
@@ -26,10 +28,10 @@ namespace LocalMachine {
 
     typedef struct {
         EncryptedValue data;
-        int dataType; // Most likely digital and analog from default type
+        int32_t dataType; // Most likely digital and analog from default type
     } fileDataValue;
 
-    typedef std::set<std::pair<keyName, EncryptedValue>> valueMap;
+    typedef std::map<keyName, EncryptedValue> valueMap;
 
     class VirtualTable {
 

@@ -68,7 +68,7 @@ namespace LocalMachine {
         } else if (data->GetInfoValue() == Information::DEFAULT_VALUE) {
             return nullptr; //Nothing to store, TODO get logging going
         }
-        int infoDataType = data->GetDataType();
+        int32_t infoDataType = data->GetDataType();
         std::string schemaPath = GetSchema(infoDataType);
 
         // Sanity Check
@@ -100,7 +100,7 @@ namespace LocalMachine {
             avro::encode(*encoder, analog);   
         } else {
             // DIGITAL
-            if (!IsStringType<int>(data->GetInfoValue())) {
+            if (!IsStringType<int32_t>(data->GetInfoValue())) {
                 // Log number is not valid
                 return nullptr;
             }
@@ -126,7 +126,7 @@ namespace LocalMachine {
      * 
      * @param[in] inputType value recognizing if it is ANALOG or DIGITAL
     */
-    std::string SchemaUtils::GetSchema(int inputType) {
+    std::string SchemaUtils::GetSchema(int32_t inputType) {
         std::cout << "InputType: "<< inputType << std::endl;
         std::string globalFile = Machine::GetGlobalFile();
         std::string unknownSchemaFileName = s_schemaMap.find(std::string(UNKNOWN_TYPE))->second;

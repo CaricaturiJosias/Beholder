@@ -8,7 +8,6 @@ set (HEADERS
     MachineUtils/SchemaHelpers/SchemaUtils.hxx
     MachineUtils/MachineUtils.hxx
     MachineUtils/Machine.hxx
-    VirtualTable/Helper/AvroHelper.hxx
     VirtualTable/VirtualTable.hxx
 )
 
@@ -16,7 +15,6 @@ set (HEADERS
 set(LOCAL_SOURCES
     MachineUtils/SchemaHelpers/SchemaUtils.cxx
     MachineUtils/Machine.cxx
-    VirtualTable/Helper/AvroHelper.cxx
     VirtualTable/VirtualTable.cxx
 )
 

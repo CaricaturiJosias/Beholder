@@ -13,6 +13,7 @@
 
 #include <string.h>
 #include <vector>
+#include <cstdint>
 
 #include <Entity.hxx>
 #include <Information.hxx>
@@ -39,7 +40,7 @@ namespace LocalMachine {
 
             static bool SaveData(Information::Information data);
 
-            static std::string GetSchema(int inputType);
+            static std::string GetSchema(int32_t inputType);
 
             static bool CreateSchema(std::string schemaName, std::string schemaLocation);
 
