@@ -30,6 +30,7 @@
 #include <avro/DataFile.hh>
 #include "avro/Generic.hh"
 
+#include <sys/stat.h>
 #include <time.h>
 
 // Doest belong to the class because contains template
@@ -51,12 +52,12 @@ namespace LocalMachine {
         std::string(DIGITAL_SCHEMA))
     };
 
-    std::map<int32_t, INFO_LIST> SchemaUtils::s_infoBuffer(
-        std::make_pair(ANALOG, INFO_LIST{}),
-        std::make_pair(DIGITAL, INFO_LIST{})
-    );
+    std::map<int32_t, INFO_LIST> SchemaUtils::s_infoBuffer = {
+        {ANALOG, {}},
+        {DIGITAL, {}}
+    };
 
-    uint32_t SchemaUtils::MAX_BUFFER_SIZE = 5;
+    uint32_t SchemaUtils::MAX_BUFFER_SIZE = 1;
 
     Information::Information SchemaUtils::DecompressInfo(void * encryptedInfo) {
         return Information::Information{};
@@ -83,32 +84,37 @@ namespace LocalMachine {
         // Sanity Check
         if (schemaPath == LocalMachine::UNKNOWN_TYPE) {
             // Logging for schema error
+            std::cout << "Schema is unknown" << std::endl;
             return nullptr;
         }
-
+        std::cout << "Schema is known" << std::endl;
         // Check timestamp value sent, if default define the local system time
         std::string timestamp = data->GetInfoTimeStamp();
         if (timestamp == Information::DEFAULT_TIME) {
             // TODO - Log occurance
+            std::cout << "time is the default time" << std::endl;
             timestamp = LocalMachine::MachineUtils::GetCurrentTime();
         }
-
+        std::cout << "Timestamp is valid" << std::endl;
         if (!s_infoBuffer.count(infoDataType)) {
             // TODO - Log occurance
             // Does not exist in the information vectors map, error
+            std::cout << "Buffer does not exist" << std::endl;
             return nullptr;
         }
 
         INFO_LIST currentList = s_infoBuffer[infoDataType];
-        if (MAX_BUFFER_SIZE == s_infoBuffer.size()) {
+        currentList.push_back(informationValue(*data));
+        std::cout << "Buffer size: " << currentList.size() << std::endl;
+
+        if (MAX_BUFFER_SIZE == currentList.size()) {
+            std::cout << "Saving, pushing it into buffer" << std::endl;
             StoreData(infoDataType);
             s_infoBuffer.clear();
+            return nullptr;
         }
-
-        s_infoBuffer[infoDataType].push_back(informationValue(*data));
-
-        // Will be encrypted
-        // return static_cast<void *>();
+        // TODO - Proper logging
+        std::cout << "Not saving, pushing it into buffer" << std::endl;
         return nullptr;
     }
 
@@ -125,11 +131,10 @@ namespace LocalMachine {
      * 
      * @param[in] inputType value recognizing if it is ANALOG or DIGITAL
     */
-    std::string SchemaUtils::GetSchema(int32_t inputType) {
+    std::filesystem::path SchemaUtils::GetSchema(int32_t inputType) {
         std::cout << "InputType: "<< inputType << std::endl;
-        std::string globalFile = Machine::GetGlobalFile();
+        std::filesystem::path globalFile = Machine::GetGlobalFile();
         std::string unknownSchemaFileName = s_schemaMap.find(std::string(UNKNOWN_TYPE))->second;
-        std::string unknownSchema = globalFile + unknownSchemaFileName;
         // Only the error schema
         if (s_schemaMap.size() == 1) {
             // TODO - Log empty
@@ -140,7 +145,7 @@ namespace LocalMachine {
             return unknownSchemaFileName;
         }
         std::string schemaName = s_schemaMap.find(typeName)->second;
-        std::string schemaLocation = globalFile + schemaName;
+        std::filesystem::path schemaLocation = globalFile / schemaName;
         std::cout << "Schema name: " << schemaName << ", Location: " << schemaLocation << std::endl;
         // Should throw an exception if json is non existent
         CheckSchema(schemaLocation);
@@ -172,24 +177,33 @@ namespace LocalMachine {
                         int32_t type) {
         for (informationValue infoVal : infoMap) {
             schemaItem.value = (type == ANALOG) ? std::stod(infoVal.value) : std::stoi(infoVal.value);
-            schemaItem.quality = infoVal.quality;
-            schemaItem.id = infoVal.id;
+            schemaItem.quality = std::stoi(infoVal.quality);
+            schemaItem.id = std::stod(infoVal.id);
             schemaItem.timestamp = infoVal.timestamp;
-            writerInstance.write(analog);
+            writerInstance.write(schemaItem);
         }
         writerInstance.close();
     }
 
     bool SchemaUtils::StoreData(int32_t infoDataType) {
         
-        std::string schemaPath = GetSchema(infoDataType);
+        struct stat buffer; 
+        std::filesystem::path schemaPath = GetSchema(infoDataType);
+        std::ifstream schemaStream(schemaPath);
+
         if (schemaPath == UNKNOWN_TYPE) {
             // LOG - We MUST log this scenario
+            std::cout << "Will not save data" << std::endl;
             return false;
         }
-        std::ifstream schemaStream(schemaPath);
-        std::string storageLocation(Machine::GetStoragePath());
-        std::string tempFile = storageLocation + "data.tmp";
+        std::filesystem::path storageLocation(Machine::GetStoragePath());
+        std::filesystem::path tempFile = storageLocation / "data.tmp";
+
+        // Quick way to check if exists
+        if (!std::filesystem::exists(schemaPath)) {
+            // Create
+            std::filesystem::create_directory(schemaPath);
+        }
 
         avro::ValidSchema schemaResult;
         avro::compileJsonSchema(schemaStream, schemaResult);
@@ -217,8 +231,13 @@ namespace LocalMachine {
                         s_infoBuffer[infoDataType],
                         infoDataType);
         }
+        // Saving file here
+        std::string targetFile = Machine::GetNewStorageFile();
+        
+        std::cout << "Storing data in file " << targetFile << std::endl;
 
-        //data saved hahaha
-        // TODO - Make a way of saving data here
+        std::filesystem::copy_file(tempFile, targetFile, std::filesystem::copy_options::overwrite_existing );
+        
+        return true;
     }
 };

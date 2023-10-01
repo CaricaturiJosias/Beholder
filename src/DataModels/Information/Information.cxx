@@ -26,7 +26,7 @@ Information::Information(std::string id, std::string value, std::string timestam
     a_data = value;
     a_timeStamp = timestamp;
     a_quality = quality;
-    a_DataType = 0;
+    a_DataType = dataType;
 }
 
 Information::~Information() {

@@ -23,15 +23,35 @@ namespace LocalMachine {
     // Should come after avros and openssl3
 
     typedef std::string keyName;
-    typedef void * dataPointer;
-    typedef std::shared_ptr<dataPointer> EncryptedValue;
+    typedef std::string dataFilePath;
+    typedef std::string EncryptionKey;
 
-    typedef struct {
-        EncryptedValue data;
+    struct fileDataValue{
+        dataFilePath data;
+        EncryptionKey key;
         int32_t dataType; // Most likely digital and analog from default type
-    } fileDataValue;
+        
+        // Temporary, for place holder functions
+        fileDataValue () {
+            data = "";
+            key = "";
+            dataType = 0;
+        }
 
-    typedef std::map<keyName, EncryptedValue> valueMap;
+        fileDataValue (dataFilePath dataInput, EncryptionKey keyInput, int32_t dataTypeInput) {
+            data = dataInput;
+            key = keyInput;
+            dataType = dataTypeInput;
+        }
+
+        fileDataValue (dataFilePath dataInput, int32_t dataTypeInput) {
+            data = dataInput;
+            key = ""; // No encryption key = not encrypted
+            dataType = dataTypeInput;
+        }
+    };
+
+    typedef std::map<keyName, fileDataValue> valueMap;
 
     class VirtualTable {
 
@@ -44,9 +64,11 @@ namespace LocalMachine {
 
             valueMap GetValueMap();
 
-            EncryptedValue GetStoredValue(keyName id);
+            fileDataValue GetStoredValue(keyName id);
 
-            bool StoreValue(dataPointer value, keyName valueName);
+            bool StoreValue(dataFilePath value, keyName valueName, int32_t dataType);
+
+            bool StoreValue(dataFilePath value, keyName valueName, EncryptionKey encryptionKey, int32_t dataType);
 
         private:
             

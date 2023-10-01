@@ -15,6 +15,8 @@
 #include <stdio.h>
 #include <iostream>
 #include <string.h>
+#include <cstdint>
+#include <filesystem>
 
 namespace LocalMachine {
 
@@ -24,6 +26,8 @@ namespace LocalMachine {
 
             static double memory;
 
+            static int32_t fileAmmount;
+
             static std::string virtualTablePath;
 
         public: 
@@ -32,9 +36,16 @@ namespace LocalMachine {
 
             static std::string GetVirtualTablePath() { return virtualTablePath; }
 
-            static std::string Machine::GetStoragePath();
+            static std::filesystem::path GetStoragePath();
 
-            static std::string GetGlobalFile();
+            static std::filesystem::path GetGlobalFile();
+
+            static std::string GetNewStorageFile();
+
+            static int32_t GetAmmountOfFiles() { return fileAmmount; }
+
+            static void NewDataFile() { ++fileAmmount;}
+
     };
 
 }; // Namespace

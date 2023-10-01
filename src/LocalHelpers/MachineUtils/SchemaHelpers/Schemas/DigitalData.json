@@ -3,6 +3,7 @@
     "name": "Digital",
     "doc" : "A record for digital values (Expected to save enums values)",
     "fields" : [
+        {"name": "id", "type": "double"},
         {"name": "value", "type": "int"},
         {"name": "quality", "type" : "int"},
         {"name": "timestamp", "type" : "string"}

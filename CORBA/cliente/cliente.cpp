@@ -46,11 +46,15 @@ int main(int argc, char* argv[])
 		do {
 			if (a == 1) {
 				int b = Information::ANALOG;
-				// LocalMachine::SchemaUtils::GetSchema(Information::ANALOG);
-				cout << "Memory: " << LocalMachine::Machine::GetMemory() << endl;
-				// std::string test = LocalMachine::Machine::GetGlobalFile();
-				std::string test = LocalMachine::SchemaUtils::GetSchema(Information::ANALOG);
-				// cout << "Schema: " << test;
+				Information::Information * info = new Information::Information(
+					"2",
+					"1.1",
+					"2023-10-01 11:31:42",
+					"2",
+					Information::ANALOG
+				);
+				cout << "Info?? : " << Information::ANALOG << endl;
+				LocalMachine::SchemaUtils::CompressData(info);
 				command = "fim";
 				// cout << "Global file " << test << endl;
 			}

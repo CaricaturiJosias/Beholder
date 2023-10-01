@@ -38,13 +38,14 @@ namespace LocalMachine {
         return dataMapValue;
     }
 
-    EncryptedValue VirtualTable::GetStoredValue(keyName id) {
+    fileDataValue VirtualTable::GetStoredValue(keyName id) {
         
-        return std::shared_ptr<dataPointer>(nullptr);
+        return fileDataValue{};
     }
 
-    bool VirtualTable::StoreValue(dataPointer value, keyName valueName) {
-        if (value == nullptr) {
+    bool VirtualTable::StoreValue(dataFilePath data, keyName valueName, int32_t dataType) {
+        // No encryption key = not encrypted
+        if (valueName.empty()) {
             // TODO - LOG error
             return false;
         }
@@ -54,8 +55,15 @@ namespace LocalMachine {
             // TODO - Log existing value
             return false;
         }
-        EncryptedValue valueToSave = std::make_shared<dataPointer>(value);
-        dataMapValue[valueName] = valueToSave;
+        fileDataValue fileInstance = fileDataValue(data, dataType);
+        dataMapValue[valueName] = fileInstance;
+        return true;
+    }
+
+    bool VirtualTable::StoreValue(  dataFilePath value,
+                                    keyName valueName,
+                                    EncryptionKey encryptionKey,
+                                    int32_t dataType) {
         return true;
     }
 

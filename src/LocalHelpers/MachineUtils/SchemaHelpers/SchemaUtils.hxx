@@ -14,6 +14,7 @@
 #include <string.h>
 #include <vector>
 #include <cstdint>
+#include <filesystem>
 
 #include <Entity.hxx>
 #include <Information.hxx>
@@ -60,7 +61,7 @@ namespace LocalMachine {
 
             static bool SaveData(Information::Information data);
 
-            static std::string GetSchema(int32_t inputType);
+            static std::filesystem::path GetSchema(int32_t inputType);
 
         private:
 
