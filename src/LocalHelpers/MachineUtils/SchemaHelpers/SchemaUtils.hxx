@@ -23,7 +23,27 @@
 namespace LocalMachine {
 
     typedef std::map<std::string,std::string> SCHEMA_MAP;
-    
+
+    struct informationValue {
+        std::string id;
+        std::string value;
+        std::string quality;
+        std::string timestamp;
+
+        informationValue (Information::Information info) {
+            id = info.GetInfoId();
+            id.shrink_to_fit();
+            value = info.GetInfoValue();
+            value.shrink_to_fit();
+            quality = info.GetInfoQuality();
+            quality.shrink_to_fit();
+            timestamp = info.GetInfoTimeStamp();
+            timestamp.shrink_to_fit();
+        }
+    };
+
+    typedef std::vector<informationValue> INFO_LIST;
+
     class SchemaUtils { //  Acts like an interface
 
         public:
@@ -36,13 +56,11 @@ namespace LocalMachine {
 
             static void * CompressData(Information::Information * data);
 
-            static bool SaveData(void * datPointer, Information::Information data);
+            static bool SaveData(void * dataPointer, Information::Information data);
 
             static bool SaveData(Information::Information data);
 
             static std::string GetSchema(int32_t inputType);
-
-            static bool CreateSchema(std::string schemaName, std::string schemaLocation);
 
         private:
 
@@ -50,7 +68,13 @@ namespace LocalMachine {
 
             static bool SchemaExists(std::string schemaName);
 
+            static bool StoreData(int32_t inputType);
+
             static SCHEMA_MAP s_schemaMap;
+
+            static std::map<int32_t, INFO_LIST> s_infoBuffer;
+
+            static uint32_t MAX_BUFFER_SIZE;
 
     };
 

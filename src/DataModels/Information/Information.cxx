@@ -17,13 +17,15 @@ Information::Information() {
     a_data = std::string(DEFAULT_VALUE);
     a_infoId = std::string(DEFAULT_ID);
     a_timeStamp = std::string(DEFAULT_TIME);
+    a_quality = std::string(DEFAULT_QUALITY);
     a_DataType = 0;
 }
 
-Information::Information(std::string id, std::string value, std::string timestamp, int32_t dataType) {
+Information::Information(std::string id, std::string value, std::string timestamp, std::string quality, int32_t dataType) {
     a_infoId = id;
     a_data = value;
     a_timeStamp = timestamp;
+    a_quality = quality;
     a_DataType = 0;
 }
 
@@ -41,6 +43,10 @@ std::string Information::GetInfoValue() {
 
 std::string Information::GetInfoTimeStamp() {
     return a_timeStamp;
+}
+
+std::string Information::GetInfoQuality() {
+    return a_quality;
 }
 
 int32_t Information::GetDataType() {

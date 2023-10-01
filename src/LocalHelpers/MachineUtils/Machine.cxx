@@ -17,6 +17,17 @@ namespace LocalMachine {
 
     std::string Machine::virtualTablePath = "./";
 
+    std::string Machine::GetStoragePath () {
+        std::string systemFile;
+        #ifdef __linux__
+            systemFile = "/usr/local/beholder/";
+        #elif _WIN32
+            // TODO - SCAVANGE WINDOWS INFO WHEN ITS THE TARGET DISTRO
+            systemFile = "C:\\Users\\YourUsername\\Documents\\Project\\schema\\";
+        #endif
+        return systemFile;
+    }
+
     std::string Machine::GetGlobalFile() {
         std::string systemFile;
         #ifdef __linux__

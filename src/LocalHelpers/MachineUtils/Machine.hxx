@@ -32,6 +32,8 @@ namespace LocalMachine {
 
             static std::string GetVirtualTablePath() { return virtualTablePath; }
 
+            static std::string Machine::GetStoragePath();
+
             static std::string GetGlobalFile();
     };
 

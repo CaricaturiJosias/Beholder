@@ -22,6 +22,7 @@ constexpr std::string_view DEFAULT_ID {"UNDEFINED_ID"};
 constexpr std::string_view DEFAULT_VALUE {"UNDEFINED_VALUE"};
 constexpr std::string_view DEFAULT_TIME {"2000-01-01 00:00:00"};
 constexpr std::string_view TIME_FORMAT {"%Y-%m-%d %H:%M:%S"};
+constexpr std::string_view DEFAULT_QUALITY {"INVALID"};
 
 enum DataType {
     UNKNOWN,
@@ -34,12 +35,13 @@ class Information {
     public:
    
         Information();
-        Information(std::string id, std::string value, std::string timestamp, int32_t dataType);
+        Information(std::string id, std::string value, std::string timestamp, std::string a_quality, int32_t dataType);
         ~Information();
 
         std::string GetInfoId();
         std::string GetInfoValue();
         std::string GetInfoTimeStamp();
+        std::string GetInfoQuality();
         int32_t GetDataType();
 
     protected:
@@ -49,6 +51,8 @@ class Information {
         std::string a_infoId;
 
         std::string a_timeStamp;
+
+        std::string a_quality;
 
         int32_t a_DataType;
 };

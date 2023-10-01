@@ -27,6 +27,8 @@
 #include <avro/Compiler.hh>
 #include <avro/Decoder.hh>
 #include <avro/Encoder.hh>
+#include <avro/DataFile.hh>
+#include "avro/Generic.hh"
 
 #include <time.h>
 
@@ -48,6 +50,13 @@ namespace LocalMachine {
         std::make_pair(std::string(DIGITAL_TYPE),
         std::string(DIGITAL_SCHEMA))
     };
+
+    std::map<int32_t, INFO_LIST> SchemaUtils::s_infoBuffer(
+        std::make_pair(ANALOG, INFO_LIST{}),
+        std::make_pair(DIGITAL, INFO_LIST{})
+    );
+
+    uint32_t SchemaUtils::MAX_BUFFER_SIZE = 5;
 
     Information::Information SchemaUtils::DecompressInfo(void * encryptedInfo) {
         return Information::Information{};
@@ -84,33 +93,23 @@ namespace LocalMachine {
             timestamp = LocalMachine::MachineUtils::GetCurrentTime();
         }
 
-        // Create handler for serialization encoding
-        std::unique_ptr<avro::OutputStream> out = avro::memoryOutputStream();
-        avro::EncoderPtr encoder = avro::binaryEncoder();
-
-        // Encoding necessary for each
-        if (infoDataType == Information::ANALOG) {
-            if (!IsStringType<double>(data->GetInfoValue())) {
-                // Log number is not valid
-                return nullptr;
-            }
-            encoder->init(*out);
-            c::Analog analog;
-            analog.value = std::stod(data->GetInfoValue());
-            avro::encode(*encoder, analog);   
-        } else {
-            // DIGITAL
-            if (!IsStringType<int32_t>(data->GetInfoValue())) {
-                // Log number is not valid
-                return nullptr;
-            }
-            encoder->init(*out);
-            c::Analog analog;
-            analog.value = std::stoi(data->GetInfoValue());
-            avro::encode(*encoder, analog); 
+        if (!s_infoBuffer.count(infoDataType)) {
+            // TODO - Log occurance
+            // Does not exist in the information vectors map, error
+            return nullptr;
         }
+
+        INFO_LIST currentList = s_infoBuffer[infoDataType];
+        if (MAX_BUFFER_SIZE == s_infoBuffer.size()) {
+            StoreData(infoDataType);
+            s_infoBuffer.clear();
+        }
+
+        s_infoBuffer[infoDataType].push_back(informationValue(*data));
+
         // Will be encrypted
-        return static_cast<void *>(encoder.get());
+        // return static_cast<void *>();
+        return nullptr;
     }
 
     bool SchemaUtils::SaveData(void * dataPointer, Information::Information data) {
@@ -134,37 +133,18 @@ namespace LocalMachine {
         // Only the error schema
         if (s_schemaMap.size() == 1) {
             // TODO - Log empty
-            return unknownSchema;
+            return unknownSchemaFileName;
         }
         std::string typeName = MachineUtils::GetType(inputType);
         if (!SchemaExists(typeName)){
-            return unknownSchema;
+            return unknownSchemaFileName;
         }
         std::string schemaName = s_schemaMap.find(typeName)->second;
         std::string schemaLocation = globalFile + schemaName;
         std::cout << "Schema name: " << schemaName << ", Location: " << schemaLocation << std::endl;
-        // Should throw an exception
+        // Should throw an exception if json is non existent
         CheckSchema(schemaLocation);
         return schemaLocation;
-    }
-
-    /** 
-     * @brief Called after creating entry in typeMap
-     * 
-     * @param[in] schemaName Name of the schema, will be checked
-     * @param[in] schemaLocation If the schema can be created, will be included
-     * 
-     * @return success of creation
-     * 
-     * @note global file path is added to the location in GetSchema output
-     * 
-     */ 
-    bool SchemaUtils::CreateSchema(std::string schemaName, std::string schemaLocation) {
-        if (!SchemaExists(schemaName)) {
-            return false;
-        }
-        s_schemaMap[schemaName] = schemaLocation;
-        return true;
     }
 
     bool SchemaUtils::CheckSchema(std::string schemaLoc) {
@@ -183,5 +163,62 @@ namespace LocalMachine {
             return false;
         }
         return true;
+    }
+
+    template<typename T>
+    void populateWriter(avro::DataFileWriter<T> &writerInstance,
+                        T schemaItem,
+                        INFO_LIST infoMap,
+                        int32_t type) {
+        for (informationValue infoVal : infoMap) {
+            schemaItem.value = (type == ANALOG) ? std::stod(infoVal.value) : std::stoi(infoVal.value);
+            schemaItem.quality = infoVal.quality;
+            schemaItem.id = infoVal.id;
+            schemaItem.timestamp = infoVal.timestamp;
+            writerInstance.write(analog);
+        }
+        writerInstance.close();
+    }
+
+    bool SchemaUtils::StoreData(int32_t infoDataType) {
+        
+        std::string schemaPath = GetSchema(infoDataType);
+        if (schemaPath == UNKNOWN_TYPE) {
+            // LOG - We MUST log this scenario
+            return false;
+        }
+        std::ifstream schemaStream(schemaPath);
+        std::string storageLocation(Machine::GetStoragePath());
+        std::string tempFile = storageLocation + "data.tmp";
+
+        avro::ValidSchema schemaResult;
+        avro::compileJsonSchema(schemaStream, schemaResult);
+
+        if (infoDataType == ANALOG) {
+            c::Analog analog;
+            avro::DataFileWriter<c::Analog>
+                writerInstance( tempFile.c_str(),
+                                schemaResult);
+            populateWriter<c::Analog>(
+                        writerInstance,
+                        analog,
+                        s_infoBuffer[infoDataType],
+                        infoDataType);
+        } else {
+            // DIGITAL
+            c::Digital digital;
+            avro::DataFileWriter<c::Digital>
+            writerInstance(
+                tempFile.c_str(),
+                schemaResult);
+            populateWriter<c::Digital>(
+                        writerInstance,
+                        digital,
+                        s_infoBuffer[infoDataType],
+                        infoDataType);
+        }
+
+        //data saved hahaha
+        // TODO - Make a way of saving data here
     }
 };
