@@ -18,6 +18,8 @@
 #include <cstdint>
 #include <filesystem>
 
+#include <VirtualTable.hxx>
+
 namespace LocalMachine {
 
     class Machine {
@@ -28,13 +30,13 @@ namespace LocalMachine {
 
             static int32_t fileAmmount;
 
-            static std::string virtualTablePath;
+            static std::shared_ptr<VirtualTable> s_virtualTable;
 
         public: 
 
-            static double GetMemory() { return memory; }
+            static std::shared_ptr<VirtualTable> GetVirtualTable();
 
-            static std::string GetVirtualTablePath() { return virtualTablePath; }
+            static double GetMemory() { return memory; }
 
             static std::filesystem::path GetStoragePath();
 

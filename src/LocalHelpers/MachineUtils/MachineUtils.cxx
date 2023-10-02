@@ -97,19 +97,4 @@ namespace LocalMachine {
         return it->second;
     }
 
-    bool MachineUtils::InsertType(int32_t typeValue, std::string valueName) {
-        // Nothing to do
-        if (typeValue == 0) {
-            // TODO - Log error
-            return false;
-        }
-        // Value already exists
-        if (GetType(typeValue) != UNKNOWN_TYPE) {
-            return false;
-        }
-
-        typeMap[typeValue] = valueName;
-        return true;
-    }
-
 };

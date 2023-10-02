@@ -77,8 +77,6 @@ namespace LocalMachine {
             static std::string GetCurrentTime();
 
             static std::string GetType(int32_t typeValue);
-
-            static bool InsertType(int32_t typeValue, std::string valueName);
             
         private:
 

@@ -52,12 +52,12 @@ namespace LocalMachine {
         std::string(DIGITAL_SCHEMA))
     };
 
-    std::map<int32_t, INFO_LIST> SchemaUtils::s_infoBuffer = {
+    BUFFER_MAP SchemaUtils::s_infoBuffer = {
         {ANALOG, {}},
         {DIGITAL, {}}
     };
 
-    uint32_t SchemaUtils::MAX_BUFFER_SIZE = 1;
+    uint32_t SchemaUtils::MAX_BUFFER_SIZE = 5;
 
     Information::Information SchemaUtils::DecompressInfo(void * encryptedInfo) {
         return Information::Information{};
@@ -87,6 +87,7 @@ namespace LocalMachine {
             std::cout << "Schema is unknown" << std::endl;
             return nullptr;
         }
+        // TODO - Remove
         std::cout << "Schema is known" << std::endl;
         // Check timestamp value sent, if default define the local system time
         std::string timestamp = data->GetInfoTimeStamp();
@@ -95,8 +96,10 @@ namespace LocalMachine {
             std::cout << "time is the default time" << std::endl;
             timestamp = LocalMachine::MachineUtils::GetCurrentTime();
         }
+        // TODO - Remove
         std::cout << "Timestamp is valid" << std::endl;
-        if (!s_infoBuffer.count(infoDataType)) {
+        BUFFER_MAP::iterator it = s_infoBuffer.find(infoDataType);
+        if (it == s_infoBuffer.end()) {
             // TODO - Log occurance
             // Does not exist in the information vectors map, error
             std::cout << "Buffer does not exist" << std::endl;
@@ -105,16 +108,21 @@ namespace LocalMachine {
 
         INFO_LIST currentList = s_infoBuffer[infoDataType];
         currentList.push_back(informationValue(*data));
+
+        // TODO - Remove
         std::cout << "Buffer size: " << currentList.size() << std::endl;
 
         if (MAX_BUFFER_SIZE == currentList.size()) {
+            // TODO - Remove
             std::cout << "Saving, pushing it into buffer" << std::endl;
             StoreData(infoDataType);
-            s_infoBuffer.clear();
+            s_infoBuffer[infoDataType].clear();
             return nullptr;
         }
-        // TODO - Proper logging
+        // TODO - Remove
         std::cout << "Not saving, pushing it into buffer" << std::endl;
+        s_infoBuffer[infoDataType].push_back(informationValue(*data));
+
         return nullptr;
     }
 
@@ -234,10 +242,24 @@ namespace LocalMachine {
         // Saving file here
         std::string targetFile = Machine::GetNewStorageFile();
         
+        // TODO - Remove
         std::cout << "Storing data in file " << targetFile << std::endl;
+        
+        // get ID off of file
+        size_t pos = targetFile.find('_')+1; // Exclude the _ itself
+        // All after _ (like 102.bin)
+        std::string sub_str = targetFile.substr(pos);
+        pos = sub_str.find(std::string(".bin"));
+        std::string fileId = sub_str.substr(0,pos);
+
+        // TODO - Remove
+        std::cout << "ID on file " << targetFile << " : " << fileId << std::endl;
+        // We have the id
 
         std::filesystem::copy_file(tempFile, targetFile, std::filesystem::copy_options::overwrite_existing );
         
-        return true;
+        std::shared_ptr<VirtualTable> virtualTable = Machine::Machine::GetVirtualTable();
+
+        return virtualTable->StoreValue(targetFile, fileId, infoDataType);
     }
 };

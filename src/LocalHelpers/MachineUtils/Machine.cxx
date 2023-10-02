@@ -22,7 +22,14 @@ namespace LocalMachine {
 
     int32_t Machine::fileAmmount = 0;
 
-    std::string Machine::virtualTablePath = "./";
+    std::shared_ptr<VirtualTable> Machine::s_virtualTable = nullptr;
+
+    std::shared_ptr<VirtualTable> Machine::GetVirtualTable() {
+        if (s_virtualTable == nullptr) {
+            s_virtualTable.reset(new VirtualTable());
+        }
+        return s_virtualTable;
+    }
 
     std::filesystem::path Machine::GetStoragePath () {
         std::filesystem::path systemFile;

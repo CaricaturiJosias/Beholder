@@ -44,20 +44,17 @@ int main(int argc, char* argv[])
 		cout << "Teste:\n\ta" << endl;
 		int a = 1;
 		do {
-			if (a == 1) {
-				int b = Information::ANALOG;
+			for (int n = 1; n < 20; n++)  {
 				Information::Information * info = new Information::Information(
-					"2",
+					std::to_string(n),
 					"1.1",
 					"2023-10-01 11:31:42",
 					"2",
 					Information::ANALOG
 				);
-				cout << "Info?? : " << Information::ANALOG << endl;
 				LocalMachine::SchemaUtils::CompressData(info);
-				command = "fim";
-				// cout << "Global file " << test << endl;
 			}
+			command = "fim";
 		} while (command != "fim");
 
 		// 4. Destroi ORB

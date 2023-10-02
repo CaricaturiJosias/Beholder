@@ -44,6 +44,7 @@ namespace LocalMachine {
     };
 
     typedef std::vector<informationValue> INFO_LIST;
+    typedef std::map<int32_t, INFO_LIST> BUFFER_MAP;
 
     class SchemaUtils { //  Acts like an interface
 
@@ -73,7 +74,7 @@ namespace LocalMachine {
 
             static SCHEMA_MAP s_schemaMap;
 
-            static std::map<int32_t, INFO_LIST> s_infoBuffer;
+            static BUFFER_MAP s_infoBuffer;
 
             static uint32_t MAX_BUFFER_SIZE;
 
