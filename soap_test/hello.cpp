@@ -1,6 +1,6 @@
 // hello.cpp
-// #include "generated/soapH.h"  // include the generated source code headers
-#include "generated/Service.nsmap" // include XML namespaces
+#include "generated/soapH.h"  // include the generated source code headers
+#include "generated/ns.nsmap" // include XML namespaces
 int main()
 {
   return soap_serve(soap_new());
