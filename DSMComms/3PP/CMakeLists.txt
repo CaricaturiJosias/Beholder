@@ -1,4 +1,4 @@
-# CMakeLists.txt in src/3PP
+# CMakeLists.txt in DSMComms/3PP
 
 include_directories( PRIVATE ${SRC_DIRS} )
 

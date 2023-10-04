@@ -20,7 +20,7 @@ tk = 1
 fl = 1
 
 // building the library for corba
-cd Beholder/src
+cd Beholder/DSMComms
 cmake .
 make install
 
@@ -30,7 +30,7 @@ make install
 // To build ALL
 // in Beholder/
 sudo cmake .
-cd src/
+cd DSMComms/
 sudo make clean -s
 sudo make install -s
 cd ../CORBA

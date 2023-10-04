@@ -1,4 +1,4 @@
-# CMakeLists.txt in src/DataModels
+# CMakeLists.txt in DSMComms/DataModels
 
 include_directories( PRIVATE ${SRC_DIRS} )
 

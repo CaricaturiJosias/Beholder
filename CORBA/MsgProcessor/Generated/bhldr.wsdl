@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Service"
+  targetNamespace="http://tempuri.org/bhldr.xsd/Service.wsdl"
+  xmlns:tns="http://tempuri.org/bhldr.xsd/Service.wsdl"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:bhldr="http://tempuri.org/bhldr.xsd"
+  xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:HTTP="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+  xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+  xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+  <schema targetNamespace="http://tempuri.org/bhldr.xsd"
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:bhldr="http://tempuri.org/bhldr.xsd"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="unqualified"
+    attributeFormDefault="unqualified">
+    <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    <simpleType name="DataType"><!-- bhldr__DataType -->
+      <restriction base="xsd:string">
+        <!-- = 0 -->
+        <enumeration value="UNKNOWN"/><!-- UNKNOWN -->
+        <!-- = 1 -->
+        <enumeration value="ANALOG"/><!-- ANALOG -->
+        <!-- = 2 -->
+        <enumeration value="DIGITAL"/><!-- DIGITAL -->
+      </restriction>
+    </simpleType>
+    <!-- operation request element -->
+    <element name="lookup">
+      <complexType>
+          <sequence>
+            <element name="infoId" type="xsd:string" minOccurs="1" maxOccurs="1"/><!-- bhldr__lookup::infoId -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation response element and type -->
+    <element name="dataFormat" type="bhldr:dataFormat"/>
+    <complexType name="dataFormat">
+          <sequence>
+            <element name="infoName" type="xsd:string" minOccurs="1" maxOccurs="1"/><!-- bhldr__dataFormat::infoName -->
+            <element name="value" type="xsd:string" minOccurs="1" maxOccurs="1"/><!-- bhldr__dataFormat::value -->
+            <element name="timestamp" type="xsd:string" minOccurs="1" maxOccurs="1"/><!-- bhldr__dataFormat::timestamp -->
+            <element name="dataType" type="bhldr:DataType" minOccurs="1" maxOccurs="1"/><!-- bhldr__dataFormat::dataType -->
+          </sequence>
+    </complexType>
+    <!-- operation request element -->
+    <element name="registerInfo">
+      <complexType>
+          <sequence>
+            <element name="message" type="bhldr:dataFormat" minOccurs="1" maxOccurs="1"/><!-- bhldr__registerInfo::message -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation response element -->
+    <element name="registerInfoResponse">
+      <complexType>
+          <sequence>
+            <element name="result" type="xsd:boolean" minOccurs="1" maxOccurs="1"/><!-- bhldr__registerInfo::result -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation request element -->
+    <element name="updateInfo">
+      <complexType>
+          <sequence>
+          </sequence>
+      </complexType>
+    </element>
+  </schema>
+
+</types>
+
+<message name="lookup">
+  <part name="Body" element="bhldr:lookup"/><!-- bhldr__lookup::bhldr__lookup -->
+</message>
+
+<message name="dataFormat">
+  <part name="Body" element="bhldr:dataFormat"/><!-- bhldr__lookup::data -->
+</message>
+
+<message name="registerInfoRequest">
+  <part name="Body" element="bhldr:registerInfo"/><!-- bhldr__registerInfo::bhldr__registerInfo -->
+</message>
+
+<message name="registerInfoResponse">
+  <part name="Body" element="bhldr:registerInfoResponse"/>
+</message>
+
+<message name="updateInfo">
+  <part name="Body" element="bhldr:updateInfo"/><!-- bhldr__updateInfo::bhldr__updateInfo -->
+</message>
+
+<portType name="ServicePortType">
+  <operation name="lookup">
+    <documentation>Service definition of function bhldr__lookup</documentation>
+    <input message="tns:lookup"/>
+    <output message="tns:dataFormat"/>
+  </operation>
+  <operation name="registerInfo">
+    <documentation>Service definition of function bhldr__registerInfo</documentation>
+    <input message="tns:registerInfoRequest"/>
+    <output message="tns:registerInfoResponse"/>
+  </operation>
+  <operation name="updateInfo">
+    <documentation>Service definition of function bhldr__updateInfo</documentation>
+    <input message="tns:updateInfo"/>
+    <output message="tns:dataFormat"/>
+  </operation>
+</portType>
+
+<binding name="Service" type="tns:ServicePortType">
+  <SOAP:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="lookup">
+    <SOAP:operation soapAction=""/>
+    <input>
+          <SOAP:body use="literal" parts="Body"/>
+    </input>
+    <output>
+          <SOAP:body use="literal" parts="Body"/>
+    </output>
+  </operation>
+  <operation name="registerInfo">
+    <SOAP:operation soapAction=""/>
+    <input>
+          <SOAP:body use="literal" parts="Body"/>
+    </input>
+    <output>
+          <SOAP:body use="literal" parts="Body"/>
+    </output>
+  </operation>
+  <operation name="updateInfo">
+    <SOAP:operation soapAction=""/>
+    <input>
+          <SOAP:body use="literal" parts="Body"/>
+    </input>
+    <output>
+          <SOAP:body use="literal" parts="Body"/>
+    </output>
+  </operation>
+</binding>
+
+<service name="Service">
+  <documentation>gSOAP 2.8.131 generated service definition</documentation>
+  <port name="Service" binding="tns:Service">
+    <SOAP:address location="http://localhost:80"/>
+  </port>
+</service>
+
+</definitions>

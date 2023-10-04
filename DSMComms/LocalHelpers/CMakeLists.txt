@@ -1,4 +1,4 @@
-# CMakeLists.txt in src/LocalHelpers
+# CMakeLists.txt in DSMComms/LocalHelpers
 
 include_directories( PRIVATE ${SRC_DIRS} )
 

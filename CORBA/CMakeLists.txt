@@ -69,10 +69,10 @@ foreach(IDL_FILE ${IDL_FILES})
     list(APPEND GENERATED_FILES ${IDLDIR}/${IDL_FILENAME}C.cpp)
 endforeach()
 
-# Build src/ project as it is needed for the CORBA ones
+# Build DSMComms/ project as it is needed for the CORBA ones
 message("Building the source files")
 add_custom_target(BuildBeholder
-    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target src
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target DSMComms
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 

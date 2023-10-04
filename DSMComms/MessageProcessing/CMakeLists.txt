@@ -1,4 +1,4 @@
-# CMakeLists.txt in src/MessageProcessing
+# CMakeLists.txt in DSMComms/MessageProcessing
 
 include_directories( PRIVATE ${SRC_DIRS} )
 

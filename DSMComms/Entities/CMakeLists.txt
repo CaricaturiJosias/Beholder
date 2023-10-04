@@ -1,4 +1,4 @@
-# CMakeLists.txt in src/Entities
+# CMakeLists.txt in DSMComms/Entities
 
 include_directories( PRIVATE ${SRC_DIRS} )
 

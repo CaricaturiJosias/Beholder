@@ -10,6 +10,6 @@ set(PROJECT_DIR "/home/cezario/Dev/Beholder")
 
 # Include the CMakeLists.txt inside the subdirectories
 # Generate all libraries and classes
-add_subdirectory(src)
+add_subdirectory(DSMComms)
 # Install them and compiles the main code
 add_subdirectory(CORBA)

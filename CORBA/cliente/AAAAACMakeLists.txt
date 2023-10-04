@@ -54,5 +54,5 @@ set_target_properties(cliente PROPERTIES LINK_FLAGS "${LDFLAGS}")
 # Make sure generating stubs/skeletons happens before building the target
 add_dependencies(cliente generate_stubs_skeletons)
 
-# Make sure generating src/ code happens before building the target
+# Make sure generating DSMComms/ code happens before building the target
 add_dependencies(cliente BuildBeholder)

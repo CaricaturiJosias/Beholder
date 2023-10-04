@@ -8,7 +8,7 @@ CORBA/
     cliente/
         cliente.cpp
         Makefile
-src/
+DSMComms/
     DataModels/
         Information/
             Information.cxx

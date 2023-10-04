@@ -1,4 +1,4 @@
-# CMakeLists.txt in src/ (Main CMakeLists.txt)
+# CMakeLists.txt in DSMComms/ (Main CMakeLists.txt)
 
 # Set the minimum required CMake version
 cmake_minimum_required(VERSION 3.12)
@@ -33,7 +33,7 @@ set(LIB_DIRS
 )
 
 # To make simplified include
-set (SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+set (SRC_DIR ${CMAKE_SOURCE_DIR}/DSMComms)
 set(SRC_DIRS
     ${SRC_DIR}/3PP/Pugi
     ${SRC_DIR}/DataModels/Information
