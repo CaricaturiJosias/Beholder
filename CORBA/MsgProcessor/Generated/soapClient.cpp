@@ -17,7 +17,7 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 #endif
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapClient.cpp ver 2.8.131 2023-10-04 00:34:33 GMT")
+SOAP_SOURCE_STAMP("@(#) soapClient.cpp ver 2.8.131 2023-10-04 20:46:27 GMT")
 
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, const std::string& infoId, struct bhldr__dataFormat &data)
@@ -134,14 +134,9 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_recv_bhldr__registerInfo(struct soap *soap, bool 
 	return soap_closesock(soap);
 }
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__updateInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct bhldr__dataFormat &message)
-{	if (soap_send_bhldr__updateInfo(soap, soap_endpoint, soap_action) || soap_recv_bhldr__updateInfo(soap, message))
-		return soap->error;
-	return SOAP_OK;
-}
-
-SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__updateInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action)
+SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__updateInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, const struct bhldr__dataFormat& message)
 {	struct bhldr__updateInfo soap_tmp_bhldr__updateInfo;
+	soap_tmp_bhldr__updateInfo.message = message;
 	soap_begin(soap);
 	soap->encodingStyle = NULL; /* use SOAP literal style */
 	soap_serializeheader(soap);
@@ -171,18 +166,20 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__updateInfo(struct soap *soap, const c
 	return SOAP_OK;
 }
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_recv_bhldr__updateInfo(struct soap *soap, struct bhldr__dataFormat &message)
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv_bhldr__updateInfo(struct soap *soap, struct bhldr__updateInfo *_param_1)
 {
-	soap_default_bhldr__dataFormat(soap, &message);
+	soap_default_bhldr__updateInfo(soap, _param_1);
+	soap_begin(soap);
 	if (soap_begin_recv(soap)
 	 || soap_envelope_begin_in(soap)
 	 || soap_recv_header(soap)
 	 || soap_body_begin_in(soap))
 		return soap_closesock(soap);
-	soap_get_bhldr__dataFormat(soap, &message, "bhldr:dataFormat", NULL);
-	if (soap->error)
-		return soap_recv_fault(soap, 0);
-	if (soap_body_end_in(soap)
+	soap_get_bhldr__updateInfo(soap, _param_1, "bhldr:updateInfo", NULL);
+	if (soap->error == SOAP_TAG_MISMATCH && soap->level == 2)
+		soap->error = SOAP_OK;
+	if (soap->error
+	 || soap_body_end_in(soap)
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap_closesock(soap);

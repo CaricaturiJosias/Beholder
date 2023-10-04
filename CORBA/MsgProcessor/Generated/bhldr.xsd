@@ -57,6 +57,7 @@
     <element name="updateInfo">
       <complexType>
           <sequence>
+            <element name="message" type="bhldr:dataFormat" minOccurs="1" maxOccurs="1"/><!-- bhldr__updateInfo::message -->
           </sequence>
       </complexType>
     </element>

@@ -74,6 +74,7 @@
     <element name="updateInfo">
       <complexType>
           <sequence>
+            <element name="message" type="bhldr:dataFormat" minOccurs="1" maxOccurs="1"/><!-- bhldr__updateInfo::message -->
           </sequence>
       </complexType>
     </element>
@@ -115,7 +116,6 @@
   <operation name="updateInfo">
     <documentation>Service definition of function bhldr__updateInfo</documentation>
     <input message="tns:updateInfo"/>
-    <output message="tns:dataFormat"/>
   </operation>
 </portType>
 
@@ -144,9 +144,6 @@
     <input>
           <SOAP:body use="literal" parts="Body"/>
     </input>
-    <output>
-          <SOAP:body use="literal" parts="Body"/>
-    </output>
   </operation>
 </binding>
 

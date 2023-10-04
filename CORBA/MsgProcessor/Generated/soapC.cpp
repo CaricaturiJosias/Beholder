@@ -18,7 +18,7 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapC.cpp ver 2.8.131 2023-10-04 00:34:33 GMT")
+SOAP_SOURCE_STAMP("@(#) soapC.cpp ver 2.8.131 2023-10-04 20:46:27 GMT")
 
 
 #ifndef WITH_NOGLOBAL
@@ -1614,12 +1614,14 @@ SOAP_FMAC3 struct SOAP_ENV__Header * SOAP_FMAC4 soap_get_SOAP_ENV__Header(struct
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_bhldr__updateInfo(struct soap *soap, struct bhldr__updateInfo *a)
 {
 	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_default_bhldr__dataFormat(soap, &a->message);
 }
 
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_bhldr__updateInfo(struct soap *soap, const struct bhldr__updateInfo *a)
 {
 	(void)soap; (void)a; /* appease -Wall -Werror */
 #ifndef WITH_NOIDREF
+	soap_serialize_bhldr__dataFormat(soap, &a->message);
 #endif
 }
 
@@ -1628,15 +1630,18 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_out_bhldr__updateInfo(struct soap *soap, const ch
 	(void)soap; (void)tag; (void)id; (void)a; (void)type; /* appease -Wall -Werror */
 	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_bhldr__updateInfo), type))
 		return soap->error;
+	if (soap_out_bhldr__dataFormat(soap, "message", -1, &a->message, ""))
+		return soap->error;
 	return soap_element_end_out(soap, tag);
 }
 
 SOAP_FMAC3 struct bhldr__updateInfo * SOAP_FMAC4 soap_in_bhldr__updateInfo(struct soap *soap, const char *tag, struct bhldr__updateInfo *a, const char *type)
 {
+	size_t soap_flag_message = 1;
 	if (soap_element_begin_in(soap, tag, 0, NULL))
 		return NULL;
 	(void)type; /* appease -Wall -Werror */
-	a = (struct bhldr__updateInfo*)soap_id_enter(soap, soap->id, a, SOAP_TYPE_bhldr__updateInfo, sizeof(struct bhldr__updateInfo), NULL, NULL, NULL, NULL);
+	a = (struct bhldr__updateInfo*)soap_id_enter(soap, soap->id, a, SOAP_TYPE_bhldr__updateInfo, sizeof(struct bhldr__updateInfo), soap->type, soap->arrayType, soap_instantiate, soap_fbase);
 	if (!a)
 		return NULL;
 	soap_default_bhldr__updateInfo(soap, a);
@@ -1644,6 +1649,12 @@ SOAP_FMAC3 struct bhldr__updateInfo * SOAP_FMAC4 soap_in_bhldr__updateInfo(struc
 	{
 		for (;;)
 		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_message && soap->error == SOAP_TAG_MISMATCH)
+			{	if (soap_in_bhldr__dataFormat(soap, "message", &a->message, "bhldr:dataFormat"))
+				{	soap_flag_message--;
+					continue;
+				}
+			}
 			if (soap->error == SOAP_TAG_MISMATCH)
 				soap->error = soap_ignore_element(soap);
 			if (soap->error == SOAP_NO_TAG)
@@ -1653,6 +1664,14 @@ SOAP_FMAC3 struct bhldr__updateInfo * SOAP_FMAC4 soap_in_bhldr__updateInfo(struc
 		}
 		if (soap_element_end_in(soap, tag))
 			return NULL;
+		if ((soap->mode & SOAP_XML_STRICT) && (soap_flag_message > 0))
+		{	soap->error = SOAP_OCCURS;
+			return NULL;
+		}
+	}
+	else if ((soap->mode & SOAP_XML_STRICT) && *soap->href != '#')
+	{	soap->error = SOAP_OCCURS;
+		return NULL;
 	}
 	else
 	{	a = (struct bhldr__updateInfo *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_bhldr__updateInfo, SOAP_TYPE_bhldr__updateInfo, sizeof(struct bhldr__updateInfo), 0, soap_finsert, NULL);

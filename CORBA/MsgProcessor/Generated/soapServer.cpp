@@ -17,7 +17,7 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 #endif
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapServer.cpp ver 2.8.131 2023-10-04 00:34:33 GMT")
+SOAP_SOURCE_STAMP("@(#) soapServer.cpp ver 2.8.131 2023-10-04 20:46:27 GMT")
 extern "C" SOAP_FMAC5 int SOAP_FMAC6 soap_serve(struct soap *soap)
 {
 #ifndef WITH_FASTCGI
@@ -150,8 +150,6 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_bhldr__registerInfo(struct soap *soap)
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_bhldr__updateInfo(struct soap *soap)
 {	struct bhldr__updateInfo soap_tmp_bhldr__updateInfo;
-	struct bhldr__dataFormat message;
-	soap_default_bhldr__dataFormat(soap, &message);
 	soap_default_bhldr__updateInfo(soap, &soap_tmp_bhldr__updateInfo);
 	if (!soap_get_bhldr__updateInfo(soap, &soap_tmp_bhldr__updateInfo, "bhldr:updateInfo", NULL))
 		return soap->error;
@@ -159,32 +157,8 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_bhldr__updateInfo(struct soap *soap)
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap->error;
-	soap->error = bhldr__updateInfo(soap, message);
+	soap->error = bhldr__updateInfo(soap, soap_tmp_bhldr__updateInfo.message);
 	if (soap->error)
-		return soap->error;
-	soap->encodingStyle = NULL; /* use SOAP literal style */
-	soap_serializeheader(soap);
-	soap_serialize_bhldr__dataFormat(soap, &message);
-	if (soap_begin_count(soap))
-		return soap->error;
-	if ((soap->mode & SOAP_IO_LENGTH))
-	{	if (soap_envelope_begin_out(soap)
-		 || soap_putheader(soap)
-		 || soap_body_begin_out(soap)
-		 || soap_put_bhldr__dataFormat(soap, &message, "bhldr:dataFormat", "")
-		 || soap_body_end_out(soap)
-		 || soap_envelope_end_out(soap))
-			 return soap->error;
-	};
-	if (soap_end_count(soap)
-	 || soap_response(soap, SOAP_OK)
-	 || soap_envelope_begin_out(soap)
-	 || soap_putheader(soap)
-	 || soap_body_begin_out(soap)
-	 || soap_put_bhldr__dataFormat(soap, &message, "bhldr:dataFormat", "")
-	 || soap_body_end_out(soap)
-	 || soap_envelope_end_out(soap)
-	 || soap_end_send(soap))
 		return soap->error;
 	return soap_closesock(soap);
 }

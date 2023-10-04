@@ -987,21 +987,25 @@ inline struct bhldr__updateInfo * soap_new_bhldr__updateInfo(struct soap *soap, 
 }
 
 inline struct bhldr__updateInfo * soap_new_req_bhldr__updateInfo(
-	struct soap *soap)
+	struct soap *soap,
+	const struct bhldr__dataFormat& message)
 {
 	struct bhldr__updateInfo *_p = ::soap_new_bhldr__updateInfo(soap);
 	if (_p)
 	{	::soap_default_bhldr__updateInfo(soap, _p);
+		_p->message = message;
 	}
 	return _p;
 }
 
 inline struct bhldr__updateInfo * soap_new_set_bhldr__updateInfo(
-	struct soap *soap)
+	struct soap *soap,
+	const struct bhldr__dataFormat& message)
 {
 	struct bhldr__updateInfo *_p = ::soap_new_bhldr__updateInfo(soap);
 	if (_p)
 	{	::soap_default_bhldr__updateInfo(soap, _p);
+		_p->message = message;
 	}
 	return _p;
 }

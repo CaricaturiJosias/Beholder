@@ -8,9 +8,9 @@
  <SOAP-ENV:Body>
   <bhldr:registerInfo>
    <message>
-    <infoName></infoName>
-    <value></value>
-    <timestamp></timestamp>
+    <infoName>InfoTestName</infoName>
+    <value>12345.678</value>
+    <timestampnow></timestamp>
     <dataType>UNKNOWN</dataType>
    </message>
   </bhldr:registerInfo>
