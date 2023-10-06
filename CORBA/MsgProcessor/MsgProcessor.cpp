@@ -3,6 +3,11 @@
 #include "Generated/bhldr.nsmap" // include XML namespaces
 #include <iostream>
 
+#include <SchemaUtils.hxx>
+#include <Information.hxx>
+#include <BaseMsg.hxx>
+#include <Entity.hxx>
+
 int main() {
   struct soap *soap = soap_new();
 
@@ -11,7 +16,7 @@ int main() {
   soap->transfer_timeout = 10;                 /* max time for send or receive of messages (sec) */
   
   SOAP_SOCKET m;
-  m = soap_bind(soap, NULL, 8081, 10);  // small BACKLOG for iterative servers 
+  m = soap_bind(soap, NULL, 8080, 10);  // small BACKLOG for iterative servers 
   std::cout << "State: " << soap->state << std::endl;
   while (soap_valid_socket(soap_accept(soap)))
   {
@@ -36,7 +41,14 @@ int bhldr__registerInfo(struct soap *soap, bhldr__dataFormat message, bool &resu
             << "infoName: " << message.infoName << std::endl
             << "value: " << message.value << std::endl
             << "timestamp: " << message.timestamp << std::endl;
-
+  Information::Information infoInstance(
+    message.infoName,
+    message.value,
+    message.timestamp,
+    "1",
+    Information::ANALOG);
+  Entity::Entity sender("No id haha", "no address", Entity::DATA_SOURCE);
+  Message::BaseMsg msg();
   result = true;
   return 1;
 }

@@ -86,7 +86,7 @@ install:
 	@cp -r /usr/local/lib/ ../common/lib/
 
 	# Copy the headers to the desired location
-	@cp -r /usr/local/include/beholder/* ../common/include/
+	@cp -r /usr/local/include/DSMComms/* ../common/include/
 teste:
 	@echo -e $(SOURCES)
 $(PROGRAM): $(SOURCES.cpp) $(OBJECTS)

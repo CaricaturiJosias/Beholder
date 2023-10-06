@@ -25,9 +25,22 @@ namespace Message {
             BaseMsg();
 
             ~BaseMsg();
+            
+            BaseMsg(Information::Information info, Entity::Entity sender);
+
+            Information::Information getMessageInfo() { return messageInfo; }
+
+            Entity::Entity getMessageSender() { return messageSender; }
+
+            std::string getMessageTimestamp() { return timestamp; }
 
         protected:
 
+            static Information::Information messageInfo;
+
+            static Entity::Entity messageSender;
+
+            static std::string timestamp;
     };
 
 };

@@ -15,6 +15,20 @@
 
 namespace Entity {
 
+
+    Entity& Entity::operator=(const Entity& other) {
+        entityAddress = other.entityAddress;
+        entityId = other.entityId;
+        entityType = other.entityType;
+        return *this;
+    }
+
+    Entity::Entity() {
+        entityAddress = Information::DEFAULT_ADDRESS;
+        entityId = Information::DEFAULT_ID;
+        entityType = UNKNOWN;
+    }
+
     Entity::Entity(std::string id, std::string address, ENTITY_TYPE type) {
         entityAddress = id;
         entityId = address;

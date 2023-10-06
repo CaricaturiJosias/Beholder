@@ -58,7 +58,7 @@ namespace LocalMachine {
 
             static void * CompressData(Information::Information * data);
 
-            static bool SaveData(void * dataPointer, Information::Information data);
+            static bool SaveData(Message::BaseMsg message, Information::Information data);
 
             static bool SaveData(Information::Information data);
 

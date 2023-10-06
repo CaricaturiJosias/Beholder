@@ -29,6 +29,8 @@ namespace Entity {
         
         public:
             
+            Entity();
+            
             /**
              * @brief Constructor for an entity
              * 
@@ -48,6 +50,8 @@ namespace Entity {
 
             ENTITY_TYPE getEntityType();
             void setEntityType(ENTITY_TYPE newId);
+
+            Entity& operator=(const Entity& other);
 
         protected:
 

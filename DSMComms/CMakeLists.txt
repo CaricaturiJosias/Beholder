@@ -4,25 +4,14 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Set the project name
-project(Beholder)
+project(DSMComms)
 set(PROJECT_VERSION 1.0.0)
 
 # Set the C++ standard
 set(CMAKE_CXX_STANDARD 20)
 
 set (LIB_PATH "${HOME}/lib/")
-set (INC_PATH "/usr/include/beholder/")
-
-# # Check if the folder exists
-# if(NOT EXISTS "${LIB_PATH}")
-#     # Create the folder if it doesn't exist
-#     file(MAKE_DIRECTORY "${LIB_PATH}")
-# endif()
-
-# if(NOT EXISTS "${INC_PATH}")
-#     # Create the folder if it doesn't exist
-#     file(MAKE_DIRECTORY "${INC_PATH}")
-# endif()
+set (INC_PATH "/usr/include/DSMComms/")
 
 set(LIB_DIRS
     DataModels
@@ -78,13 +67,13 @@ find_library(AVROCPP_LIBRARY
     PATHS /usr/lib/
 )
 
-add_library(beholder SHARED ${MAIN_SOURCES})
-target_include_directories(beholder PUBLIC ${SRC_DIRS})
-target_link_libraries(beholder PRIVATE ${AVROCPP_LIBRARY})
+add_library(DSMComms SHARED ${MAIN_SOURCES})
+target_include_directories(DSMComms PUBLIC ${SRC_DIRS})
+target_link_libraries(DSMComms PRIVATE ${AVROCPP_LIBRARY})
 
 # Generate the .so file
 if(UNIX AND NOT APPLE)
-    set_target_properties(beholder PROPERTIES
+    set_target_properties(DSMComms PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "$ENV{HOME}/lib"
         PREFIX "lib"
     )
@@ -92,8 +81,24 @@ endif()
 
 include(GNUInstallDirs)
 
+# Iterate through the header directories and copy header files to INC_PATH
+foreach(HEADER_DIR ${SRC_DIRS})
+    file(GLOB HEADER_FILES ${HEADER_DIR}/*.h)  # Adjust the extension if needed
+
+    foreach(HEADER_FILE ${HEADER_FILES})
+        # Get the relative path of the header file (stripping the source directory)
+        file(RELATIVE_PATH REL_HEADER_PATH ${CMAKE_SOURCE_DIR} ${HEADER_FILE})
+        
+        # Define the installation path for the header file
+        set(INSTALL_HEADER_PATH ${INC_PATH}/${REL_HEADER_PATH})
+        
+        # Copy the header file to the installation directory
+        configure_file(${HEADER_FILE} ${INSTALL_HEADER_PATH} COPYONLY)
+    endforeach()
+endforeach()
+
 # Set the installation path for your library and headers
-install(TARGETS beholder
+install(TARGETS DSMComms
     LIBRARY DESTINATION ${LIB_PATH}  # You can change this destination as needed
     ARCHIVE DESTINATION ${LIB_PATH}
     PUBLIC_HEADER DESTINATION ${INC_PATH}

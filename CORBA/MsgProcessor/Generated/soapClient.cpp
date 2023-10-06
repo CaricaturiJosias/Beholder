@@ -17,7 +17,7 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 #endif
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapClient.cpp ver 2.8.131 2023-10-04 20:46:27 GMT")
+SOAP_SOURCE_STAMP("@(#) soapClient.cpp ver 2.8.131 2023-10-06 20:03:37 GMT")
 
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, const std::string& infoId, struct bhldr__dataFormat &data)

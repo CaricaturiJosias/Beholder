@@ -16,13 +16,14 @@ sudo rm Makefile
 # Run CMake with sudo
 sudo cmake .
 
-#Clean all items in /usr/lib/beholder and /usr/include/beholder
-sudo rm -rf /usr/include/beholder/*
+#Clean all items in /usr/lib/beholder and /usr/include/DSMComms
+sudo rm -rf /usr/include/DSMComms/*
 
 # Build source
 sudo make install -s || true
 
 # Make sure the library is available at ${HOME}/lib
+ls /usr/include/DSMComms/
 
 # username="$SUDO_USER"
 # script_path="./buildcorba.sh"

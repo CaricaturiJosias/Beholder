@@ -24,10 +24,10 @@ SOURCES.cpp = \
 BINDIR = ${CORBA_DIR}/bin
 IDLDIR = ${CORBA_DIR}/idl
 
-INCLUDEDIR = /usr/include/beholder
+INCLUDEDIR = /usr/include/DSMComms
 
 INCLUDES  = $(IDLDIR) $(ACE_ROOT) $(TAO_ROOT) $(TAO_ROOT)/orbsvcs
-LIBRARIES = ACE TAO TAO_CosNaming TAO_AnyTypeCode TAO_IORTable beholder
+LIBRARIES = ACE TAO TAO_CosNaming TAO_AnyTypeCode TAO_IORTable DSMComms
 LIB_DIRS  = $(ACE_ROOT)/lib $(HOME)/lib
 
 # Derived variables

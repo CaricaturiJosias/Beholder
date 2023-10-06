@@ -126,7 +126,7 @@ namespace LocalMachine {
         return nullptr;
     }
 
-    bool SchemaUtils::SaveData(void * dataPointer, Information::Information data) {
+    bool SchemaUtils::SaveData(Message::BaseMsg message, Information::Information data) {
         return true;
     }
 
