@@ -1,106 +1,101 @@
-# CMakeLists.txt in DSMComms/ (Main CMakeLists.txt)
-
-# Set the minimum required CMake version
 cmake_minimum_required(VERSION 3.12)
-
-# Set the project name
 project(DSMComms)
-set(PROJECT_VERSION 1.0.0)
 
 # Set the C++ standard
 set(CMAKE_CXX_STANDARD 20)
 
-set (LIB_PATH "${HOME}/lib/")
-set (INC_PATH "/usr/include/DSMComms/")
+set (CORBA_DIR "${PROJECT_DIR}/DSMComms")
 
-set(LIB_DIRS
-    DataModels
-    Entities
-    3PP
-    MessageProcessing
-    LocalHelpers        
-)
-
-# To make simplified include
-set (SRC_DIR ${CMAKE_SOURCE_DIR}/DSMComms)
-set(SRC_DIRS
-    ${SRC_DIR}/3PP/Pugi
-    ${SRC_DIR}/DataModels/Information
-    ${SRC_DIR}/DataModels/Msg
-    ${SRC_DIR}/DataModels/Msg/Base
-    ${SRC_DIR}/Entities
-    ${SRC_DIR}/Entities/Base
-    ${SRC_DIR}/LocalHelpers/MachineUtils
-    ${SRC_DIR}/LocalHelpers/MachineUtils/SchemaHelpers/
-    ${SRC_DIR}/LocalHelpers/VirtualTable
-    ${SRC_DIR}/MessageProcessing/Beholder
-    ${SRC_DIR}/MessageProcessing/MsgProcessor
-    # Add other include directories as needed
-)
-include_directories( PUBLIC ${SRC_DIRS} )
-
-# HARDCODED BECAUSE CMAKE DOES NOT LIKE IT WHEN I TRY TO DO STUFF
-set (MAIN_SOURCES
-    ${SRC_DIR}/3PP/Pugi/pugixml.cpp
-    ${SRC_DIR}/DataModels/Information/Information.cxx
-    ${SRC_DIR}/DataModels/Msg/Base/BaseMsg.cxx
-    ${SRC_DIR}/DataModels/Msg/GenericMsg.cxx
-    ${SRC_DIR}/DataModels/Msg/SOAPMsg.cxx
-    ${SRC_DIR}/Entities/Base/Entity.cxx
-    ${SRC_DIR}/Entities/EntityManager.cxx
-    ${SRC_DIR}/LocalHelpers/MachineUtils/Machine.cxx
-    ${SRC_DIR}/LocalHelpers/MachineUtils/MachineUtils.cxx
-    ${SRC_DIR}/LocalHelpers/MachineUtils/SchemaHelpers/SchemaUtils.cxx
-    ${SRC_DIR}/LocalHelpers/VirtualTable/VirtualTable.cxx
-    ${SRC_DIR}/MessageProcessing/Beholder/Beholder.cxx
-    ${SRC_DIR}/MessageProcessing/MsgProcessor/MsgProcessor.cxx
-)
-
-# Loop through the library directories and add them using add_subdirectory
-foreach(lib_dir ${LIB_DIRS})
-    add_subdirectory(${lib_dir})
-endforeach()
-
-# Use find_library to locate libavrocpp.so in /usr/local/lib
-find_library(AVROCPP_LIBRARY
-    NAMES avrocpp
-    PATHS /usr/lib/
-)
-
-add_library(DSMComms SHARED ${MAIN_SOURCES})
-target_include_directories(DSMComms PUBLIC ${SRC_DIRS})
-target_link_libraries(DSMComms PRIVATE ${AVROCPP_LIBRARY})
-
-# Generate the .so file
-if(UNIX AND NOT APPLE)
-    set_target_properties(DSMComms PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY "$ENV{HOME}/lib"
-        PREFIX "lib"
-    )
+if (NOT DEFINED ACE_ROOT)
+    set (ACE_ROOT "/home/cezario/Dev/ACE_wrappers")
 endif()
 
-include(GNUInstallDirs)
+if (NOT DEFINED TAO_ROOT)
+    set(TAO_ROOT "/home/cezario/Dev/ACE_wrappers/TAO")
+endif()
 
-# Iterate through the header directories and copy header files to INC_PATH
-foreach(HEADER_DIR ${SRC_DIRS})
-    file(GLOB HEADER_FILES ${HEADER_DIR}/*.h)  # Adjust the extension if needed
+set(BINDIR "${CORBA_DIR}/bin")
+set(IDLDIR "${CORBA_DIR}/idl")
+set(COMMONDIR "${CORBA_DIR}/common")
 
-    foreach(HEADER_FILE ${HEADER_FILES})
-        # Get the relative path of the header file (stripping the source directory)
-        file(RELATIVE_PATH REL_HEADER_PATH ${CMAKE_SOURCE_DIR} ${HEADER_FILE})
-        
-        # Define the installation path for the header file
-        set(INSTALL_HEADER_PATH ${INC_PATH}/${REL_HEADER_PATH})
-        
-        # Copy the header file to the installation directory
-        configure_file(${HEADER_FILE} ${INSTALL_HEADER_PATH} COPYONLY)
-    endforeach()
+link_directories(
+    $ENV{ACE_ROOT}/ace
+    $ENV{ACE_ROOT}/lib
+    $ENV{ACE_ROOT}
+    $ENV{TAO_ROOT}/tao
+    $ENV{TAO_ROOT}/lib
+    $ENV{ACE_ROOT}
+)
+
+set(IDL_FILES ${IDLDIR}/Beholder.idl)
+set(COMMON_FILES )
+
+set(INCLUDES
+    ${IDLDIR}
+    $ENV{ACE_ROOT}
+    "$ENV{ACE_ROOT}/ace"
+    $ENV{TAO_ROOT}
+    "$ENV{TAO_ROOT}/tao"
+    "$ENV{ACE_ROOT}/lib"
+    "$ENV{TAO_ROOT}/lib"
+    "$ENV{ACE_ROOT}/include"
+    "$ENV{TAO_ROOT}/include"
+    ${TAO_ROOT}/orbsvc
+)
+
+## Rules for stubs/skeletons (not needed for CMake, handled manually).
+
+# Add a custom command to generate stubs/skeletons for each IDL file
+foreach(IDL_FILE ${IDL_FILES})
+    get_filename_component(IDL_FILENAME ${IDL_FILE} NAME)
+    add_custom_command(
+        OUTPUT ${IDL_FILENAME}C.cpp
+        COMMAND tao_idl -Gstl -w -I${IDLDIR} -o ${IDLDIR} ${IDL_FILE}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        DEPENDS ${IDL_FILE}
+        message("Generating stubs/skeletons for ${IDL_FILENAME}")
+    )
 endforeach()
 
-# Set the installation path for your library and headers
-install(TARGETS DSMComms
-    LIBRARY DESTINATION ${LIB_PATH}  # You can change this destination as needed
-    ARCHIVE DESTINATION ${LIB_PATH}
-    PUBLIC_HEADER DESTINATION ${INC_PATH}
-)  # Specify the desired installation directory for libraries
+# Create a custom target to generate stubs/skeletons
+add_custom_target(generate_stubs_skeletons
+    DEPENDS ${IDL_FILES}  # Add your IDL files as dependencies
+)
 
+# Add the generated files to the list of sources for the target
+set(GENERATED_FILES)
+foreach(IDL_FILE ${IDL_FILES})
+    get_filename_component(IDL_FILENAME ${IDL_FILE} NAME_WE)
+    list(APPEND GENERATED_FILES ${IDLDIR}/${IDL_FILENAME}C.cpp)
+endforeach()
+
+# Build Beholder/ project as it is needed for the DSMComms ones
+message("Building the source files")
+add_custom_target(BuildBeholder
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target Beholder
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
+add_subdirectory(MsgProcessor)
+
+# For cliente
+include(ExternalProject)
+
+# ExternalProject_Add(
+#     cliente
+#     PREFIX ${PROJECT_DIR}/build/cliente/
+#     DOWNLOAD_COMMAND ""  # No download step, since it's already in the source tree
+#     CONFIGURE_COMMAND ""
+#     BUILD_COMMAND make -C ${CORBA_DIR}/cliente/ 
+#     INSTALL_COMMAND make -C ${CORBA_DIR}/cliente/ install
+# )
+
+# # For servidor
+# ExternalProject_Add(
+#     servidor
+#     PREFIX ${PROJECT_DIR}/build/servidor/
+#     DOWNLOAD_COMMAND ""  # No download step, since it's already in the source tree
+#     CONFIGURE_COMMAND ""
+#     BUILD_COMMAND make -C ${CORBA_DIR}/servidor
+#     INSTALL_COMMAND make -C ${CORBA_DIR}/servidor/ install
+# )

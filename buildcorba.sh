@@ -3,10 +3,10 @@
 # Change to the directory where your CMakeLists.txt is located
 cd /home/cezario/Dev/Beholder
 
-# Go to CORBA client
+# Go to DSMComms client
 
 # Build cliente
-cd CORBA/cliente
+cd DSMComms/cliente
 make clean -s
 make -s
 

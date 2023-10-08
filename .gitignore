@@ -13,8 +13,8 @@ Makefile
 *platform_macros.GNU
 *CMakeCache.txt
 *tmp/
-*CORBA/common/*.so
-*CORBA/common/*.hh
-*CORBA/common/*.hxx
-*CORBA/common/include/*
-CORBA/common/lib/*
+*DSMComms/common/*.so
+*DSMComms/common/*.hh
+*DSMComms/common/*.hxx
+*DSMComms/common/include/*
+DSMComms/common/lib/*

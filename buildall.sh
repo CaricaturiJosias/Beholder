@@ -16,14 +16,15 @@ sudo rm Makefile
 # Run CMake with sudo
 sudo cmake .
 
-#Clean all items in /usr/lib/beholder and /usr/include/DSMComms
-sudo rm -rf /usr/include/DSMComms/*
+#Clean all items in /usr/lib/beholder and /usr/include/Beholder
+sudo rm -rf /usr/include/Beholder/*
 
 # Build source
 sudo make install -s || true
 
-# Make sure the library is available at ${HOME}/lib
-ls /usr/include/DSMComms/
+# Build the MsgProcessor (SOAP) code
+cd DSMComms/MsgProcessor
+sudo make -s
 
 # username="$SUDO_USER"
 # script_path="./buildcorba.sh"

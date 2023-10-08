@@ -2,13 +2,13 @@
 Course completion thesis work
 
 Folder structure
-CORBA/
+DSMComms/
     bin/
         Makefile
     cliente/
         cliente.cpp
         Makefile
-DSMComms/
+Beholder/
     DataModels/
         Information/
             Information.cxx
