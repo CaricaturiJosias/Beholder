@@ -8,6 +8,7 @@ cd /home/cezario/Dev/Beholder
 # Build cliente
 cd DSMComms/cliente
 make clean -s
+make install -s
 make -s
 
 # Build servidor

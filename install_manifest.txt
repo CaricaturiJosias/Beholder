@@ -1,4 +1,4 @@
-/lib/libBeholder.so
+/home/cezario/lib/libBeholder.so
 /usr/include/Beholder/Information.hxx
 /usr/include/Beholder/BaseMsg.hxx
 /usr/include/Beholder/GenericMsg.hxx

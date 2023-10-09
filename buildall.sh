@@ -22,10 +22,6 @@ sudo rm -rf /usr/include/Beholder/*
 # Build source
 sudo make install -s || true
 
-# Build the MsgProcessor (SOAP) code
-cd DSMComms/MsgProcessor
-sudo make -s
-
 # username="$SUDO_USER"
 # script_path="./buildcorba.sh"
 # echo "User: ${username}"

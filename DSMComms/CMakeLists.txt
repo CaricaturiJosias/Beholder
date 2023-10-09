@@ -76,8 +76,6 @@ add_custom_target(BuildBeholder
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
-add_subdirectory(MsgProcessor)
-
 # For cliente
 include(ExternalProject)
 
