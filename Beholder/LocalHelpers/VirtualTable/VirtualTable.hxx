@@ -11,20 +11,44 @@
 
 #pragma once
 
+#include <Information.hxx>
 #include "time.h"
 #include <cstdint>
 #include <string>
 #include <memory>
+#include <vector>
 #include <set>
 #include <map>
 
 namespace LocalMachine {
 
-    // Should come after avros and openssl3
+    struct informationValue {
+        std::string id;
+        std::string value;
+        std::string quality;
+        std::string timestamp;
 
+        informationValue (Information::Information info) {
+            id = info.GetInfoId();
+            id.shrink_to_fit();
+            value = info.GetInfoValue();
+            value.shrink_to_fit();
+            quality = info.GetInfoQuality();
+            quality.shrink_to_fit();
+            timestamp = info.GetInfoTimeStamp();
+            timestamp.shrink_to_fit();
+        }
+    };
+
+    // Should come after avros and openssl3
     typedef std::string keyName;
     typedef std::string dataFilePath;
     typedef std::string EncryptionKey;
+
+    typedef std::vector<LocalMachine::informationValue> INFO_LIST;
+    typedef std::map<int32_t, INFO_LIST> BUFFER_MAP;
+
+    extern uint32_t MAX_BUFFER_SIZE;
 
     struct fileDataValue{
         dataFilePath data;
@@ -57,7 +81,7 @@ namespace LocalMachine {
 
         public:
 
-            VirtualTable * GetInstance();
+            static std::shared_ptr<VirtualTable> GetInstance();
 
             VirtualTable();
             ~VirtualTable();
@@ -70,13 +94,17 @@ namespace LocalMachine {
 
             bool StoreValue(dataFilePath value, keyName valueName, EncryptionKey encryptionKey, int32_t dataType);
 
+            BUFFER_MAP * getBuffer() { return &s_infoBuffer; }
+
         private:
             
             static double numRows;
 
             static valueMap dataMapValue;
 
-            static VirtualTable * table;
+            static std::shared_ptr<VirtualTable> table;
+
+            static BUFFER_MAP s_infoBuffer;
     };
 
 } // Namespace LocalMachine

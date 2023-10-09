@@ -19,6 +19,7 @@
 
 #include "SchemaUtils.hxx"
 
+#include <VirtualTable.hxx>
 #include <MachineUtils.hxx>
 #include <Machine.hxx>
 
@@ -52,12 +53,11 @@ namespace LocalMachine {
         std::string(DIGITAL_SCHEMA))
     };
 
-    BUFFER_MAP SchemaUtils::s_infoBuffer = {
-        {ANALOG, {}},
-        {DIGITAL, {}}
-    };
+    std::shared_ptr<LocalMachine::VirtualTable> SchemaUtils::virtualTable = nullptr;
 
-    uint32_t SchemaUtils::MAX_BUFFER_SIZE = 5;
+    SchemaUtils::SchemaUtils() {
+        virtualTable = LocalMachine::VirtualTable::GetInstance();
+    }
 
     Information::Information SchemaUtils::DecompressInfo(void * encryptedInfo) {
         return Information::Information{};
@@ -71,7 +71,7 @@ namespace LocalMachine {
         return nullptr;
     }
 
-    void * SchemaUtils::CompressData(Information::Information * data) {
+    std::string SchemaUtils::CompressData(Information::Information * data) {
         // Check if information is correct, creates pointer to stored info
         if (data->GetInfoId() == Information::DEFAULT_ID) {
             return nullptr; //Nothing to store, TODO get logging going
@@ -98,32 +98,34 @@ namespace LocalMachine {
         }
         // TODO - Remove
         std::cout << "Timestamp is valid" << std::endl;
-        BUFFER_MAP::iterator it = s_infoBuffer.find(infoDataType);
-        if (it == s_infoBuffer.end()) {
+        BUFFER_MAP * buffer = virtualTable->getBuffer();
+        BUFFER_MAP::iterator it = buffer->find(infoDataType);
+
+        if (it == buffer->end()) {
             // TODO - Log occurance
             // Does not exist in the information vectors map, error
             std::cout << "Buffer does not exist" << std::endl;
             return nullptr;
         }
 
-        INFO_LIST currentList = s_infoBuffer[infoDataType];
+        INFO_LIST currentList = (*buffer)[infoDataType];
         currentList.push_back(informationValue(*data));
 
         // TODO - Remove
         std::cout << "Buffer size: " << currentList.size() << std::endl;
 
-        if (MAX_BUFFER_SIZE == currentList.size()) {
+        if (LocalMachine::MAX_BUFFER_SIZE == currentList.size()) {
             // TODO - Remove
             std::cout << "Saving, pushing it into buffer" << std::endl;
-            StoreData(infoDataType);
-            s_infoBuffer[infoDataType].clear();
-            return nullptr;
+            std::string fileStored = StoreData(infoDataType, buffer);
+            (*buffer)[infoDataType].clear();
+            return fileStored;
         }
         // TODO - Remove
         std::cout << "Not saving, pushing it into buffer" << std::endl;
-        s_infoBuffer[infoDataType].push_back(informationValue(*data));
+        (*buffer)[infoDataType].push_back(informationValue(*data));
 
-        return nullptr;
+        return "";
     }
 
     bool SchemaUtils::SaveData(Message::BaseMsg message, Information::Information data) {
@@ -131,6 +133,12 @@ namespace LocalMachine {
     }
 
     bool SchemaUtils::SaveData(Information::Information data) {
+        if (data.empty()) {
+            // Log error
+            return false;
+        }
+        std::string compressedPath = CompressData(&data);
+        std::cout << "compressed Path : " << compressedPath << std::endl;
         return true;
     }
     
@@ -193,16 +201,15 @@ namespace LocalMachine {
         writerInstance.close();
     }
 
-    bool SchemaUtils::StoreData(int32_t infoDataType) {
+    std::string SchemaUtils::StoreData(int32_t infoDataType, LocalMachine::BUFFER_MAP * buffer) {
         
-        struct stat buffer; 
         std::filesystem::path schemaPath = GetSchema(infoDataType);
         std::ifstream schemaStream(schemaPath);
 
         if (schemaPath == UNKNOWN_TYPE) {
             // LOG - We MUST log this scenario
             std::cout << "Will not save data" << std::endl;
-            return false;
+            return "";
         }
         std::filesystem::path storageLocation(Machine::GetStoragePath());
         std::filesystem::path tempFile = storageLocation / "data.tmp";
@@ -224,7 +231,7 @@ namespace LocalMachine {
             populateWriter<c::Analog>(
                         writerInstance,
                         analog,
-                        s_infoBuffer[infoDataType],
+                        (*buffer)[infoDataType],
                         infoDataType);
         } else {
             // DIGITAL
@@ -236,7 +243,7 @@ namespace LocalMachine {
             populateWriter<c::Digital>(
                         writerInstance,
                         digital,
-                        s_infoBuffer[infoDataType],
+                        (*buffer)[infoDataType],
                         infoDataType);
         }
         // Saving file here
@@ -257,9 +264,8 @@ namespace LocalMachine {
         // We have the id
 
         std::filesystem::copy_file(tempFile, targetFile, std::filesystem::copy_options::overwrite_existing );
-        
-        std::shared_ptr<VirtualTable> virtualTable = Machine::Machine::GetVirtualTable();
 
-        return virtualTable->StoreValue(targetFile, fileId, infoDataType);
+        bool success = virtualTable->StoreValue(targetFile, fileId, infoDataType);
+        return targetFile;
     }
 };

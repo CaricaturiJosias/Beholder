@@ -16,67 +16,46 @@
 #include <cstdint>
 #include <filesystem>
 
-#include <Entity.hxx>
 #include <Information.hxx>
 #include <BaseMsg.hxx>
 #include <VirtualTable.hxx>
+#include <Entity.hxx>
 
 namespace LocalMachine {
 
     typedef std::map<std::string,std::string> SCHEMA_MAP;
 
-    struct informationValue {
-        std::string id;
-        std::string value;
-        std::string quality;
-        std::string timestamp;
-
-        informationValue (Information::Information info) {
-            id = info.GetInfoId();
-            id.shrink_to_fit();
-            value = info.GetInfoValue();
-            value.shrink_to_fit();
-            quality = info.GetInfoQuality();
-            quality.shrink_to_fit();
-            timestamp = info.GetInfoTimeStamp();
-            timestamp.shrink_to_fit();
-        }
-    };
-
-    typedef std::vector<informationValue> INFO_LIST;
-    typedef std::map<int32_t, INFO_LIST> BUFFER_MAP;
-
     class SchemaUtils { //  Acts like an interface
 
         public:
 
-            static Information::Information DecompressInfo(void * encryptedInfo);
+            SchemaUtils();
 
-            static void * DecryptInfo(void * encryptedInfo);
+            Information::Information DecompressInfo(void * encryptedInfo);
 
-            static void * EncryptCompressedData(void * compressedInfo);
+            void * DecryptInfo(void * encryptedInfo);
 
-            static void * CompressData(Information::Information * data);
+            void * EncryptCompressedData(void * compressedInfo);
 
-            static bool SaveData(Message::BaseMsg message, Information::Information data);
+            std::string CompressData(Information::Information * data);
 
-            static bool SaveData(Information::Information data);
+            bool SaveData(Message::BaseMsg message, Information::Information data);
 
-            static std::filesystem::path GetSchema(int32_t inputType);
+            bool SaveData(Information::Information data);
+
+            std::filesystem::path GetSchema(int32_t inputType);
 
         private:
 
-            static bool CheckSchema(std::string schemaLoc);
+            bool CheckSchema(std::string schemaLoc);
 
-            static bool SchemaExists(std::string schemaName);
+            bool SchemaExists(std::string schemaName);
 
-            static bool StoreData(int32_t inputType);
+            std::string StoreData(int32_t inputType, LocalMachine::BUFFER_MAP * buffer);
 
             static SCHEMA_MAP s_schemaMap;
 
-            static BUFFER_MAP s_infoBuffer;
-
-            static uint32_t MAX_BUFFER_SIZE;
+            static std::shared_ptr<LocalMachine::VirtualTable> virtualTable;
 
     };
 

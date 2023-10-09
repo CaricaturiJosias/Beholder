@@ -38,6 +38,8 @@ class Information {
         Information(std::string id, std::string value, std::string timestamp, std::string a_quality, int32_t dataType);
         ~Information();
 
+        bool empty();
+
         std::string GetInfoId();
         std::string GetInfoValue();
         std::string GetInfoTimeStamp();

@@ -25,8 +25,8 @@
 // TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_codegen.cpp:631
 
-#ifndef _TAO_IDL__HOME_CEZARIO_DEV_BEHOLDER_CORBA_IDL_BEHOLDERS_CFK1VM_CPP_
-#define _TAO_IDL__HOME_CEZARIO_DEV_BEHOLDER_CORBA_IDL_BEHOLDERS_CFK1VM_CPP_
+#ifndef _TAO_IDL_BEHOLDERS_F06XRK_CPP_
+#define _TAO_IDL_BEHOLDERS_F06XRK_CPP_
 
 
 #include "BeholderS.h"
@@ -78,8 +78,8 @@ TAO_DSMComms_POA_Beholder_Perfect_Hash_OpTable::hash (const char *str, unsigned 
      19, 19, 19, 19, 19, 19,  0, 19, 19, 19,
      19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
      19, 19, 19, 19, 19,  0, 19,  0, 19, 19,
-      0,  5, 19,  5, 19, 19, 19, 19,  0, 19,
-     19, 19, 19, 19, 19, 19,  0, 19, 19, 19,
+      0,  0, 19,  0, 19, 19, 19, 19,  0, 19,
+     19, 19, 19, 19, 19,  2,  5, 19, 19, 19,
      19, 19, 19, 19, 19, 19, 19, 19,
     };
   return len + asso_values[static_cast<int>(str[len - 1])] + asso_values[static_cast<int>(str[0])];
@@ -90,29 +90,31 @@ TAO_DSMComms_POA_Beholder_Perfect_Hash_OpTable::lookup (const char *str, unsigne
 {
   enum
     {
-      TOTAL_KEYWORDS = 7,
+      TOTAL_KEYWORDS = 8,
       MIN_WORD_LENGTH = 5,
       MAX_WORD_LENGTH = 14,
       MIN_HASH_VALUE = 5,
       MAX_HASH_VALUE = 18,
       HASH_VALUE_RANGE = 14,
       DUPLICATES = 0,
-      WORDLIST_SIZE = 12
+      WORDLIST_SIZE = 13
     };
 
   static const TAO_operation_db_entry wordlist[] =
     {
       {"",0,0},{"",0,0},{"",0,0},{"",0,0},{"",0,0},
       {"_is_a", std::addressof(TAO_ServantBase::_is_a_thru_poa_skel), nullptr},
-      {"",0,0},{"",0,0},{"",0,0},{"",0,0},
-      {"_component", std::addressof(TAO_ServantBase::_component_thru_poa_skel), nullptr},
-      {"LogEventAll", std::addressof(POA_DSMComms::POA_Beholder::LogEventAll_skel), nullptr},
-      {"",0,0},
-      {"_non_existent", std::addressof(TAO_ServantBase::_non_existent_thru_poa_skel), nullptr},
-      {"_repository_id", std::addressof(TAO_ServantBase::_repository_id_thru_poa_skel), nullptr},
-      {"_interface", std::addressof(TAO_ServantBase::_interface_skel), nullptr},
       {"",0,0},{"",0,0},
       {"getValue", std::addressof(POA_DSMComms::POA_Beholder::getValue_skel), nullptr},
+      {"",0,0},
+      {"_interface", std::addressof(TAO_ServantBase::_interface_skel), nullptr},
+      {"LogEventAll", std::addressof(POA_DSMComms::POA_Beholder::LogEventAll_skel), nullptr},
+      {"storeValue", std::addressof(POA_DSMComms::POA_Beholder::storeValue_skel), nullptr},
+      {"",0,0},
+      {"_repository_id", std::addressof(TAO_ServantBase::_repository_id_thru_poa_skel), nullptr},
+      {"_component", std::addressof(TAO_ServantBase::_component_thru_poa_skel), nullptr},
+      {"",0,0},{"",0,0},
+      {"_non_existent", std::addressof(TAO_ServantBase::_non_existent_thru_poa_skel), nullptr},
     };
 
   if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)
@@ -173,8 +175,8 @@ namespace POA_DSMComms
 
     void execute () override
     {
-      TAO::SArg_Traits< std::string>::in_arg_type arg_1 =
-        TAO::Portable_Server::get_in_arg< std::string> (
+      TAO::SArg_Traits< char *>::in_arg_type arg_1 =
+        TAO::Portable_Server::get_in_arg< char *> (
           this->operation_details_,
           this->args_,
           1);
@@ -204,7 +206,7 @@ void POA_DSMComms::POA_Beholder::LogEventAll_skel (
   TAO::Portable_Server::Servant_Upcall *TAO_INTERCEPTOR (servant_upcall),
   TAO_ServantBase *servant)
 {TAO::SArg_Traits< void>::ret_val retval;
-  TAO::SArg_Traits< std::string>::in_arg_val _tao_valor;
+  TAO::SArg_Traits< char *>::in_arg_val _tao_valor;
   TAO::SArg_Traits< ::DSMComms::EventEnum>::in_arg_val _tao_event;
 
   TAO::Argument * const args[] =
@@ -263,8 +265,8 @@ namespace POA_DSMComms
 
     void execute () override
     {
-      TAO::SArg_Traits< std::string>::in_arg_type arg_1 =
-        TAO::Portable_Server::get_in_arg< std::string> (
+      TAO::SArg_Traits< char *>::in_arg_type arg_1 =
+        TAO::Portable_Server::get_in_arg< char *> (
           this->operation_details_,
           this->args_,
           1);
@@ -275,9 +277,16 @@ namespace POA_DSMComms
           this->args_,
           2);
         
+      TAO::SArg_Traits< ::DSMComms::DataType>::in_arg_type arg_3 =
+        TAO::Portable_Server::get_in_arg< ::DSMComms::DataType> (
+          this->operation_details_,
+          this->args_,
+          3);
+        
       this->servant_->getValue (
         arg_1
-        , arg_2);
+        , arg_2
+        , arg_3);
     }
   
   private:
@@ -294,14 +303,16 @@ void POA_DSMComms::POA_Beholder::getValue_skel (
   TAO::Portable_Server::Servant_Upcall *TAO_INTERCEPTOR (servant_upcall),
   TAO_ServantBase *servant)
 {TAO::SArg_Traits< void>::ret_val retval;
-  TAO::SArg_Traits< std::string>::in_arg_val _tao_valueId;
+  TAO::SArg_Traits< char *>::in_arg_val _tao_valueId;
   TAO::SArg_Traits< ::DSMComms::Value>::out_arg_val _tao_toGetValue;
+  TAO::SArg_Traits< ::DSMComms::DataType>::in_arg_val _tao_type;
 
   TAO::Argument * const args[] =
     {
       std::addressof(retval),
       std::addressof(_tao_valueId),
-      std::addressof(_tao_toGetValue)
+      std::addressof(_tao_toGetValue),
+      std::addressof(_tao_type)
     };
   
   POA_DSMComms::POA_Beholder * const impl =
@@ -320,7 +331,106 @@ void POA_DSMComms::POA_Beholder::getValue_skel (
   TAO::Upcall_Wrapper upcall_wrapper;
   upcall_wrapper.upcall (server_request
                          , args
-                         , 3
+                         , 4
+                         , command
+#if TAO_HAS_INTERCEPTORS == 1
+                         , servant_upcall
+                         , nullptr
+                         , 0
+#endif  /* TAO_HAS_INTERCEPTORS == 1 */
+                         );
+}
+
+
+namespace POA_DSMComms
+{
+  
+  // TAO_IDL - Generated from
+  // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_operation/upcall_command_ss.cpp:79
+
+  class storeValue_POA_Beholder
+    : public TAO::Upcall_Command
+  {
+  public:
+    inline storeValue_POA_Beholder (
+      POA_DSMComms::POA_Beholder * servant,
+      TAO_Operation_Details const * operation_details,
+      TAO::Argument * const args[])
+      : servant_ (servant)
+        , operation_details_ (operation_details)
+        , args_ (args)
+    {
+    }
+
+    void execute () override
+    {
+      TAO::SArg_Traits< char *>::in_arg_type arg_1 =
+        TAO::Portable_Server::get_in_arg< char *> (
+          this->operation_details_,
+          this->args_,
+          1);
+        
+      TAO::SArg_Traits< ::DSMComms::Value>::in_arg_type arg_2 =
+        TAO::Portable_Server::get_in_arg< ::DSMComms::Value> (
+          this->operation_details_,
+          this->args_,
+          2);
+        
+      TAO::SArg_Traits< ::DSMComms::DataType>::in_arg_type arg_3 =
+        TAO::Portable_Server::get_in_arg< ::DSMComms::DataType> (
+          this->operation_details_,
+          this->args_,
+          3);
+        
+      this->servant_->storeValue (
+        arg_1
+        , arg_2
+        , arg_3);
+    }
+  
+  private:
+    POA_DSMComms::POA_Beholder * const servant_;
+    TAO_Operation_Details const * const operation_details_;
+    TAO::Argument * const * const args_;
+  };
+}
+// TAO_IDL - Generated from
+// /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_operation/operation_ss.cpp:167
+
+void POA_DSMComms::POA_Beholder::storeValue_skel (
+  TAO_ServerRequest & server_request,
+  TAO::Portable_Server::Servant_Upcall *TAO_INTERCEPTOR (servant_upcall),
+  TAO_ServantBase *servant)
+{TAO::SArg_Traits< void>::ret_val retval;
+  TAO::SArg_Traits< char *>::in_arg_val _tao_valueId;
+  TAO::SArg_Traits< ::DSMComms::Value>::in_arg_val _tao_toGetValue;
+  TAO::SArg_Traits< ::DSMComms::DataType>::in_arg_val _tao_type;
+
+  TAO::Argument * const args[] =
+    {
+      std::addressof(retval),
+      std::addressof(_tao_valueId),
+      std::addressof(_tao_toGetValue),
+      std::addressof(_tao_type)
+    };
+  
+  POA_DSMComms::POA_Beholder * const impl =
+    dynamic_cast<POA_DSMComms::POA_Beholder *> (servant);
+
+  if (!impl)
+    {
+      throw ::CORBA::INTERNAL ();
+    }
+
+  storeValue_POA_Beholder command (
+    impl,
+    server_request.operation_details (),
+    args);
+  
+  TAO::Upcall_Wrapper upcall_wrapper;
+  upcall_wrapper.upcall (server_request
+                         , args
+                         , 4
                          , command
 #if TAO_HAS_INTERCEPTORS == 1
                          , servant_upcall

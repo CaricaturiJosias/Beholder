@@ -60,7 +60,8 @@ namespace LocalMachine {
         return true;
     }
 
-    void MachineUtils::UpdateTable(void * data, Entity::Entity dataOwner) {
+    void MachineUtils::UpdateTable(Information::Information information, Entity::Entity dataOwner) {
+        
         return;
     }
 

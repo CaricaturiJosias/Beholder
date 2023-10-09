@@ -66,12 +66,6 @@ find_path(GSOAP_INCLUDE_DIR
 	DOC "The gsoap include directory"
 )
 
-find_path(GSOAP_PLUGIN_DIR
-	NAMES threads.h
-	HINTS "/home/cezario/soap/gsoap-2.8/gsoap/plugin/"
-	DOC "The gsoap include directory"
-)
-
 # -----------------------------------------------------
 # GSOAP Binaries
 # ----------------------------------------------------

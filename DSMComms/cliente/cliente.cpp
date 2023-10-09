@@ -1,17 +1,13 @@
 //
-// CLIENTE DE Beholder BANCÁRIA SIMPLES
-//
-// Arquitetura de Sistemas Distribuídos, Paralelos e Concorrentes
-// Escola Politécnica -- PUCPR
-// Prof. Luiz Lima Jr. (laplima@ppgia.pucpr.br)
+// cliente da aplicação Beholder
 //
 
 #include <iostream>
 #include <string>
-#include <Beholder/SchemaUtils.hxx>
-#include <Beholder/Information.hxx>
-#include <Beholder/Machine.hxx>
-#include "BeholderC.h"
+#include <DSMComms/SchemaUtils.hxx>
+#include <DSMComms/Information.hxx>
+#include <DSMComms/Machine.hxx>
+#include "../idl/BeholderC.h"
 
 using namespace std;
 using namespace DSMComms;
@@ -45,14 +41,13 @@ int main(int argc, char* argv[])
 		int a = 1;
 		do {
 			for (int n = 1; n < 20; n++)  {
-				Information::Information * info = new Information::Information(
-					std::to_string(n),
-					"1.1",
-					"2023-10-01 11:31:42",
-					"2",
-					Information::ANALOG
-				);
-				LocalMachine::SchemaUtils::CompressData(info);
+				const char * valueId = std::to_string(n).c_str();
+				DSMComms::Value valueInstance;
+				valueInstance.storedValue = n;
+				valueInstance.timestamp = 123234234;
+				DSMComms::DataType type = DSMComms::ANALOG;
+				Beholder->storeValue(valueId, valueInstance, type);
+				// LocalMachine::SchemaUtils::CompressData(info);
 			}
 			command = "fim";
 		} while (command != "fim");

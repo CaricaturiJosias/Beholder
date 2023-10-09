@@ -10,7 +10,7 @@ set(PROJECT_VERSION 1.0.0)
 # Set the C++ standard
 set(CMAKE_CXX_STANDARD 20)
 
-set (LIB_PATH "${HOME}/lib/")
+set (LIB_PATH "/home/cezario/lib/")
 set (INC_PATH "/usr/include/Beholder/")
 
 set(LIB_DIRS
@@ -72,13 +72,13 @@ add_library(Beholder SHARED ${MAIN_SOURCES})
 target_include_directories(Beholder PUBLIC ${SRC_DIRS})
 target_link_libraries(Beholder PRIVATE ${AVROCPP_LIBRARY})
 
-# Generate the .so file
-if(UNIX AND NOT APPLE)
-    set_target_properties(Beholder PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY "$ENV{HOME}/lib"
-        PREFIX "lib"
-    )
-endif()
+# # Generate the .so file
+# if(UNIX AND NOT APPLE)
+#     set_target_properties(Beholder PROPERTIES
+#         LIBRARY_OUTPUT_DIRECTORY ${LIB_PATH}
+#         PREFIX "lib"
+#     )
+# endif()
 
 include(GNUInstallDirs)
 
@@ -100,7 +100,7 @@ endforeach()
 
 # Set the installation path for your library and headers
 install(TARGETS Beholder
-    LIBRARY DESTINATION ${LIB_PATH}  # You can change this destination as needed
+    LIBRARY DESTINATION ${LIB_PATH}
     ARCHIVE DESTINATION ${LIB_PATH}
     PUBLIC_HEADER DESTINATION ${INC_PATH}
 )  # Specify the desired installation directory for libraries

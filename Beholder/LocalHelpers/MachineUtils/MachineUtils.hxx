@@ -66,7 +66,7 @@ namespace LocalMachine {
 
             static bool SaveData(std::string filePath);
 
-            static void UpdateTable(void * data, Entity::Entity dataOwner);
+            static  void UpdateTable(Information::Information information, Entity::Entity dataOwner);
 
             static Information::Information LookUpData(Message::BaseMsg data);
 

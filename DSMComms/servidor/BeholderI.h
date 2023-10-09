@@ -12,11 +12,12 @@ class  Beholder_i  : public virtual POA_DSMComms::POA_Beholder {
 public:
 
     Beholder_i (const std::string& id);
-    virtual ~Beholder_i () {}
+    ~Beholder_i () {}
 
-    virtual void LogEventAll(const std::string valor, DSMComms::EventEnum event);
-    virtual void getValue(const std::string valueId, DSMComms::Value_out toGetValue);
-    virtual void shutdown (const std::string password);
+    void LogEventAll(const char * valor, ::DSMComms::EventEnum event);
+    void getValue(const char * valueId, ::DSMComms::Value_out toGetValue, ::DSMComms::DataType type);
+    void storeValue(const char * valueId, const ::DSMComms::Value & toGetValue, ::DSMComms::DataType type);
+    void shutdown (const std::string password);
 
 private:
 

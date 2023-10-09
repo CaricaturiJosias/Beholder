@@ -25,8 +25,8 @@
 // TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_codegen.cpp:454
 
-#ifndef _TAO_IDL__HOME_CEZARIO_DEV_BEHOLDER_CORBA_IDL_BEHOLDERS_CFK1VM_H_
-#define _TAO_IDL__HOME_CEZARIO_DEV_BEHOLDER_CORBA_IDL_BEHOLDERS_CFK1VM_H_
+#ifndef _TAO_IDL_BEHOLDERS_F06XRK_H_
+#define _TAO_IDL_BEHOLDERS_F06XRK_H_
 
 
 #include "BeholderC.h"
@@ -67,6 +67,20 @@ namespace TAO
     : public
         Basic_SArg_Traits_T<
             ::DSMComms::EventEnum,
+            TAO::Any_Insert_Policy_Stream
+          >
+  {
+  };
+  // TAO_IDL - Generated from
+  // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_arg_traits.cpp:889
+
+  
+
+  template<>
+  class SArg_Traits< ::DSMComms::DataType>
+    : public
+        Basic_SArg_Traits_T<
+            ::DSMComms::DataType,
             TAO::Any_Insert_Policy_Stream
           >
   {
@@ -153,7 +167,7 @@ namespace POA_DSMComms
     // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_operation/operation_sh.cpp:35
 
     virtual void LogEventAll (
-      const std::string valor,
+      const char * valor,
       ::DSMComms::EventEnum event) = 0;
 
     static void LogEventAll_skel (
@@ -164,10 +178,23 @@ namespace POA_DSMComms
     // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_operation/operation_sh.cpp:35
 
     virtual void getValue (
-      const std::string valueId,
-      ::DSMComms::Value_out toGetValue) = 0;
+      const char * valueId,
+      ::DSMComms::Value_out toGetValue,
+      ::DSMComms::DataType type) = 0;
 
     static void getValue_skel (
+        TAO_ServerRequest &server_request,
+        TAO::Portable_Server::Servant_Upcall *servant_upcall,
+        TAO_ServantBase *servant);
+    // TAO_IDL - Generated from
+    // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_operation/operation_sh.cpp:35
+
+    virtual void storeValue (
+      const char * valueId,
+      const ::DSMComms::Value & toGetValue,
+      ::DSMComms::DataType type) = 0;
+
+    static void storeValue_skel (
         TAO_ServerRequest &server_request,
         TAO::Portable_Server::Servant_Upcall *servant_upcall,
         TAO_ServantBase *servant);

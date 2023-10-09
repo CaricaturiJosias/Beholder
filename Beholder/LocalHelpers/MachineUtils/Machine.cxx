@@ -26,7 +26,7 @@ namespace LocalMachine {
 
     std::shared_ptr<VirtualTable> Machine::GetVirtualTable() {
         if (s_virtualTable == nullptr) {
-            s_virtualTable.reset(new VirtualTable());
+            s_virtualTable = LocalMachine::VirtualTable::GetInstance();
         }
         return s_virtualTable;
     }

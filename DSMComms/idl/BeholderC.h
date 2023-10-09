@@ -25,8 +25,8 @@
 // TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_codegen.cpp:148
 
-#ifndef _TAO_IDL__HOME_CEZARIO_DEV_BEHOLDER_CORBA_IDL_BEHOLDERC_QCENMP_H_
-#define _TAO_IDL__HOME_CEZARIO_DEV_BEHOLDER_CORBA_IDL_BEHOLDERC_QCENMP_H_
+#ifndef _TAO_IDL_BEHOLDERC_F06XRK_H_
+#define _TAO_IDL_BEHOLDERC_F06XRK_H_
 
 
 #include /**/ "ace/config-all.h"
@@ -35,9 +35,6 @@
 # pragma once
 #endif /* ACE_LACKS_PRAGMA_ONCE */
 
-
-#include <string>
-#include <vector>
 
 #include "tao/AnyTypeCode/AnyTypeCode_methods.h"
 #include "tao/AnyTypeCode/Any.h"
@@ -98,6 +95,21 @@ namespace DSMComms
   // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_typecode/typecode_decl.cpp:33
 
   extern  ::CORBA::TypeCode_ptr const _tc_EventEnum;
+  // TAO_IDL - Generated from
+  // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_enum/enum_ch.cpp:39
+
+  enum DataType
+  {
+    UNKNOWN,
+    ANALOG,
+    DIGITAL
+  };
+
+  typedef DataType &DataType_out;
+  // TAO_IDL - Generated from
+  // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_typecode/typecode_decl.cpp:33
+
+  extern  ::CORBA::TypeCode_ptr const _tc_DataType;
   // TAO_IDL - Generated from
   // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_type.cpp:257
 
@@ -176,12 +188,18 @@ namespace DSMComms
     static POA_Beholder_ptr _nil ();
 
     virtual void LogEventAll (
-      const std::string valor,
+      const char * valor,
       ::DSMComms::EventEnum event);
 
     virtual void getValue (
-      const std::string valueId,
-      ::DSMComms::Value_out toGetValue);
+      const char * valueId,
+      ::DSMComms::Value_out toGetValue,
+      ::DSMComms::DataType type);
+
+    virtual void storeValue (
+      const char * valueId,
+      const ::DSMComms::Value & toGetValue,
+      ::DSMComms::DataType type);
 
     
     // TAO_IDL - Generated from
@@ -248,6 +266,20 @@ namespace TAO
     : public
         Basic_Arg_Traits_T<
             ::DSMComms::EventEnum,
+            TAO::Any_Insert_Policy_Stream
+          >
+  {
+  };
+  // TAO_IDL - Generated from
+  // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_arg_traits.cpp:889
+
+  
+
+  template<>
+  class Arg_Traits< ::DSMComms::DataType>
+    : public
+        Basic_Arg_Traits_T<
+            ::DSMComms::DataType,
             TAO::Any_Insert_Policy_Stream
           >
   {
@@ -335,6 +367,21 @@ TAO_END_VERSIONED_NAMESPACE_DECL
 
 
 // TAO_IDL - Generated from
+// /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_enum/any_op_ch.cpp:31
+
+
+TAO_BEGIN_VERSIONED_NAMESPACE_DECL
+namespace CORBA {
+
+
+
+ void operator<<= (::CORBA::Any &, DSMComms::DataType);
+ ::CORBA::Boolean operator>>= (const ::CORBA::Any &, DSMComms::DataType &);
+}
+TAO_END_VERSIONED_NAMESPACE_DECL
+
+
+// TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_structure/any_op_ch.cpp:37
 
 
@@ -374,6 +421,18 @@ TAO_BEGIN_VERSIONED_NAMESPACE_DECL
 
  ::CORBA::Boolean operator<< (TAO_OutputCDR &strm, DSMComms::EventEnum _tao_enumerator);
  ::CORBA::Boolean operator>> (TAO_InputCDR &strm, DSMComms::EventEnum &_tao_enumerator);
+
+TAO_END_VERSIONED_NAMESPACE_DECL
+
+
+// TAO_IDL - Generated from
+// /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_enum/cdr_op_ch.cpp:33
+
+
+TAO_BEGIN_VERSIONED_NAMESPACE_DECL
+
+ ::CORBA::Boolean operator<< (TAO_OutputCDR &strm, DSMComms::DataType _tao_enumerator);
+ ::CORBA::Boolean operator>> (TAO_InputCDR &strm, DSMComms::DataType &_tao_enumerator);
 
 TAO_END_VERSIONED_NAMESPACE_DECL
 

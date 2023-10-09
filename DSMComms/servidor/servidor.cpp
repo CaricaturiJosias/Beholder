@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     try {
 
 		// 1. Inicia ORB
-		cout << "Inciando ORB" << endl;
+		cout << "BAH" << endl;
 		orb = CORBA::ORB_init(argc,argv,"ORB");
 
 		// 2. Ativa RootPOA

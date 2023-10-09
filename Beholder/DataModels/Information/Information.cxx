@@ -33,6 +33,14 @@ Information::~Information() {
     // Nothing for now
 }
 
+bool Information::empty() {
+    return (a_data == std::string(DEFAULT_VALUE) &&
+            a_infoId == std::string(DEFAULT_ID) &&
+            a_timeStamp == std::string(DEFAULT_TIME) &&
+            a_quality == std::string(DEFAULT_QUALITY) &&
+            a_DataType == 0);
+}
+
 std::string Information::GetInfoId() {
     return a_infoId;
 }

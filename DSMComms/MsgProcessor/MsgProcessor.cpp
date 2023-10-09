@@ -38,9 +38,11 @@ int bhldr__registerInfo(struct soap *soap, bhldr__dataFormat message, bool &resu
     "1",
     Information::ANALOG);
   Entity::Entity sender("No id haha", "no address", Entity::DATA_SOURCE);
-  Message::BaseMsg msg();
-  result = true;
-  return 200;
+  LocalMachine::SchemaUtils schemaInstance;
+  if (schemaInstance.SaveData(infoInstance)) {
+    return 200;
+  }
+  return 418;
 }
 
 //gsoap MsgProcessor service method: updateInfo update for an info

@@ -59,4 +59,4 @@ target_link_libraries(GSOAP_CLIENT PRIVATE ${GSOAP_CXX_LIBRARIES})
 target_link_libraries(GSOAP_SERVER PRIVATE ${GSOAP_CXX_LIBRARIES})
 
 target_include_directories(GSOAP_CLIENT PRIVATE ${GSOAP_INCLUDE_DIR})
-target_include_directories(GSOAP_SERVER PRIVATE ${GSOAP_INCLUDE_DIR})
+target_include_directories(GSOAP_SERVER PRIVATE ${GSOAP_INCLUDE_DIR} ${GSOAP_PLUGIN_DIR})

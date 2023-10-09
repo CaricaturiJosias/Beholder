@@ -10,24 +10,32 @@
  */
 
 #include "VirtualTable.hxx"
+#include <MachineUtils.hxx>
 
 namespace LocalMachine {
+    
+    uint32_t MAX_BUFFER_SIZE = 1;
 
     double VirtualTable::numRows = 0;
 
     valueMap VirtualTable::dataMapValue = valueMap{};
 
-    VirtualTable * VirtualTable::table = nullptr;
+    std::shared_ptr<VirtualTable> VirtualTable::table = nullptr;
 
-    VirtualTable * VirtualTable::GetInstance() {
+    BUFFER_MAP VirtualTable::s_infoBuffer = {
+        {ANALOG, {}},
+        {DIGITAL, {}}
+    };
+
+    std::shared_ptr<VirtualTable> VirtualTable::GetInstance() {
         if (table == nullptr) {
-            table = new VirtualTable();
+            table.reset(new VirtualTable());
         }
         return table;
     }
 
     VirtualTable::VirtualTable() {
-        // TODO
+        // Nothing
     }
 
     VirtualTable::~VirtualTable() {

@@ -57,3 +57,4 @@ bash buildcorba.sh
 # go to (after compiling)
 cd DSMComms/MsgProcessor
 ./GSOAP_SERVER.cgi  < bhldr.registerInfo.req.xml
+./GSOAP_SERVER.cgi  < ns.hello.req.xml
