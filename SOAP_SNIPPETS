@@ -1,0 +1,35 @@
+#include "soapH.h"
+int main()
+{
+  struct soap *soap = soap_new();
+  soap->accept_timeout = 3600;                // exit loop when no request arrives in one hour
+  ... // context initializations
+  if (soap_valid_socket(soap_bind(soap, NULL, PORTNUM, BACKLOG)))
+  {
+    while (1)
+    {
+      if (soap_valid_socket(soap_accept(soap)))
+      {
+        printf("Client host = %s port = %d path = %s ", soap->host, soap->port, soap->path);
+        if (soap->ip)
+          printf("ip4 = %d.%d.%d.%d\n", soap->ip >> 24, (soap->ip >> 16) & 0xFF, (soap->ip >> 8) & 0xFF, soap->ip & 0xFF);
+        else
+          printf("ip6 = %.8x%.8x%.8x%.8x\n", soap->ip6[0], soap->ip6[1], soap->ip6[2], soap->ip6[3]);
+        if (soap_serve(soap))
+          soap_print_fault(soap, stderr);
+      }
+      else if (soap->errnum) // accept failed, try again after 1 second
+      {
+        soap_print_fault(soap, stderr);
+        sleep(1);
+      }
+      else // accept timed out, quit looping
+      {
+        break;
+      }
+      soap_destroy(soap);
+      soap_end(soap);
+    }
+  }
+  soap_free(soap);
+}

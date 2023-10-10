@@ -42,17 +42,6 @@ int main(int argc, char* argv[])
 		CORBA::Float amount;
 		string dest_ior;
 
-		cout << "Teste:\n\ta" << endl;
-		int a = 1;
-		do {
-			for (int n = 1; n < 20; n++)  {
-				const char * valueId = std::to_string(n).c_str();
-				DSMComms::Value valueInstance;
-				valueInstance.storedValue = n;
-				valueInstance.timestamp = 123234234;
-			}
-			command = "fim";
-		} while (command != "fim");
 		struct soap *soap = soap_new();
 		// 4. Destroi ORB
 		orb->destroy();
@@ -72,22 +61,22 @@ int bhldr__lookup(struct soap *soap, std::string infoId, bhldr__dataFormat &data
 
 //gsoap MsgProcessor service method: registerInfo register an info
 int bhldr__registerInfo(struct soap *soap, bhldr__dataFormat message, bool &result) {
-  std::cout <<  "registerInfo called" << std::endl
-            << "infoName: " << message.infoName << std::endl
-            << "value: " << message.value << std::endl
-            << "timestamp: " << message.timestamp << std::endl;
-//   Information::Information infoInstance(
-//     message.infoName,
-//     message.value,
-//     message.timestamp,
-//     "1",
-//     Information::ANALOG);
-//   Entity::Entity sender("No id haha", "no address", Entity::DATA_SOURCE);
-//   LocalMachine::SchemaUtils schemaInstance;
-//   if (schemaInstance.SaveData(infoInstance)) {
-//     return 200;
-//   }
-  return 418;
+	std::cout 	<<  "registerInfo called" << std::endl
+				<< "infoName: " << message.infoName << std::endl
+				<< "value: " << message.value << std::endl
+				<< "timestamp: " << message.timestamp << std::endl;
+	Information::Information infoInstance(
+		message.infoName,
+		message.value,
+		message.timestamp,
+		"1",
+		Information::ANALOG);
+	Entity::Entity sender("No id haha", "no address", Entity::DATA_SOURCE);
+	LocalMachine::SchemaUtils schemaInstance;
+	if (schemaInstance.SaveData(infoInstance)) {
+		return 200;
+	}
+	return 418;
 }
 
 //gsoap MsgProcessor service method: updateInfo update for an info
