@@ -10,6 +10,7 @@
  */
 
 #include "MachineUtils.hxx"
+#include <Machine.hxx>
 
 namespace LocalMachine {
 
@@ -22,22 +23,6 @@ namespace LocalMachine {
     
     bool MachineUtils::CheckPermission(std::string command, Entity::Entity sender) {
         return true;
-    }
-
-    Information::Information MachineUtils::DecompressInfo(void * encryptedInfo) {
-        return Information::Information{};
-    }
-
-    void * MachineUtils::DecryptInfo(void * encryptedInfo) {
-        return nullptr;
-    }
-
-    void * MachineUtils::EncryptCompressedData(void * compressetInfo) {
-        return nullptr;
-    }
-
-    void * MachineUtils::CompressData(Message::BaseMsg data) {
-        return nullptr;
     }
 
     double MachineUtils::GetRecordsAmmount() {
@@ -60,18 +45,14 @@ namespace LocalMachine {
         return true;
     }
 
-    void MachineUtils::UpdateTable(Information::Information information, Entity::Entity dataOwner) {
-        
+    void MachineUtils::UpdateTable(std::vector<Information::Information> information, Entity::Entity dataOwner) {
         return;
     }
 
-    Information::Information MachineUtils::LookUpData(Message::BaseMsg data) {
-        return Information::Information{};
-    }
-
-    VirtualTable MachineUtils::GetVirtualTable() {
-        VirtualTable * todo = new VirtualTable();
-        return *todo;
+    std::vector<Information::Information> MachineUtils::LookUpData(std::string id) {
+        // We don't expect it to be empty
+        std::shared_ptr<VirtualTable> table = Machine::GetVirtualTable();
+        return table->GetStoredValue(id);
     }
 
     std::vector<Information::Information> MachineUtils::GetDataInArray(Message::BaseMsg dataInfo) {

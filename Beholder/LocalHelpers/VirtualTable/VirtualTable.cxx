@@ -1,5 +1,5 @@
 /**
- * @file MachineUtils.h
+ * @file VirtualTable.h
  * @author Gabriel Cezario (gabriel.argacezario@gmail.com)
  * @brief Contains methods regarding the virtual table of a machine and its stored data
  * @version 0.1
@@ -11,6 +11,8 @@
 
 #include "VirtualTable.hxx"
 #include <MachineUtils.hxx>
+#include <SchemaUtils.hxx>
+#include <filesystem>
 
 namespace LocalMachine {
     
@@ -46,13 +48,31 @@ namespace LocalMachine {
         return dataMapValue;
     }
 
-    fileDataValue VirtualTable::GetStoredValue(keyName id) {
-        valueMap::iterator it = dataMapValue.find(id);
-        if (it!= dataMapValue.end()) {
-            return it->second;
+    std::vector<Information::Information> VirtualTable::GetStoredValue(keyName id) {
+        std::vector<Information::Information> result;
+        std::vector<Information::Information> instanceVector;
+        
+        valueMap::iterator it = dataMapValue.begin();
+        std::vector<fileDataValue> instances;
+        if (it == dataMapValue.end()) {
+            // TODO - LOG ERROR
+            return result;
         }
-        // TODO - LOG ERROR
-        return fileDataValue{};
+
+        // For every instance, look at the encrypted file and search for any ID that matches
+        for (fileDataValue dataInstance : instances) {
+            // data is a filepath
+        }
+
+
+        for (fileDataValue dataInstance : instances) {
+            instanceVector = SchemaUtils::GetData(dataInstance, id);
+            if (instanceVector.empty()) {
+                continue;
+            }
+            result.insert(result.end(), instanceVector.begin(), instanceVector.end());
+        }
+        return result;
     }
 
     bool VirtualTable::StoreValue(dataFilePath data, keyName valueName, int32_t dataType) {
@@ -68,7 +88,7 @@ namespace LocalMachine {
             return false;
         }
         fileDataValue fileInstance = fileDataValue(data, dataType);
-        dataMapValue[valueName] = fileInstance;
+        dataMapValue[valueName].push_back(fileInstance);
         return true;
     }
 
@@ -91,7 +111,7 @@ namespace LocalMachine {
         }
 
         fileDataValue fileInstance = fileDataValue(value, dataType);
-        dataMapValue[valueName] = fileInstance;
+        dataMapValue[valueName].push_back(fileInstance);
         return true;
     }
 

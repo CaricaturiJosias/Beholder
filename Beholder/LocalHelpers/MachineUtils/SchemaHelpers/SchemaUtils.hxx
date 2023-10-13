@@ -30,11 +30,15 @@ namespace LocalMachine {
         public:
 
             SchemaUtils();
+            
+            // Data Getters ----------------------------------------------------------------
+            static std::vector<Information::Information> GetData(fileDataValue dataInstance, std::string id);
 
-            static Information::Information DecompressInfo(void * encryptedInfo);
+            static std::vector<Information::Information> DecryptInfo(fileDataValue dataInstance);
 
-            static void * DecryptInfo(void * encryptedInfo);
+            static std::vector<Information::Information> DecompressInfo(std::string filePath, int32_t inputType);
 
+            // Data Setters ----------------------------------------------------------------
             static void * EncryptCompressedData(void * compressedInfo);
 
             static std::string CompressData(Information::Information * data);
@@ -43,6 +47,7 @@ namespace LocalMachine {
 
             static bool SaveData(Information::Information data);
 
+            // None of the above ----------------------------------------------------------------
             static std::filesystem::path GetSchema(int32_t inputType);
 
         private:

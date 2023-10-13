@@ -46,14 +46,6 @@ namespace LocalMachine {
         
             static bool CheckPermission(std::string command, Entity::Entity sender);
 
-            static Information::Information DecompressInfo(void * encryptedInfo);
-
-            static void * DecryptInfo(void * encryptedInfo);
-
-            static void * EncryptCompressedData(void * compressetInfo);
-
-            static void * CompressData(Message::BaseMsg data);
-
             static double GetRecordsAmmount();
 
             static bool hasSpace(void * encryptedData);
@@ -66,11 +58,9 @@ namespace LocalMachine {
 
             static bool SaveData(std::string filePath);
 
-            static  void UpdateTable(Information::Information information, Entity::Entity dataOwner);
+            static  void UpdateTable(std::vector<Information::Information> information, Entity::Entity dataOwner);
 
-            static Information::Information LookUpData(Message::BaseMsg data);
-
-            static VirtualTable GetVirtualTable();
+            static std::vector<Information::Information> LookUpData(std::string id);
 
             static std::vector<Information::Information> GetDataInArray(Message::BaseMsg dataInfo);
 

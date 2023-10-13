@@ -10,6 +10,7 @@
  */
 
 #include "Information.hxx"
+#include <MachineUtils.hxx> // For dataType constants
 
 namespace Information {
 
@@ -27,6 +28,22 @@ Information::Information(std::string id, std::string value, std::string timestam
     a_timeStamp = timestamp;
     a_quality = quality;
     a_DataType = dataType;
+}
+
+Information::Information(c::Analog analogInstance){
+    a_infoId = std::to_string(analogInstance.id);
+    a_data = std::to_string(analogInstance.value);
+    a_quality = std::to_string(analogInstance.quality);
+    a_timeStamp = analogInstance.timestamp;
+    a_DataType = LocalMachine::ANALOG;
+}
+
+Information::Information(c::Digital digitalInstance) {
+    a_infoId = std::to_string(digitalInstance.id);
+    a_data = std::to_string(digitalInstance.value);
+    a_quality = std::to_string(digitalInstance.quality);
+    a_timeStamp = digitalInstance.timestamp;
+    a_DataType = LocalMachine::DIGITAL;
 }
 
 Information::~Information() {

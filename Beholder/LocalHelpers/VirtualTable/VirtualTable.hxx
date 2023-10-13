@@ -75,7 +75,7 @@ namespace LocalMachine {
         }
     };
 
-    typedef std::map<keyName, fileDataValue> valueMap;
+    typedef std::map<keyName, std::vector<fileDataValue> > valueMap;
 
     class VirtualTable {
 
@@ -88,7 +88,7 @@ namespace LocalMachine {
 
             valueMap GetValueMap();
 
-            fileDataValue GetStoredValue(keyName id);
+            std::vector<Information::Information> GetStoredValue(keyName id);
 
             bool StoreValue(dataFilePath value, keyName valueName, int32_t dataType);
 

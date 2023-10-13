@@ -12,6 +12,8 @@
 #pragma once
 #include <string>
 #include <cstdint>
+#include <AnalogData.hh>
+#include <DigitalData.hh>
 
 // Base class for information
 
@@ -36,6 +38,8 @@ class Information {
    
         Information();
         Information(std::string id, std::string value, std::string timestamp, std::string a_quality, int32_t dataType);
+        Information(c::Analog analogInstance);
+        Information(c::Digital digitalInstance);
         ~Information();
 
         bool empty();

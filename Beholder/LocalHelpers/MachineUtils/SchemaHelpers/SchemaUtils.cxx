@@ -59,12 +59,82 @@ namespace LocalMachine {
         virtualTable = LocalMachine::VirtualTable::GetInstance();
     }
 
-    Information::Information SchemaUtils::DecompressInfo(void * encryptedInfo) {
-        return Information::Information{};
+        
+    /**
+     * @brief Gets the location of data stored in the database
+     * 
+     * @param[in] file Location of a file that MAY contain data with the given id
+     * @param[in] id Name of the data Id we are looking for (every single one we can find)
+     * 
+    */
+    std::vector<Information::Information> SchemaUtils::GetData(fileDataValue dataInstance, std::string id) {
+        std::vector<Information::Information> infosInFile;
+        std::vector<Information::Information> foundInfos;
+        
+        infosInFile = DecryptInfo(dataInstance);
+        // Identify the information we found
+        for (Information::Information singleInfo : infosInFile) {
+            if (singleInfo.GetInfoId() == id) {
+                foundInfos.push_back(singleInfo);
+            }
+        }
+
+        return foundInfos;
     }
 
-    void * SchemaUtils::DecryptInfo(void * encryptedInfo) {
-        return nullptr;
+    std::vector<Information::Information> SchemaUtils::DecryptInfo(fileDataValue fileData) {
+        std::vector<Information::Information> result;
+        std::string filePath = fileData.data;
+
+        // TODO - Actual decryption
+        // filepath should be the path to a encrypted info,
+        // lets suppose we decrypted it already for now
+        
+        // stuff done to decrypt ...
+        std::string decryptedPath = filePath;
+        
+        // The results should be handled by the caller
+        return DecompressInfo(decryptedPath, fileData.dataType);
+    }
+
+    std::vector<Information::Information> SchemaUtils::DecompressInfo(std::string file, int32_t inputType) {
+        std::vector<Information::Information> infoInFile;
+
+        std::ifstream ifs(GetSchema(inputType));
+        avro::ValidSchema schemaResult;
+        avro::compileJsonSchema(ifs, schemaResult);
+
+        std::filesystem::path path = file;
+        
+        bool teste = false;
+        
+        if (inputType == ANALOG) {
+            avro::DataFileReader<c::Analog> readerInstance(path.c_str(), schemaResult);
+            c::Analog analog;
+            while(readerInstance.read(analog)) {
+                infoInFile.push_back(Information::Information(analog));
+                std::cout << "id: " << analog.id
+                        << ", quality: " << analog.quality 
+                        << ", timestamp: " << analog.timestamp
+                        << ", value: " << analog.value
+                        << std::endl;
+            }
+            readerInstance.close();
+        } else {
+            // DIGITAL
+            avro::DataFileReader<c::Digital> readerInstance(path.c_str(), schemaResult);
+            c::Digital digital;
+            while(readerInstance.read(digital)) {
+                infoInFile.push_back(Information::Information(digital));
+                std::cout << "id: " << digital.id
+                        << ", quality: " << digital.quality 
+                        << ", timestamp: " << digital.timestamp
+                        << ", value: " << digital.value
+                        << std::endl;
+            }
+            readerInstance.close();
+        }
+        return infoInFile;
     }
 
     void * SchemaUtils::EncryptCompressedData(void * compressedInfo) {
@@ -141,7 +211,7 @@ namespace LocalMachine {
         std::cout << "compressed Path : " << compressedPath << std::endl;
         return true;
     }
-    
+
     /**
      * @brief Gets correct schema location, tests it and returns it
      * 
@@ -266,7 +336,8 @@ namespace LocalMachine {
             std::cout << "Storing data in file " << targetFile << std::endl;
             
             // get ID off of file
-            size_t pos = targetFile.find('_') + i; // Exclude the _ itself
+            size_t pos = targetFile.find('_') + 1; // Exclude the _ itself
+
             // All after _ (like 102.bin)
             std::string sub_str = targetFile.substr(pos);
             pos = sub_str.find(std::string(".bin"));
@@ -279,6 +350,9 @@ namespace LocalMachine {
             std::filesystem::copy_file(tempFile, targetFile, std::filesystem::copy_options::overwrite_existing );
         }
         bool success = virtualTable->StoreValue(targetFile, fileId, infoDataType);
-        return targetFile;
+        if (success) {
+            return targetFile;
+        }
+        return "";
     }
 };

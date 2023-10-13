@@ -64,6 +64,7 @@ namespace LocalMachine {
     std::string Machine::GetNewStorageFile() {
         std::filesystem::path storagePath = GetStoragePath();
         std::string storageFile{storagePath.generic_string() + "data_" + std::to_string(GetAmmountOfFiles()) + ".bin"};
+        std::cout << "Ammount of files: " << std::to_string(GetAmmountOfFiles()) << std::endl;
         // Update the counter
         NewDataFile();        
         return storageFile;
