@@ -33,9 +33,9 @@ module DSMComms {
         // operações
         void LogEventAll(in string valor, in EventEnum event);
         
-        void getValue(in StringSeq valueId, out ValSeq toGetValue, in DataType type);
+        void getValue(in string valueId, out Value toGetValue, in DataType type);
 
-        void storeValue(in StringSeq valueId, in ValSeq toGetValue, in DataType type);
+        void storeValue(in string valueId, in Value toGetValue, in DataType type);
     };
 
 };

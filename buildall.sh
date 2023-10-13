@@ -22,6 +22,13 @@ sudo rm -rf /usr/include/Beholder/*
 # Build source
 sudo make install -s || true
 
+sudo rm /home/cezario/Dev/Beholder/Beholder/libBeholder.so
+sudo rm /home/cezario/Dev/Beholder/Beholder/3PP/lib3PP.so
+sudo rm /home/cezario/Dev/Beholder/Beholder/DataModels/libDataModels.so
+sudo rm /home/cezario/Dev/Beholder/Beholder/Entities/libEntities.so
+sudo rm /home/cezario/Dev/Beholder/Beholder/LocalHelpers/libLocalHelpers.so
+sudo rm /home/cezario/Dev/Beholder/Beholder/MessageProcessing/libMessageProcessing.so
+
 # username="$SUDO_USER"
 # script_path="./buildcorba.sh"
 # echo "User: ${username}"

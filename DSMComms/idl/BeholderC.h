@@ -25,8 +25,8 @@
 // TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_codegen.cpp:148
 
-#ifndef _TAO_IDL____BEHOLDERC_UVQ0QP_H_
-#define _TAO_IDL____BEHOLDERC_UVQ0QP_H_
+#ifndef _TAO_IDL____BEHOLDERC_BVVEFA_H_
+#define _TAO_IDL____BEHOLDERC_BVVEFA_H_
 
 
 #include /**/ "ace/config-all.h"
@@ -233,13 +233,13 @@ namespace DSMComms
       ::DSMComms::EventEnum event);
 
     virtual void getValue (
-      const ::DSMComms::StringSeq & valueId,
-      ::DSMComms::ValSeq & toGetValue,
+      const std::string valueId,
+      ::DSMComms::Value_out toGetValue,
       ::DSMComms::DataType type);
 
     virtual void storeValue (
-      const ::DSMComms::StringSeq & valueId,
-      const ::DSMComms::ValSeq & toGetValue,
+      const std::string valueId,
+      const ::DSMComms::Value & toGetValue,
       ::DSMComms::DataType type);
 
     

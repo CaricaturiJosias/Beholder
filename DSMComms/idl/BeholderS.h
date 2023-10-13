@@ -25,8 +25,8 @@
 // TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_codegen.cpp:454
 
-#ifndef _TAO_IDL____BEHOLDERS_QQGMGQ_H_
-#define _TAO_IDL____BEHOLDERS_QQGMGQ_H_
+#ifndef _TAO_IDL____BEHOLDERS_HCBNC6_H_
+#define _TAO_IDL____BEHOLDERS_HCBNC6_H_
 
 
 #include "BeholderC.h"
@@ -207,8 +207,8 @@ namespace POA_DSMComms
     // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_operation/operation_sh.cpp:35
 
     virtual void getValue (
-      const ::DSMComms::StringSeq & valueId,
-      ::DSMComms::ValSeq & toGetValue,
+      const std::string valueId,
+      ::DSMComms::Value_out toGetValue,
       ::DSMComms::DataType type) = 0;
 
     static void getValue_skel (
@@ -219,8 +219,8 @@ namespace POA_DSMComms
     // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_operation/operation_sh.cpp:35
 
     virtual void storeValue (
-      const ::DSMComms::StringSeq & valueId,
-      const ::DSMComms::ValSeq & toGetValue,
+      const std::string valueId,
+      const ::DSMComms::Value & toGetValue,
       ::DSMComms::DataType type) = 0;
 
     static void storeValue_skel (

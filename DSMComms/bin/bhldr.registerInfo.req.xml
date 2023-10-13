@@ -7,12 +7,18 @@
     xmlns:bhldr="http://tempuri.org/bhldr.xsd">
  <SOAP-ENV:Body>
   <bhldr:registerInfo>
-   <message>
+   <inputInfo>
     <infoName>TEST INFO2</infoName>
     <value>2.110</value>
     <timestamp>1223</timestamp>
     <dataType>ANALOG</dataType>
-   </message>
+   </inputInfo>
+   <inputInfo>
+    <infoName>TEST INFO3</infoName>
+    <value>3.110</value>
+    <timestamp>3333</timestamp>
+    <dataType>ANALOG</dataType>
+   </inputInfo>
   </bhldr:registerInfo>
  </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

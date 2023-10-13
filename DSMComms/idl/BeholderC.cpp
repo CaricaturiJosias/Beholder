@@ -327,8 +327,8 @@ DSMComms::POA_Beholder::LogEventAll (
 
 void
 DSMComms::POA_Beholder::getValue (
-  const ::DSMComms::StringSeq & valueId,
-  ::DSMComms::ValSeq & toGetValue,
+  const std::string valueId,
+  ::DSMComms::Value_out toGetValue,
   ::DSMComms::DataType type)
 {
   if (!this->is_evaluated ())
@@ -337,8 +337,8 @@ DSMComms::POA_Beholder::getValue (
     }
   
   TAO::Arg_Traits< void>::ret_val _tao_retval;
-  TAO::Arg_Traits< ::DSMComms::StringSeq>::in_arg_val _tao_valueId (valueId);
-  TAO::Arg_Traits< ::DSMComms::ValSeq>::out_arg_val _tao_toGetValue (toGetValue);
+  TAO::Arg_Traits< std::string>::in_arg_val _tao_valueId (valueId);
+  TAO::Arg_Traits< ::DSMComms::Value>::out_arg_val _tao_toGetValue (toGetValue);
   TAO::Arg_Traits< ::DSMComms::DataType>::in_arg_val _tao_type (type);
 
   TAO::Argument *_the_tao_operation_signature [] =
@@ -366,8 +366,8 @@ DSMComms::POA_Beholder::getValue (
 
 void
 DSMComms::POA_Beholder::storeValue (
-  const ::DSMComms::StringSeq & valueId,
-  const ::DSMComms::ValSeq & toGetValue,
+  const std::string valueId,
+  const ::DSMComms::Value & toGetValue,
   ::DSMComms::DataType type)
 {
   if (!this->is_evaluated ())
@@ -376,8 +376,8 @@ DSMComms::POA_Beholder::storeValue (
     }
   
   TAO::Arg_Traits< void>::ret_val _tao_retval;
-  TAO::Arg_Traits< ::DSMComms::StringSeq>::in_arg_val _tao_valueId (valueId);
-  TAO::Arg_Traits< ::DSMComms::ValSeq>::in_arg_val _tao_toGetValue (toGetValue);
+  TAO::Arg_Traits< std::string>::in_arg_val _tao_valueId (valueId);
+  TAO::Arg_Traits< ::DSMComms::Value>::in_arg_val _tao_toGetValue (toGetValue);
   TAO::Arg_Traits< ::DSMComms::DataType>::in_arg_val _tao_type (type);
 
   TAO::Argument *_the_tao_operation_signature [] =

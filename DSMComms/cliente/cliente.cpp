@@ -55,54 +55,66 @@ int main(int argc, char* argv[])
 }
 
 
-int bhldr__lookup(struct soap *soap, std::string infoId, bhldr__dataFormat &data) {
-	std::cout <<  "Lookup called" << std::endl
-				<< "InfoId: " << infoId << std::endl;
-	// Convert dataFormat to Value
-	Value value;
-	value.storedValue = std::stod(data.value);
-	value.timestamp = std::stol(data.timestamp);
-	
-	// Enum to int to other enum
-	DataType type = (DataType)data.dataType;
+int bhldr__lookup(struct soap *soap, std::vector<std::string> infoList, std::vector<bhldr__dataFormat> &data) {
+	std::cout <<  "Lookup called" << std::endl;
+	std::vector<std::string>::iterator itString = infoList.begin();
+	std::vector<bhldr__dataFormat>::iterator itData = data.begin();
 
-	Beholder->getValue(infoId.c_str(), value, type);
+	while (itString != infoList.end() ||
+           itData!= data.end()) {
+		std::cout <<  "InfoId: " << itString->c_str() << std::endl;
+		// Convert dataFormat to Value
+		Value value;
+		
+		// Enum to int to other enum
+		DataType type = (DataType)itData->dataType;
+
+		Beholder->getValue(itString->c_str(), value, type);
+		itData->value = std::to_string(value.storedValue);
+		itData->timestamp = std::to_string(value.timestamp);
+		++itString;
+		++itData;
+	}
   	return 200;
 }
 
 //gsoap MsgProcessor service method: registerInfo register an info
-int bhldr__registerInfo(struct soap *soap, bhldr__dataFormat message, bool &result) {
+int bhldr__registerInfo(struct soap *soap, std::vector<bhldr__dataFormat> messageList, bool &result) {
 	std::cout << "CALLED" << std::endl;
-	std::cout 	<<  "registerInfo called" << std::endl
-				<< "infoName: " << message.infoName << std::endl
-				<< "value: " << message.value << std::endl
-				<< "timestamp: " << message.timestamp << std::endl;
-	// Checking the validity of the data
-	if (message.infoName.empty() || message.value.empty() || message.timestamp.empty()) {
-        std::cout << "Something is wrong in the input" << std::endl;
-		result = false;
-        return 418;
-    }
+	for (bhldr__dataFormat message : messageList) {
+		std::cout 	<<  "registerInfo called" << std::endl
+					<< "infoName: " << message.infoName << std::endl
+					<< "value: " << message.value << std::endl
+					<< "timestamp: " << message.timestamp << std::endl;
+		// Checking the validity of the data
+		if (message.infoName.empty() || message.value.empty() || message.timestamp.empty()) {
+			std::cout << "Something is wrong in the input" << std::endl;
+			result = false;
+			return 418;
+		}
 
-    // Convert dataFormat to Value
-    Value value;
-    value.storedValue = std::stod(message.value);
-    value.timestamp = std::stol(message.timestamp);
-    
-    // Enum to int to other enum
-    DataType type = (DataType)message.dataType;
+		// Convert dataFormat to Value
+		Value value;
+		value.storedValue = std::stod(message.value);
+		value.timestamp = std::stol(message.timestamp);
+		
+		// Enum to int to other enum
+		DataType type = (DataType)message.dataType;
 
-    Beholder->storeValue(message.infoName.c_str(), value, type);
+		Beholder->storeValue(message.infoName.c_str(), value, type);
+	}
 	return 200;
 }
 
 //gsoap MsgProcessor service method: updateInfo update for an info
-int bhldr__updateInfo(struct soap *soap, bhldr__dataFormat message) {
+int bhldr__updateInfo(struct soap *soap, std::vector<bhldr__dataFormat> messageList) {
 	std::cout << "CALLED" << std::endl;
-	std::cout <<  "updateInfo called" << std::endl
-				<< "infoName: " << message.infoName << std::endl
-				<< "value: " << message.value << std::endl
-				<< "timestamp: " << message.timestamp << std::endl;
+	for (bhldr__dataFormat message : messageList) {
+		std::cout <<  "updateInfo called" << std::endl
+					<< "infoName: " << message.infoName << std::endl
+					<< "value: " << message.value << std::endl
+					<< "timestamp: " << message.timestamp << std::endl;
+	}
 	return 200;
 }
 

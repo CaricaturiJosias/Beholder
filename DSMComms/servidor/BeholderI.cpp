@@ -3,7 +3,7 @@
 
 // DSMComms includes
 #include <Beholder/SchemaUtils.hxx>
-#include <Beholder/Machine.hxx>
+#include <Beholder/MachineUtils.hxx>
 
 // #include <DSMComms/Information.hxx>
 
@@ -21,12 +21,11 @@ void Beholder_i::LogEventAll(std::string valor, ::DSMComms::EventEnum event) {
 }
 
 void Beholder_i::getValue(::DSMComms::StringSeq valueId, ::DSMComms::ValSeq toGetValue, ::DSMComms::DataType type) {
-  std::cout << "Received lookup for id " << valueId
-            << "Values: " << std::to_string(toGetValue.storedValue) << std::endl
-            << "Timestamp: " << std::to_string(toGetValue.timestamp) << std::endl;
+  for (std::string id : valueId) {
+    std::cout << "Received lookup for id " << id << std::endl;
 
-  LocalMachine::VirtualTable LocalMachine::Machine::getVirtualTable();
-  
+    LocalMachine::MachineUtils;
+  }
 }
 
 void Beholder_i::storeValue(::DSMComms::StringSeq valueId, const ::DSMComms::ValSeq & toSetValue, ::DSMComms::DataType type) {
