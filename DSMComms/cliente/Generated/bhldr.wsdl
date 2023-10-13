@@ -36,17 +36,7 @@
         <enumeration value="DIGITAL"/><!-- DIGITAL -->
       </restriction>
     </simpleType>
-    <!-- operation request element -->
-    <element name="lookup">
-      <complexType>
-          <sequence>
-            <element name="infoId" type="xsd:string" minOccurs="1" maxOccurs="1"/><!-- bhldr__lookup::infoId -->
-          </sequence>
-      </complexType>
-    </element>
-    <!-- operation response element and type -->
-    <element name="dataFormat" type="bhldr:dataFormat"/>
-    <complexType name="dataFormat">
+    <complexType name="dataFormat"><!-- bhldr__dataFormat -->
           <sequence>
             <element name="infoName" type="xsd:string" minOccurs="1" maxOccurs="1"/><!-- bhldr__dataFormat::infoName -->
             <element name="value" type="xsd:string" minOccurs="1" maxOccurs="1"/><!-- bhldr__dataFormat::value -->
@@ -55,10 +45,26 @@
           </sequence>
     </complexType>
     <!-- operation request element -->
+    <element name="lookup">
+      <complexType>
+          <sequence>
+            <element name="infoId" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/><!-- bhldr__lookup::infoId -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation response element -->
+    <element name="lookupResponse">
+      <complexType>
+          <sequence>
+            <element name="data" type="bhldr:dataFormat" minOccurs="1" maxOccurs="unbounded"/><!-- bhldr__lookup::data -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation request element -->
     <element name="registerInfo">
       <complexType>
           <sequence>
-            <element name="message" type="bhldr:dataFormat" minOccurs="1" maxOccurs="1"/><!-- bhldr__registerInfo::message -->
+            <element name="inputInfo" type="bhldr:dataFormat" minOccurs="0" maxOccurs="unbounded"/><!-- bhldr__registerInfo::inputInfo -->
           </sequence>
       </complexType>
     </element>
@@ -74,7 +80,7 @@
     <element name="updateInfo">
       <complexType>
           <sequence>
-            <element name="message" type="bhldr:dataFormat" minOccurs="1" maxOccurs="1"/><!-- bhldr__updateInfo::message -->
+            <element name="message" type="bhldr:dataFormat" minOccurs="0" maxOccurs="unbounded"/><!-- bhldr__updateInfo::message -->
           </sequence>
       </complexType>
     </element>
@@ -82,12 +88,12 @@
 
 </types>
 
-<message name="lookup">
+<message name="lookupRequest">
   <part name="Body" element="bhldr:lookup"/><!-- bhldr__lookup::bhldr__lookup -->
 </message>
 
-<message name="dataFormat">
-  <part name="Body" element="bhldr:dataFormat"/><!-- bhldr__lookup::data -->
+<message name="lookupResponse">
+  <part name="Body" element="bhldr:lookupResponse"/>
 </message>
 
 <message name="registerInfoRequest">
@@ -105,8 +111,8 @@
 <portType name="ServicePortType">
   <operation name="lookup">
     <documentation>Service definition of function bhldr__lookup</documentation>
-    <input message="tns:lookup"/>
-    <output message="tns:dataFormat"/>
+    <input message="tns:lookupRequest"/>
+    <output message="tns:lookupResponse"/>
   </operation>
   <operation name="registerInfo">
     <documentation>Service definition of function bhldr__registerInfo</documentation>

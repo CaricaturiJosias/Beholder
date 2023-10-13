@@ -17,16 +17,16 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 #endif
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapClient.cpp ver 2.8.131 2023-10-13 01:08:18 GMT")
+SOAP_SOURCE_STAMP("@(#) soapClient.cpp ver 2.8.131 2023-10-13 12:52:31 GMT")
 
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, const std::string& infoId, struct bhldr__dataFormat &data)
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<std::string> infoId, std::vector<struct bhldr__dataFormat> &data)
 {	if (soap_send_bhldr__lookup(soap, soap_endpoint, soap_action, infoId) || soap_recv_bhldr__lookup(soap, data))
 		return soap->error;
 	return SOAP_OK;
 }
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, const std::string& infoId)
+SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<std::string> infoId)
 {	struct bhldr__lookup soap_tmp_bhldr__lookup;
 	soap_tmp_bhldr__lookup.infoId = infoId;
 	soap_begin(soap);
@@ -58,33 +58,35 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__lookup(struct soap *soap, const char 
 	return SOAP_OK;
 }
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_recv_bhldr__lookup(struct soap *soap, struct bhldr__dataFormat &data)
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv_bhldr__lookup(struct soap *soap, std::vector<struct bhldr__dataFormat> &data)
 {
-	soap_default_bhldr__dataFormat(soap, &data);
+	struct bhldr__lookupResponse *soap_tmp_bhldr__lookupResponse;
+	soap_default_std__vectorTemplateOfbhldr__dataFormat(soap, &data);
 	if (soap_begin_recv(soap)
 	 || soap_envelope_begin_in(soap)
 	 || soap_recv_header(soap)
 	 || soap_body_begin_in(soap))
 		return soap_closesock(soap);
-	soap_get_bhldr__dataFormat(soap, &data, "bhldr:dataFormat", NULL);
-	if (soap->error)
+	soap_tmp_bhldr__lookupResponse = soap_get_bhldr__lookupResponse(soap, NULL, "bhldr:lookupResponse", NULL);
+	if (!soap_tmp_bhldr__lookupResponse || soap->error)
 		return soap_recv_fault(soap, 0);
 	if (soap_body_end_in(soap)
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap_closesock(soap);
+	data = soap_tmp_bhldr__lookupResponse->data;
 	return soap_closesock(soap);
 }
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__registerInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, const struct bhldr__dataFormat& message, bool &result)
-{	if (soap_send_bhldr__registerInfo(soap, soap_endpoint, soap_action, message) || soap_recv_bhldr__registerInfo(soap, result))
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__registerInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<struct bhldr__dataFormat> inputInfo, bool &result)
+{	if (soap_send_bhldr__registerInfo(soap, soap_endpoint, soap_action, inputInfo) || soap_recv_bhldr__registerInfo(soap, result))
 		return soap->error;
 	return SOAP_OK;
 }
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__registerInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, const struct bhldr__dataFormat& message)
+SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__registerInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<struct bhldr__dataFormat> inputInfo)
 {	struct bhldr__registerInfo soap_tmp_bhldr__registerInfo;
-	soap_tmp_bhldr__registerInfo.message = message;
+	soap_tmp_bhldr__registerInfo.inputInfo = inputInfo;
 	soap_begin(soap);
 	soap->encodingStyle = NULL; /* use SOAP literal style */
 	soap_serializeheader(soap);
@@ -134,7 +136,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_recv_bhldr__registerInfo(struct soap *soap, bool 
 	return soap_closesock(soap);
 }
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__updateInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, const struct bhldr__dataFormat& message)
+SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__updateInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<struct bhldr__dataFormat> message)
 {	struct bhldr__updateInfo soap_tmp_bhldr__updateInfo;
 	soap_tmp_bhldr__updateInfo.message = message;
 	soap_begin(soap);

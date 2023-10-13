@@ -17,7 +17,7 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 #endif
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapServer.cpp ver 2.8.131 2023-10-13 01:08:18 GMT")
+SOAP_SOURCE_STAMP("@(#) soapServer.cpp ver 2.8.131 2023-10-13 12:52:31 GMT")
 extern "C" SOAP_FMAC5 int SOAP_FMAC6 soap_serve(struct soap *soap)
 {
 #ifndef WITH_FASTCGI
@@ -68,8 +68,8 @@ extern "C" SOAP_FMAC5 int SOAP_FMAC6 soap_serve_request(struct soap *soap)
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve_bhldr__lookup(struct soap *soap)
 {	struct bhldr__lookup soap_tmp_bhldr__lookup;
-	struct bhldr__dataFormat data;
-	soap_default_bhldr__dataFormat(soap, &data);
+	struct bhldr__lookupResponse soap_tmp_bhldr__lookupResponse;
+	soap_default_bhldr__lookupResponse(soap, &soap_tmp_bhldr__lookupResponse);
 	soap_default_bhldr__lookup(soap, &soap_tmp_bhldr__lookup);
 	if (!soap_get_bhldr__lookup(soap, &soap_tmp_bhldr__lookup, "bhldr:lookup", NULL))
 		return soap->error;
@@ -77,19 +77,19 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_bhldr__lookup(struct soap *soap)
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap->error;
-	soap->error = bhldr__lookup(soap, soap_tmp_bhldr__lookup.infoId, data);
+	soap->error = bhldr__lookup(soap, soap_tmp_bhldr__lookup.infoId, soap_tmp_bhldr__lookupResponse.data);
 	if (soap->error)
 		return soap->error;
 	soap->encodingStyle = NULL; /* use SOAP literal style */
 	soap_serializeheader(soap);
-	soap_serialize_bhldr__dataFormat(soap, &data);
+	soap_serialize_bhldr__lookupResponse(soap, &soap_tmp_bhldr__lookupResponse);
 	if (soap_begin_count(soap))
 		return soap->error;
 	if ((soap->mode & SOAP_IO_LENGTH))
 	{	if (soap_envelope_begin_out(soap)
 		 || soap_putheader(soap)
 		 || soap_body_begin_out(soap)
-		 || soap_put_bhldr__dataFormat(soap, &data, "bhldr:dataFormat", "")
+		 || soap_put_bhldr__lookupResponse(soap, &soap_tmp_bhldr__lookupResponse, "bhldr:lookupResponse", "")
 		 || soap_body_end_out(soap)
 		 || soap_envelope_end_out(soap))
 			 return soap->error;
@@ -99,7 +99,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_bhldr__lookup(struct soap *soap)
 	 || soap_envelope_begin_out(soap)
 	 || soap_putheader(soap)
 	 || soap_body_begin_out(soap)
-	 || soap_put_bhldr__dataFormat(soap, &data, "bhldr:dataFormat", "")
+	 || soap_put_bhldr__lookupResponse(soap, &soap_tmp_bhldr__lookupResponse, "bhldr:lookupResponse", "")
 	 || soap_body_end_out(soap)
 	 || soap_envelope_end_out(soap)
 	 || soap_end_send(soap))
@@ -118,7 +118,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_bhldr__registerInfo(struct soap *soap)
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap->error;
-	soap->error = bhldr__registerInfo(soap, soap_tmp_bhldr__registerInfo.message, soap_tmp_bhldr__registerInfoResponse.result);
+	soap->error = bhldr__registerInfo(soap, soap_tmp_bhldr__registerInfo.inputInfo, soap_tmp_bhldr__registerInfoResponse.result);
 	if (soap->error)
 		return soap->error;
 	soap->encodingStyle = NULL; /* use SOAP literal style */

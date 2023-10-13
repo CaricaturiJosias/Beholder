@@ -11,6 +11,7 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 --------------------------------------------------------------------------------
 */
 
+#include <vector>
 
 #ifndef soapStub_H
 #define soapStub_H
@@ -52,6 +53,7 @@ enum bhldr__DataType {
 \******************************************************************************/
 
 struct bhldr__dataFormat;	/* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:11 */
+struct bhldr__lookupResponse;	/* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:18 */
 struct bhldr__lookup;	/* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:18 */
 struct bhldr__registerInfoResponse;	/* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:20 */
 struct bhldr__registerInfo;	/* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:20 */
@@ -82,13 +84,31 @@ struct SOAP_CMAC bhldr__dataFormat {
 #endif
 
 /* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:18 */
+#ifndef SOAP_TYPE_bhldr__lookupResponse
+#define SOAP_TYPE_bhldr__lookupResponse (14)
+/* complex XML schema type 'bhldr:lookupResponse': */
+struct SOAP_CMAC bhldr__lookupResponse {
+      public:
+        /** Required element 'data' of XML schema type 'bhldr:dataFormat' */
+        std::vector<struct bhldr__dataFormat> data;
+      public:
+        /** Return unique type id SOAP_TYPE_bhldr__lookupResponse */
+        long soap_type() const { return SOAP_TYPE_bhldr__lookupResponse; }
+        /** Constructor with member initializations */
+        bhldr__lookupResponse() : data() { }
+        /** Friend allocator */
+        friend SOAP_FMAC1 bhldr__lookupResponse * SOAP_FMAC2 soap_instantiate_bhldr__lookupResponse(struct soap*, int, const char*, const char*, size_t*);
+};
+#endif
+
+/* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:18 */
 #ifndef SOAP_TYPE_bhldr__lookup
-#define SOAP_TYPE_bhldr__lookup (12)
+#define SOAP_TYPE_bhldr__lookup (15)
 /* complex XML schema type 'bhldr:lookup': */
 struct SOAP_CMAC bhldr__lookup {
       public:
-        /** Required element 'infoId' of XML schema type 'xsd:string' */
-        std::string infoId;
+        /** Optional element 'infoId' of XML schema type 'xsd:string' */
+        std::vector<std::string> infoId;
       public:
         /** Return unique type id SOAP_TYPE_bhldr__lookup */
         long soap_type() const { return SOAP_TYPE_bhldr__lookup; }
@@ -101,7 +121,7 @@ struct SOAP_CMAC bhldr__lookup {
 
 /* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:20 */
 #ifndef SOAP_TYPE_bhldr__registerInfoResponse
-#define SOAP_TYPE_bhldr__registerInfoResponse (16)
+#define SOAP_TYPE_bhldr__registerInfoResponse (19)
 /* complex XML schema type 'bhldr:registerInfoResponse': */
 struct SOAP_CMAC bhldr__registerInfoResponse {
       public:
@@ -119,17 +139,17 @@ struct SOAP_CMAC bhldr__registerInfoResponse {
 
 /* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:20 */
 #ifndef SOAP_TYPE_bhldr__registerInfo
-#define SOAP_TYPE_bhldr__registerInfo (17)
+#define SOAP_TYPE_bhldr__registerInfo (20)
 /* complex XML schema type 'bhldr:registerInfo': */
 struct SOAP_CMAC bhldr__registerInfo {
       public:
-        /** Required element 'message' of XML schema type 'bhldr:dataFormat' */
-        struct bhldr__dataFormat message;
+        /** Optional element 'inputInfo' of XML schema type 'bhldr:dataFormat' */
+        std::vector<struct bhldr__dataFormat> inputInfo;
       public:
         /** Return unique type id SOAP_TYPE_bhldr__registerInfo */
         long soap_type() const { return SOAP_TYPE_bhldr__registerInfo; }
         /** Constructor with member initializations */
-        bhldr__registerInfo() : message() { }
+        bhldr__registerInfo() : inputInfo() { }
         /** Friend allocator */
         friend SOAP_FMAC1 bhldr__registerInfo * SOAP_FMAC2 soap_instantiate_bhldr__registerInfo(struct soap*, int, const char*, const char*, size_t*);
 };
@@ -137,12 +157,12 @@ struct SOAP_CMAC bhldr__registerInfo {
 
 /* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:22 */
 #ifndef SOAP_TYPE_bhldr__updateInfo
-#define SOAP_TYPE_bhldr__updateInfo (20)
+#define SOAP_TYPE_bhldr__updateInfo (23)
 /* complex XML schema type 'bhldr:updateInfo': */
 struct SOAP_CMAC bhldr__updateInfo {
       public:
-        /** Required element 'message' of XML schema type 'bhldr:dataFormat' */
-        struct bhldr__dataFormat message;
+        /** Optional element 'message' of XML schema type 'bhldr:dataFormat' */
+        std::vector<struct bhldr__dataFormat> message;
       public:
         /** Return unique type id SOAP_TYPE_bhldr__updateInfo */
         long soap_type() const { return SOAP_TYPE_bhldr__updateInfo; }
@@ -156,7 +176,7 @@ struct SOAP_CMAC bhldr__updateInfo {
 /* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:23 */
 #ifndef WITH_NOGLOBAL
 #ifndef SOAP_TYPE_SOAP_ENV__Header
-#define SOAP_TYPE_SOAP_ENV__Header (21)
+#define SOAP_TYPE_SOAP_ENV__Header (24)
 /* SOAP_ENV__Header: */
 struct SOAP_CMAC SOAP_ENV__Header {
       public:
@@ -173,7 +193,7 @@ struct SOAP_CMAC SOAP_ENV__Header {
 /* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:23 */
 #ifndef WITH_NOGLOBAL
 #ifndef SOAP_TYPE_SOAP_ENV__Code
-#define SOAP_TYPE_SOAP_ENV__Code (22)
+#define SOAP_TYPE_SOAP_ENV__Code (25)
 /* Type SOAP_ENV__Code is a recursive data type, (in)directly referencing itself through its (base or derived class) members */
 /* SOAP_ENV__Code: */
 struct SOAP_CMAC SOAP_ENV__Code {
@@ -196,7 +216,7 @@ struct SOAP_CMAC SOAP_ENV__Code {
 /* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:23 */
 #ifndef WITH_NOGLOBAL
 #ifndef SOAP_TYPE_SOAP_ENV__Detail
-#define SOAP_TYPE_SOAP_ENV__Detail (24)
+#define SOAP_TYPE_SOAP_ENV__Detail (27)
 /* SOAP_ENV__Detail: */
 struct SOAP_CMAC SOAP_ENV__Detail {
       public:
@@ -219,7 +239,7 @@ struct SOAP_CMAC SOAP_ENV__Detail {
 /* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:23 */
 #ifndef WITH_NOGLOBAL
 #ifndef SOAP_TYPE_SOAP_ENV__Reason
-#define SOAP_TYPE_SOAP_ENV__Reason (26)
+#define SOAP_TYPE_SOAP_ENV__Reason (29)
 /* SOAP_ENV__Reason: */
 struct SOAP_CMAC SOAP_ENV__Reason {
       public:
@@ -239,7 +259,7 @@ struct SOAP_CMAC SOAP_ENV__Reason {
 /* /home/cezario/Dev/Beholder/DSMComms/cliente/MsgProcessor.h:23 */
 #ifndef WITH_NOGLOBAL
 #ifndef SOAP_TYPE_SOAP_ENV__Fault
-#define SOAP_TYPE_SOAP_ENV__Fault (27)
+#define SOAP_TYPE_SOAP_ENV__Fault (30)
 /* SOAP_ENV__Fault: */
 struct SOAP_CMAC SOAP_ENV__Fault {
       public:
@@ -310,7 +330,7 @@ typedef char *_QName;
 
 /* bool has binding name 'bool' for type 'xsd:boolean' */
 #ifndef SOAP_TYPE_bool
-#define SOAP_TYPE_bool (13)
+#define SOAP_TYPE_bool (16)
 #endif
 
 /* enum bhldr__DataType has binding name 'bhldr__DataType' for type 'bhldr:DataType' */
@@ -325,47 +345,52 @@ typedef char *_QName;
 
 /* struct SOAP_ENV__Fault has binding name 'SOAP_ENV__Fault' for type '' */
 #ifndef SOAP_TYPE_SOAP_ENV__Fault
-#define SOAP_TYPE_SOAP_ENV__Fault (27)
+#define SOAP_TYPE_SOAP_ENV__Fault (30)
 #endif
 
 /* struct SOAP_ENV__Reason has binding name 'SOAP_ENV__Reason' for type '' */
 #ifndef SOAP_TYPE_SOAP_ENV__Reason
-#define SOAP_TYPE_SOAP_ENV__Reason (26)
+#define SOAP_TYPE_SOAP_ENV__Reason (29)
 #endif
 
 /* struct SOAP_ENV__Detail has binding name 'SOAP_ENV__Detail' for type '' */
 #ifndef SOAP_TYPE_SOAP_ENV__Detail
-#define SOAP_TYPE_SOAP_ENV__Detail (24)
+#define SOAP_TYPE_SOAP_ENV__Detail (27)
 #endif
 
 /* struct SOAP_ENV__Code has binding name 'SOAP_ENV__Code' for type '' */
 #ifndef SOAP_TYPE_SOAP_ENV__Code
-#define SOAP_TYPE_SOAP_ENV__Code (22)
+#define SOAP_TYPE_SOAP_ENV__Code (25)
 #endif
 
 /* struct SOAP_ENV__Header has binding name 'SOAP_ENV__Header' for type '' */
 #ifndef SOAP_TYPE_SOAP_ENV__Header
-#define SOAP_TYPE_SOAP_ENV__Header (21)
+#define SOAP_TYPE_SOAP_ENV__Header (24)
 #endif
 
 /* struct bhldr__updateInfo has binding name 'bhldr__updateInfo' for type 'bhldr:updateInfo' */
 #ifndef SOAP_TYPE_bhldr__updateInfo
-#define SOAP_TYPE_bhldr__updateInfo (20)
+#define SOAP_TYPE_bhldr__updateInfo (23)
 #endif
 
 /* struct bhldr__registerInfo has binding name 'bhldr__registerInfo' for type 'bhldr:registerInfo' */
 #ifndef SOAP_TYPE_bhldr__registerInfo
-#define SOAP_TYPE_bhldr__registerInfo (17)
+#define SOAP_TYPE_bhldr__registerInfo (20)
 #endif
 
 /* struct bhldr__registerInfoResponse has binding name 'bhldr__registerInfoResponse' for type 'bhldr:registerInfoResponse' */
 #ifndef SOAP_TYPE_bhldr__registerInfoResponse
-#define SOAP_TYPE_bhldr__registerInfoResponse (16)
+#define SOAP_TYPE_bhldr__registerInfoResponse (19)
 #endif
 
 /* struct bhldr__lookup has binding name 'bhldr__lookup' for type 'bhldr:lookup' */
 #ifndef SOAP_TYPE_bhldr__lookup
-#define SOAP_TYPE_bhldr__lookup (12)
+#define SOAP_TYPE_bhldr__lookup (15)
+#endif
+
+/* struct bhldr__lookupResponse has binding name 'bhldr__lookupResponse' for type 'bhldr:lookupResponse' */
+#ifndef SOAP_TYPE_bhldr__lookupResponse
+#define SOAP_TYPE_bhldr__lookupResponse (14)
 #endif
 
 /* struct bhldr__dataFormat has binding name 'bhldr__dataFormat' for type 'bhldr:dataFormat' */
@@ -375,17 +400,17 @@ typedef char *_QName;
 
 /* struct SOAP_ENV__Reason * has binding name 'PointerToSOAP_ENV__Reason' for type '' */
 #ifndef SOAP_TYPE_PointerToSOAP_ENV__Reason
-#define SOAP_TYPE_PointerToSOAP_ENV__Reason (29)
+#define SOAP_TYPE_PointerToSOAP_ENV__Reason (32)
 #endif
 
 /* struct SOAP_ENV__Detail * has binding name 'PointerToSOAP_ENV__Detail' for type '' */
 #ifndef SOAP_TYPE_PointerToSOAP_ENV__Detail
-#define SOAP_TYPE_PointerToSOAP_ENV__Detail (28)
+#define SOAP_TYPE_PointerToSOAP_ENV__Detail (31)
 #endif
 
 /* struct SOAP_ENV__Code * has binding name 'PointerToSOAP_ENV__Code' for type '' */
 #ifndef SOAP_TYPE_PointerToSOAP_ENV__Code
-#define SOAP_TYPE_PointerToSOAP_ENV__Code (23)
+#define SOAP_TYPE_PointerToSOAP_ENV__Code (26)
 #endif
 
 /* _QName has binding name '_QName' for type 'xsd:QName' */
@@ -403,6 +428,16 @@ typedef char *_QName;
 #define SOAP_TYPE_string (4)
 #endif
 
+/* std::vector<struct bhldr__dataFormat>  has binding name 'std__vectorTemplateOfbhldr__dataFormat' for type 'bhldr:dataFormat' */
+#ifndef SOAP_TYPE_std__vectorTemplateOfbhldr__dataFormat
+#define SOAP_TYPE_std__vectorTemplateOfbhldr__dataFormat (11)
+#endif
+
+/* std::vector<std::string>  has binding name 'std__vectorTemplateOfstd__string' for type 'xsd:string' */
+#ifndef SOAP_TYPE_std__vectorTemplateOfstd__string
+#define SOAP_TYPE_std__vectorTemplateOfstd__string (10)
+#endif
+
 /******************************************************************************\
  *                                                                            *
  * Externals                                                                  *
@@ -418,20 +453,20 @@ typedef char *_QName;
 
     
     /** Web service synchronous operation 'soap_call_bhldr__lookup' to the specified endpoint and SOAP Action header, returns SOAP_OK or error code */
-    SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, const std::string& infoId, struct bhldr__dataFormat &data);
+    SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<std::string> infoId, std::vector<struct bhldr__dataFormat> &data);
     /** Web service asynchronous operation 'soap_send_bhldr__lookup' to send a request message to the specified endpoint and SOAP Action header, returns SOAP_OK or error code */
-    SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, const std::string& infoId);
+    SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<std::string> infoId);
     /** Web service asynchronous operation 'soap_recv_bhldr__lookup' to receive a response message from the connected endpoint, returns SOAP_OK or error code */
-    SOAP_FMAC5 int SOAP_FMAC6 soap_recv_bhldr__lookup(struct soap *soap, struct bhldr__dataFormat &data);
+    SOAP_FMAC5 int SOAP_FMAC6 soap_recv_bhldr__lookup(struct soap *soap, std::vector<struct bhldr__dataFormat> &data);
     
     /** Web service synchronous operation 'soap_call_bhldr__registerInfo' to the specified endpoint and SOAP Action header, returns SOAP_OK or error code */
-    SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__registerInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, const struct bhldr__dataFormat& message, bool &result);
+    SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__registerInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<struct bhldr__dataFormat> inputInfo, bool &result);
     /** Web service asynchronous operation 'soap_send_bhldr__registerInfo' to send a request message to the specified endpoint and SOAP Action header, returns SOAP_OK or error code */
-    SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__registerInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, const struct bhldr__dataFormat& message);
+    SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__registerInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<struct bhldr__dataFormat> inputInfo);
     /** Web service asynchronous operation 'soap_recv_bhldr__registerInfo' to receive a response message from the connected endpoint, returns SOAP_OK or error code */
     SOAP_FMAC5 int SOAP_FMAC6 soap_recv_bhldr__registerInfo(struct soap *soap, bool &result);
     /** Web service one-way asynchronous operation 'soap_send_bhldr__updateInfo' */
-    SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__updateInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, const struct bhldr__dataFormat& message);
+    SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__updateInfo(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<struct bhldr__dataFormat> message);
     /** Web service one-way asynchronous operation 'soap_recv_bhldr__updateInfo' */
     SOAP_FMAC5 int SOAP_FMAC6 soap_recv_bhldr__updateInfo(struct soap *soap, struct bhldr__updateInfo *_param_1);
 
@@ -442,11 +477,11 @@ typedef char *_QName;
 \******************************************************************************/
 
     /** Web service operation 'bhldr__lookup' implementation, should return SOAP_OK or error code */
-    SOAP_FMAC5 int SOAP_FMAC6 bhldr__lookup(struct soap*, std::string infoId, struct bhldr__dataFormat &data);
+    SOAP_FMAC5 int SOAP_FMAC6 bhldr__lookup(struct soap*, std::vector<std::string> infoId, std::vector<struct bhldr__dataFormat> &data);
     /** Web service operation 'bhldr__registerInfo' implementation, should return SOAP_OK or error code */
-    SOAP_FMAC5 int SOAP_FMAC6 bhldr__registerInfo(struct soap*, struct bhldr__dataFormat message, bool &result);
+    SOAP_FMAC5 int SOAP_FMAC6 bhldr__registerInfo(struct soap*, std::vector<struct bhldr__dataFormat> inputInfo, bool &result);
     /** Web service one-way operation 'bhldr__updateInfo' implementation, should return value of soap_send_empty_response() to send HTTP Accept acknowledgment, or return an error code, or return SOAP_OK to immediately return without sending an HTTP response message */
-    SOAP_FMAC5 int SOAP_FMAC6 bhldr__updateInfo(struct soap*, struct bhldr__dataFormat message);
+    SOAP_FMAC5 int SOAP_FMAC6 bhldr__updateInfo(struct soap*, std::vector<struct bhldr__dataFormat> message);
 
 /******************************************************************************\
  *                                                                            *

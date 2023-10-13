@@ -7,12 +7,12 @@
     xmlns:bhldr="http://tempuri.org/bhldr.xsd">
  <SOAP-ENV:Body>
   <bhldr:registerInfo>
-   <message>
+   <inputInfo>
     <infoName></infoName>
     <value></value>
     <timestamp></timestamp>
     <dataType>UNKNOWN</dataType>
-   </message>
+   </inputInfo>
   </bhldr:registerInfo>
  </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

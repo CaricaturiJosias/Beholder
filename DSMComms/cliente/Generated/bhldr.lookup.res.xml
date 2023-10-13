@@ -6,11 +6,13 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:bhldr="http://tempuri.org/bhldr.xsd">
  <SOAP-ENV:Body>
-  <bhldr:dataFormat>
-   <infoName></infoName>
-   <value></value>
-   <timestamp></timestamp>
-   <dataType>UNKNOWN</dataType>
-  </bhldr:dataFormat>
+  <bhldr:lookupResponse>
+   <data>
+    <infoName></infoName>
+    <value></value>
+    <timestamp></timestamp>
+    <dataType>UNKNOWN</dataType>
+   </data>
+  </bhldr:lookupResponse>
  </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
