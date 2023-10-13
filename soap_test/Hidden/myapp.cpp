@@ -1,5 +1,5 @@
-#include "generated/soapH.h"
-#include "generated/ns.nsmap" // include XML namespaces
+#include "Generated/soapH.h"
+#include "Generated/ns.nsmap" // include XML namespaces
 struct soap *soap = soap_new(); // new context
 int main () {
     std::string greeting;

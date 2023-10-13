@@ -18,7 +18,7 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapC.cpp ver 2.8.131 2023-10-03 21:04:24 GMT")
+SOAP_SOURCE_STAMP("@(#) soapC.cpp ver 2.8.131 2023-10-12 17:39:11 GMT")
 
 
 #ifndef WITH_NOGLOBAL
@@ -326,7 +326,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_putelement(struct soap *soap, const void *ptr, co
 	case 0:
 		return SOAP_OK;
 	}
-	DBGLOG(TEST, SOAP_MESSAGE(fdebug, "soap_putelement '%s' failed for type %d in /home/cezario/Dev/Beholder/soap_test/generated/soapC.cpp\n", tag ? tag : "", type));
+	DBGLOG(TEST, SOAP_MESSAGE(fdebug, "soap_putelement '%s' failed for type %d in /home/cezario/Dev/Beholder/soap_test/Generated/soapC.cpp\n", tag ? tag : "", type));
 	return soap_element_empty(soap, tag, 0, NULL); /* unknown type to serialize */
 }
 #ifdef __cplusplus

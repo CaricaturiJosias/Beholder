@@ -8,16 +8,10 @@
  <SOAP-ENV:Body>
   <bhldr:registerInfo>
    <message>
-    <infoName>1</infoName>
-    <value>11</value>
-    <timestamp>123</timestamp>
-    <dataType>UNKNOWN</dataType>
-   </message>
-   <message>
-    <infoName>2</infoName>
-    <value>22</value>
-    <timestamp>456</timestamp>
-    <dataType>UNKNOWN</dataType>
+    <infoName>TEST INFO2</infoName>
+    <value>2.110</value>
+    <timestamp>1223</timestamp>
+    <dataType>ANALOG</dataType>
    </message>
   </bhldr:registerInfo>
  </SOAP-ENV:Body>

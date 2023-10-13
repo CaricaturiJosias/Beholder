@@ -31,27 +31,27 @@ namespace LocalMachine {
 
             SchemaUtils();
 
-            Information::Information DecompressInfo(void * encryptedInfo);
+            static Information::Information DecompressInfo(void * encryptedInfo);
 
-            void * DecryptInfo(void * encryptedInfo);
+            static void * DecryptInfo(void * encryptedInfo);
 
-            void * EncryptCompressedData(void * compressedInfo);
+            static void * EncryptCompressedData(void * compressedInfo);
 
-            std::string CompressData(Information::Information * data);
+            static std::string CompressData(Information::Information * data);
 
-            bool SaveData(Message::BaseMsg message, Information::Information data);
+            static bool SaveData(Message::BaseMsg message, Information::Information data);
 
-            bool SaveData(Information::Information data);
+            static bool SaveData(Information::Information data);
 
-            std::filesystem::path GetSchema(int32_t inputType);
+            static std::filesystem::path GetSchema(int32_t inputType);
 
         private:
 
-            bool CheckSchema(std::string schemaLoc);
+            static bool CheckSchema(std::string schemaLoc);
 
-            bool SchemaExists(std::string schemaName);
+            static bool SchemaExists(std::string schemaName);
 
-            std::string StoreData(int32_t inputType, LocalMachine::BUFFER_MAP * buffer);
+            static std::string StoreData(int32_t inputType, LocalMachine::BUFFER_MAP * buffer);
 
             static SCHEMA_MAP s_schemaMap;
 

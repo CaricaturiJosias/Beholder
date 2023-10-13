@@ -4,13 +4,10 @@
     xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:bhldr="http://tempuri.org/bhldr.xsd">
+    xmlns:ns="http://tempuri.org/ns.xsd">
  <SOAP-ENV:Body>
-  <bhldr:dataFormat>
-   <infoName></infoName>
-   <value></value>
-   <timestamp></timestamp>
-   <dataType>UNKNOWN</dataType>
-  </bhldr:dataFormat>
+  <ns:hello>
+   <name></name>
+  </ns:hello>
  </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

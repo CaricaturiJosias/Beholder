@@ -246,25 +246,38 @@ namespace LocalMachine {
                         (*buffer)[infoDataType],
                         infoDataType);
         }
-        // Saving file here
-        std::string targetFile = Machine::GetNewStorageFile();
-        
-        // TODO - Remove
-        std::cout << "Storing data in file " << targetFile << std::endl;
-        
-        // get ID off of file
-        size_t pos = targetFile.find('_')+1; // Exclude the _ itself
-        // All after _ (like 102.bin)
-        std::string sub_str = targetFile.substr(pos);
-        pos = sub_str.find(std::string(".bin"));
-        std::string fileId = sub_str.substr(0,pos);
+        int i = 0;
+        bool saved = false;
+        std::string targetFile;
+        std::string fileId;
 
-        // TODO - Remove
-        std::cout << "ID on file " << targetFile << " : " << fileId << std::endl;
-        // We have the id
+        while (!saved) {
+            // Saving file here
+            i = LocalMachine::Machine::GetAmmountOfFiles();
+            targetFile = Machine::GetNewStorageFile();
 
-        std::filesystem::copy_file(tempFile, targetFile, std::filesystem::copy_options::overwrite_existing );
+            if (std::filesystem::exists(targetFile)) {
+                std::cout << "File already exists: " << targetFile << std::endl;
+                continue;
+                // Will try until we find an unused ID
+            }
+            saved = true;
+            // TODO - Remove
+            std::cout << "Storing data in file " << targetFile << std::endl;
+            
+            // get ID off of file
+            size_t pos = targetFile.find('_') + i; // Exclude the _ itself
+            // All after _ (like 102.bin)
+            std::string sub_str = targetFile.substr(pos);
+            pos = sub_str.find(std::string(".bin"));
+            fileId = sub_str.substr(0,pos);
 
+            // TODO - Remove
+            std::cout << "ID on file " << targetFile << " : " << fileId << std::endl;
+            // We have the id
+
+            std::filesystem::copy_file(tempFile, targetFile, std::filesystem::copy_options::overwrite_existing );
+        }
         bool success = virtualTable->StoreValue(targetFile, fileId, infoDataType);
         return targetFile;
     }

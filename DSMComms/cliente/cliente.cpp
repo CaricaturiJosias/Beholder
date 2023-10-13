@@ -17,12 +17,15 @@
 using namespace std;
 using namespace DSMComms;
 
+// So we can contact the server on the SOAP requests
+POA_Beholder_var Beholder;
+
 int main(int argc, char* argv[])
 {
-	if (argc < 2) {
-		cerr << "USAGE: " << argv[0] << " file://<ior_file>" << endl;
-		return 1;
-	}
+	// if (argc < 2) {
+	// 	cerr << "USAGE: " << argv[0] << " file://<ior_file>" << endl;
+	// 	return 1;
+	// }
 
 	try {
 		// 1. Initiate ORB
@@ -30,19 +33,18 @@ int main(int argc, char* argv[])
 
 		// 2. Obtain object reference
 		CORBA::Object_ptr tmp_ref;
-		POA_Beholder_var Beholder;
 
-		tmp_ref = orb->string_to_object(argv[1]);
+		tmp_ref = orb->string_to_object("file://teste");
 		Beholder = POA_Beholder::_narrow(tmp_ref);
 
 		// 3. Use Beholder
-
-		string command = "a";
-		string password;
-		CORBA::Float amount;
-		string dest_ior;
-
-		struct soap *soap = soap_new();
+		cout << "starting soap" << endl;
+		// struct soap *soap = soap_new1(SOAP_IO_KEEPALIVE);
+		struct soap *soap = soap_new(); 
+		soap_serve(soap);                                    // run server
+	    soap_destroy(soap);                                  // clean up
+	    soap_end(soap);                                      // clean up
+	    soap_free(soap);                                     // free context
 		// 4. Destroi ORB
 		orb->destroy();
 	} catch (CORBA::Exception& e) {
@@ -54,37 +56,53 @@ int main(int argc, char* argv[])
 
 
 int bhldr__lookup(struct soap *soap, std::string infoId, bhldr__dataFormat &data) {
-  std::cout <<  "Lookup called" << std::endl
-            << "InfoId: " << infoId << std::endl;
-  return 200;
+	std::cout <<  "Lookup called" << std::endl
+				<< "InfoId: " << infoId << std::endl;
+	// Convert dataFormat to Value
+	Value value;
+	value.storedValue = std::stod(data.value);
+	value.timestamp = std::stol(data.timestamp);
+	
+	// Enum to int to other enum
+	DataType type = (DataType)data.dataType;
+
+	Beholder->getValue(infoId.c_str(), value, type);
+  	return 200;
 }
 
 //gsoap MsgProcessor service method: registerInfo register an info
 int bhldr__registerInfo(struct soap *soap, bhldr__dataFormat message, bool &result) {
+	std::cout << "CALLED" << std::endl;
 	std::cout 	<<  "registerInfo called" << std::endl
 				<< "infoName: " << message.infoName << std::endl
 				<< "value: " << message.value << std::endl
 				<< "timestamp: " << message.timestamp << std::endl;
-	Information::Information infoInstance(
-		message.infoName,
-		message.value,
-		message.timestamp,
-		"1",
-		Information::ANALOG);
-	Entity::Entity sender("No id haha", "no address", Entity::DATA_SOURCE);
-	LocalMachine::SchemaUtils schemaInstance;
-	if (schemaInstance.SaveData(infoInstance)) {
-		return 200;
-	}
-	return 418;
+	// Checking the validity of the data
+	if (message.infoName.empty() || message.value.empty() || message.timestamp.empty()) {
+        std::cout << "Something is wrong in the input" << std::endl;
+		result = false;
+        return 418;
+    }
+
+    // Convert dataFormat to Value
+    Value value;
+    value.storedValue = std::stod(message.value);
+    value.timestamp = std::stol(message.timestamp);
+    
+    // Enum to int to other enum
+    DataType type = (DataType)message.dataType;
+
+    Beholder->storeValue(message.infoName.c_str(), value, type);
+	return 200;
 }
 
 //gsoap MsgProcessor service method: updateInfo update for an info
 int bhldr__updateInfo(struct soap *soap, bhldr__dataFormat message) {
-  std::cout <<  "updateInfo called" << std::endl
-            << "infoName: " << message.infoName << std::endl
-            << "value: " << message.value << std::endl
-            << "timestamp: " << message.timestamp << std::endl;
-  return 200;
+	std::cout << "CALLED" << std::endl;
+	std::cout <<  "updateInfo called" << std::endl
+				<< "infoName: " << message.infoName << std::endl
+				<< "value: " << message.value << std::endl
+				<< "timestamp: " << message.timestamp << std::endl;
+	return 200;
 }
 

@@ -47,7 +47,11 @@ namespace LocalMachine {
     }
 
     fileDataValue VirtualTable::GetStoredValue(keyName id) {
-        
+        valueMap::iterator it = dataMapValue.find(id);
+        if (it!= dataMapValue.end()) {
+            return it->second;
+        }
+        // TODO - LOG ERROR
         return fileDataValue{};
     }
 
@@ -72,6 +76,22 @@ namespace LocalMachine {
                                     keyName valueName,
                                     EncryptionKey encryptionKey,
                                     int32_t dataType) {
+        if (encryptionKey.empty()) {
+            // TODO - LOG error
+            return false;
+        } else if (valueName.empty()) {
+            // TODO - Log empty value
+            return false;
+        }
+
+        valueMap::iterator it = dataMapValue.find(valueName);
+        if (it != dataMapValue.end()) {
+            // TODO - Log existing value
+            return false;
+        }
+
+        fileDataValue fileInstance = fileDataValue(value, dataType);
+        dataMapValue[valueName] = fileInstance;
         return true;
     }
 
