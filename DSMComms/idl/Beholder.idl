@@ -25,17 +25,16 @@ module DSMComms {
         long timestamp;
     };
 
-    typedef sequence<Value> ValSeq;
-    typedef sequence<string> StringSeq;
+    
 
     interface POA_Beholder {
 
         // operações
         void LogEventAll(in string valor, in EventEnum event);
         
-        void getValue(in string valueId, out Value toGetValue, in DataType type);
+        void getValue(in string valueId, out Value toGetValue);
 
-        void storeValue(in string valueId, in Value toGetValue, in DataType type);
+        void storeValue(in string valueId, in Value toSetValue, in DataType type);
     };
 
 };

@@ -42,7 +42,7 @@ namespace LocalMachine {
 
             static std::filesystem::path GetGlobalFile();
 
-            static std::string GetNewStorageFile();
+            static std::string GetNewStorageFile(char prefix);
 
             static int32_t GetAmmountOfFiles() { return fileAmmount; }
 

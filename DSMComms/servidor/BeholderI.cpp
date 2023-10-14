@@ -4,6 +4,7 @@
 // DSMComms includes
 #include <Beholder/SchemaUtils.hxx>
 #include <Beholder/MachineUtils.hxx>
+#include <Beholder/Information.hxx>
 
 // #include <DSMComms/Information.hxx>
 
@@ -20,15 +21,17 @@ void Beholder_i::LogEventAll(std::string valor, ::DSMComms::EventEnum event) {
   // nothing happens
 }
 
-void Beholder_i::getValue(::DSMComms::StringSeq valueId, ::DSMComms::ValSeq toGetValue, ::DSMComms::DataType type) {
-  for (std::string id : valueId) {
-    std::cout << "Received lookup for id " << id << std::endl;
+void Beholder_i::getValue(const std::string valueId, ::DSMComms::Value_out toGetValue) {
+  std::cout << "Received lookup for id " << valueId << std::endl;
+  std::vector<Information::Information> result = LocalMachine::MachineUtils::LookUpData(valueId);
+  std::cout << "Size of result: " << result.size() << std::endl;
 
-    LocalMachine::MachineUtils;
+  for (Information::Information info : result) {
+    // std::cout << "Printing info: " << std::endl << info.toString() << std::endl;
   }
 }
 
-void Beholder_i::storeValue(::DSMComms::StringSeq valueId, const ::DSMComms::ValSeq & toSetValue, ::DSMComms::DataType type) {
+void Beholder_i::storeValue(const std::string valueId, const ::DSMComms::Value & toSetValue, ::DSMComms::DataType type) {
   // We expect the data to have already been checked out
   LocalMachine::SchemaUtils schemaItem;
   std::string value = std::to_string(toSetValue.storedValue);

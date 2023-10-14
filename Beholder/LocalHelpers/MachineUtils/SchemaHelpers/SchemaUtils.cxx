@@ -70,7 +70,8 @@ namespace LocalMachine {
     std::vector<Information::Information> SchemaUtils::GetData(fileDataValue dataInstance, std::string id) {
         std::vector<Information::Information> infosInFile;
         std::vector<Information::Information> foundInfos;
-        
+        // std::cout << "Called GetData for id " << id << std::endl;
+
         infosInFile = DecryptInfo(dataInstance);
         // Identify the information we found
         for (Information::Information singleInfo : infosInFile) {
@@ -92,32 +93,48 @@ namespace LocalMachine {
         
         // stuff done to decrypt ...
         std::string decryptedPath = filePath;
-        
+        // std::cout << "Current file path: " << decryptedPath << std::endl;
+
         // The results should be handled by the caller
-        return DecompressInfo(decryptedPath, fileData.dataType);
+        return DecompressInfo(decryptedPath);
     }
 
-    std::vector<Information::Information> SchemaUtils::DecompressInfo(std::string file, int32_t inputType) {
+    std::vector<Information::Information> SchemaUtils::DecompressInfo(std::string file) {
         std::vector<Information::Information> infoInFile;
+        // std::cout << "DecompressInfo: " << file << std::endl;
+        int32_t inputType;
+        std::filesystem::path path(file);
+
+        // Extract the file name (including the extension)
+        std::string fileName = path.filename().string();
+        char prefix = fileName[0];
+
+        if (prefix == 'A') {
+            inputType = ANALOG;
+        } else if (prefix == 'D') {
+            inputType = DIGITAL;
+        } else {
+            // TODO - Log error message
+            // std::cout << "Invalid prefix: " << prefix << "On file " << file << std::endl;
+            return infoInFile;
+        }
 
         std::ifstream ifs(GetSchema(inputType));
         avro::ValidSchema schemaResult;
         avro::compileJsonSchema(ifs, schemaResult);
-
-        std::filesystem::path path = file;
         
         bool teste = false;
         
+        // std::cout << "Decompressing type " << ((inputType == ANALOG) ? "ANALOG" : "DIGITAL") << std::endl;
+        
+
         if (inputType == ANALOG) {
             avro::DataFileReader<c::Analog> readerInstance(path.c_str(), schemaResult);
             c::Analog analog;
+            // std::cout << "Ready to read" << std::endl;
+
             while(readerInstance.read(analog)) {
                 infoInFile.push_back(Information::Information(analog));
-                std::cout << "id: " << analog.id
-                        << ", quality: " << analog.quality 
-                        << ", timestamp: " << analog.timestamp
-                        << ", value: " << analog.value
-                        << std::endl;
             }
             readerInstance.close();
         } else {
@@ -126,15 +143,57 @@ namespace LocalMachine {
             c::Digital digital;
             while(readerInstance.read(digital)) {
                 infoInFile.push_back(Information::Information(digital));
-                std::cout << "id: " << digital.id
-                        << ", quality: " << digital.quality 
-                        << ", timestamp: " << digital.timestamp
-                        << ", value: " << digital.value
-                        << std::endl;
             }
             readerInstance.close();
         }
         return infoInFile;
+    }
+
+    valueMap SchemaUtils::GetDataInfoFromFiles(const std::string filePath) {
+        // Iterate through the files in the directory
+        valueMap outputResult;
+        std::pair<std::string, fileDataValue> iteratorInstance;
+        for (const auto& entry : std::filesystem::directory_iterator(filePath)) {
+            if (entry.is_regular_file()) {
+                // std::cout << "Reading " << entry.path().filename() << std::endl;
+                iteratorInstance = GetDataInfoFromFile(entry.path().string());
+                if (iteratorInstance.second.empty()) {
+                    // std::cout << entry.path().filename() << " is empty??" << std::endl;
+                    continue;
+                }
+                outputResult[iteratorInstance.first] = iteratorInstance.second;
+            }
+        }
+        return outputResult;
+    }
+
+    std::pair<std::string, fileDataValue> SchemaUtils::GetDataInfoFromFile(const std::string file) {
+        std::string fileId; //  Number on the file, used as id
+        std::string targetFile; // File to have its name analyzed
+        std::string sub_str; // String instance to help identify id of the file
+
+        size_t pos = file.find('_') + 1; // Exclude the _ itself
+        // All after _ (like 102.bin)
+        sub_str = file.substr(pos);
+        pos = sub_str.find(std::string(".bin"));
+        fileId = sub_str.substr(0,pos);
+        fileDataValue fileData;
+
+        // TODO - TEMPORARY - FIND BETTER WAY TO COLD START IDENTIFY DATA
+        std::filesystem::path path(file);
+
+        // Extract the file name (including the extension)
+        std::string fileName = path.filename().string();
+        char prefix = fileName[0];
+        // std::cout << "Found the prefix: " << prefix << " For file " << file << std::endl;
+        if (prefix == 'A') {
+            fileData = fileDataValue(file, ANALOG);
+        } else if (prefix == 'D') {
+            fileData = fileDataValue(file, DIGITAL);
+        } else {
+            return std::make_pair(std::string(""), fileDataValue());
+        }
+        return std::make_pair(fileId, fileData);
     }
 
     void * SchemaUtils::EncryptCompressedData(void * compressedInfo) {
@@ -154,27 +213,27 @@ namespace LocalMachine {
         // Sanity Check
         if (schemaPath == LocalMachine::UNKNOWN_TYPE) {
             // Logging for schema error
-            std::cout << "Schema is unknown" << std::endl;
+            // std::cout << "Schema is unknown" << std::endl;
             return nullptr;
         }
         // TODO - Remove
-        std::cout << "Schema is known" << std::endl;
+        // std::cout << "Schema is known" << std::endl;
         // Check timestamp value sent, if default define the local system time
         std::string timestamp = data->GetInfoTimeStamp();
         if (timestamp == Information::DEFAULT_TIME) {
             // TODO - Log occurance
-            std::cout << "time is the default time" << std::endl;
+            // std::cout << "time is the default time" << std::endl;
             timestamp = LocalMachine::MachineUtils::GetCurrentTime();
         }
         // TODO - Remove
-        std::cout << "Timestamp is valid" << std::endl;
+        // std::cout << "Timestamp is valid" << std::endl;
         BUFFER_MAP * buffer = virtualTable->getBuffer();
         BUFFER_MAP::iterator it = buffer->find(infoDataType);
 
         if (it == buffer->end()) {
             // TODO - Log occurance
             // Does not exist in the information vectors map, error
-            std::cout << "Buffer does not exist" << std::endl;
+            // std::cout << "Buffer does not exist" << std::endl;
             return nullptr;
         }
 
@@ -182,17 +241,17 @@ namespace LocalMachine {
         currentList.push_back(informationValue(*data));
 
         // TODO - Remove
-        std::cout << "Buffer size: " << currentList.size() << std::endl;
+        // std::cout << "Buffer size: " << currentList.size() << std::endl;
 
         if (LocalMachine::MAX_BUFFER_SIZE == currentList.size()) {
             // TODO - Remove
-            std::cout << "Saving, pushing it into buffer" << std::endl;
+            // std::cout << "Saving, pushing it into buffer" << std::endl;
             std::string fileStored = StoreData(infoDataType, buffer);
             (*buffer)[infoDataType].clear();
             return fileStored;
         }
         // TODO - Remove
-        std::cout << "Not saving, pushing it into buffer" << std::endl;
+        // std::cout << "Not saving, pushing it into buffer" << std::endl;
         (*buffer)[infoDataType].push_back(informationValue(*data));
 
         return "";
@@ -208,7 +267,7 @@ namespace LocalMachine {
             return false;
         }
         std::string compressedPath = CompressData(&data);
-        std::cout << "compressed Path : " << compressedPath << std::endl;
+        // std::cout << "compressed Path : " << compressedPath << std::endl;
         return true;
     }
 
@@ -218,7 +277,7 @@ namespace LocalMachine {
      * @param[in] inputType value recognizing if it is ANALOG or DIGITAL
     */
     std::filesystem::path SchemaUtils::GetSchema(int32_t inputType) {
-        std::cout << "InputType: "<< inputType << std::endl;
+        // std::cout << "InputType: "<< inputType << std::endl;
         std::filesystem::path globalFile = Machine::GetGlobalFile();
         std::string unknownSchemaFileName = s_schemaMap.find(std::string(UNKNOWN_TYPE))->second;
         // Only the error schema
@@ -232,7 +291,7 @@ namespace LocalMachine {
         }
         std::string schemaName = s_schemaMap.find(typeName)->second;
         std::filesystem::path schemaLocation = globalFile / schemaName;
-        std::cout << "Schema name: " << schemaName << ", Location: " << schemaLocation << std::endl;
+        // std::cout << "Schema name: " << schemaName << ", Location: " << schemaLocation << std::endl;
         // Should throw an exception if json is non existent
         CheckSchema(schemaLocation);
         return schemaLocation;
@@ -264,9 +323,11 @@ namespace LocalMachine {
         for (informationValue infoVal : infoMap) {
             schemaItem.value = (type == ANALOG) ? std::stod(infoVal.value) : std::stoi(infoVal.value);
             schemaItem.quality = std::stoi(infoVal.quality);
-            schemaItem.id = std::stod(infoVal.id);
+            schemaItem.id = infoVal.id;
             schemaItem.timestamp = infoVal.timestamp;
+            // std::cout << "Ready to write schema" << std::endl;
             writerInstance.write(schemaItem);
+            // std::cout << "Finished writing schema" << std::endl;
         }
         writerInstance.close();
     }
@@ -278,11 +339,11 @@ namespace LocalMachine {
 
         if (schemaPath == UNKNOWN_TYPE) {
             // LOG - We MUST log this scenario
-            std::cout << "Will not save data" << std::endl;
+            // std::cout << "Will not save data" << std::endl;
             return "";
         }
         std::filesystem::path storageLocation(Machine::GetStoragePath());
-        std::filesystem::path tempFile = storageLocation / "data.tmp";
+        std::filesystem::path tempFile = storageLocation / "data.tmp";;
 
         // Quick way to check if exists
         if (!std::filesystem::exists(schemaPath)) {
@@ -292,12 +353,13 @@ namespace LocalMachine {
 
         avro::ValidSchema schemaResult;
         avro::compileJsonSchema(schemaStream, schemaResult);
-
+        // std::cout << "StoreData: infoDataType = " << infoDataType << std::endl;
         if (infoDataType == ANALOG) {
             c::Analog analog;
             avro::DataFileWriter<c::Analog>
                 writerInstance( tempFile.c_str(),
                                 schemaResult);
+            // std::cout << "StoreData: writing analog"<< std::endl;
             populateWriter<c::Analog>(
                         writerInstance,
                         analog,
@@ -310,6 +372,7 @@ namespace LocalMachine {
             writerInstance(
                 tempFile.c_str(),
                 schemaResult);
+            // std::cout << "StoreData: writing digital"<< std::endl;
             populateWriter<c::Digital>(
                         writerInstance,
                         digital,
@@ -324,16 +387,18 @@ namespace LocalMachine {
         while (!saved) {
             // Saving file here
             i = LocalMachine::Machine::GetAmmountOfFiles();
-            targetFile = Machine::GetNewStorageFile();
+            // std::cout << "StoreData: Found files: " << i << std::endl;
+            char type = (infoDataType == ANALOG) ? 'A' : 'D';
+            targetFile = Machine::GetNewStorageFile(type);
 
             if (std::filesystem::exists(targetFile)) {
-                std::cout << "File already exists: " << targetFile << std::endl;
+                // std::cout << "File already exists: " << targetFile << std::endl;
                 continue;
                 // Will try until we find an unused ID
             }
             saved = true;
             // TODO - Remove
-            std::cout << "Storing data in file " << targetFile << std::endl;
+            // std::cout << "Storing data in file " << targetFile << std::endl;
             
             // get ID off of file
             size_t pos = targetFile.find('_') + 1; // Exclude the _ itself
@@ -344,7 +409,7 @@ namespace LocalMachine {
             fileId = sub_str.substr(0,pos);
 
             // TODO - Remove
-            std::cout << "ID on file " << targetFile << " : " << fileId << std::endl;
+            // std::cout << "ID on file " << targetFile << " : " << fileId << std::endl;
             // We have the id
 
             std::filesystem::copy_file(tempFile, targetFile, std::filesystem::copy_options::overwrite_existing );

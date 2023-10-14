@@ -31,7 +31,7 @@ Information::Information(std::string id, std::string value, std::string timestam
 }
 
 Information::Information(c::Analog analogInstance){
-    a_infoId = std::to_string(analogInstance.id);
+    a_infoId = analogInstance.id;
     a_data = std::to_string(analogInstance.value);
     a_quality = std::to_string(analogInstance.quality);
     a_timeStamp = analogInstance.timestamp;
@@ -39,7 +39,7 @@ Information::Information(c::Analog analogInstance){
 }
 
 Information::Information(c::Digital digitalInstance) {
-    a_infoId = std::to_string(digitalInstance.id);
+    a_infoId = digitalInstance.id;
     a_data = std::to_string(digitalInstance.value);
     a_quality = std::to_string(digitalInstance.quality);
     a_timeStamp = digitalInstance.timestamp;
@@ -76,6 +76,16 @@ std::string Information::GetInfoQuality() {
 
 int32_t Information::GetDataType() {
     return a_DataType;
+}
+
+std::string Information::toString() {
+    std::stringstream ss;
+    ss  << "info: " << a_infoId 
+        << "; data: " <<  a_data
+        << "; timestamp: " <<  a_timeStamp
+        << "; quality: " << a_quality
+        << "; type: " << a_DataType;
+    return ss.str();
 }
 
 };

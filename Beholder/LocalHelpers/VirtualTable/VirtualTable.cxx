@@ -11,12 +11,13 @@
 
 #include "VirtualTable.hxx"
 #include <MachineUtils.hxx>
+#include <Machine.hxx>
 #include <SchemaUtils.hxx>
 #include <filesystem>
 
 namespace LocalMachine {
     
-    uint32_t MAX_BUFFER_SIZE = 1;
+    uint32_t MAX_BUFFER_SIZE = 3;
 
     double VirtualTable::numRows = 0;
 
@@ -37,11 +38,19 @@ namespace LocalMachine {
     }
 
     VirtualTable::VirtualTable() {
-        // Nothing
+        ColdStartPopulate();
     }
 
     VirtualTable::~VirtualTable() {
         // Nothing
+    }
+
+    void VirtualTable::ColdStartPopulate() {
+        // Lets fill the info buffer
+        std::filesystem::path storagePath = LocalMachine::Machine::GetStoragePath();
+        // std::cout   << "VirtualTable::ColdStartPopulate called"
+                    // << " with file " << storagePath << std::endl;
+        dataMapValue = SchemaUtils::GetDataInfoFromFiles(storagePath);
     }
 
     valueMap VirtualTable::GetValueMap() {
@@ -52,25 +61,27 @@ namespace LocalMachine {
         std::vector<Information::Information> result;
         std::vector<Information::Information> instanceVector;
         
+        // std::cout << "VirtualTable::GetStoredValue looking for " << id << std::endl;
+
         valueMap::iterator it = dataMapValue.begin();
         std::vector<fileDataValue> instances;
         if (it == dataMapValue.end()) {
             // TODO - LOG ERROR
-            return result;
+            // std::cout << "VirtualTable::GetStoredValue failed " << std::endl;
+            // return result;
         }
 
         // For every instance, look at the encrypted file and search for any ID that matches
-        for (fileDataValue dataInstance : instances) {
-            // data is a filepath
-        }
-
-
-        for (fileDataValue dataInstance : instances) {
+        while (it != dataMapValue.end()) {
+            fileDataValue dataInstance = it->second;
             instanceVector = SchemaUtils::GetData(dataInstance, id);
             if (instanceVector.empty()) {
+                // std::cout << "Returned empty" << std::endl;
+                ++it;
                 continue;
             }
             result.insert(result.end(), instanceVector.begin(), instanceVector.end());
+            ++it;
         }
         return result;
     }
@@ -88,7 +99,7 @@ namespace LocalMachine {
             return false;
         }
         fileDataValue fileInstance = fileDataValue(data, dataType);
-        dataMapValue[valueName].push_back(fileInstance);
+        dataMapValue[valueName] = fileInstance;
         return true;
     }
 
@@ -107,11 +118,12 @@ namespace LocalMachine {
         valueMap::iterator it = dataMapValue.find(valueName);
         if (it != dataMapValue.end()) {
             // TODO - Log existing value
+            // std::cout <<  "Stored value already exists: " << it->second.data << std::endl;
             return false;
         }
 
         fileDataValue fileInstance = fileDataValue(value, dataType);
-        dataMapValue[valueName].push_back(fileInstance);
+        dataMapValue[valueName] = fileInstance;
         return true;
     }
 

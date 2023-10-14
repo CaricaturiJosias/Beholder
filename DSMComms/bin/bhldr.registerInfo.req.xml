@@ -8,16 +8,28 @@
  <SOAP-ENV:Body>
   <bhldr:registerInfo>
    <inputInfo>
-    <infoName>TEST INFO2</infoName>
-    <value>2.110</value>
-    <timestamp>1223</timestamp>
+    <infoName>FT1</infoName>
+    <value>59.9982</value>
+    <timestamp>2021/02/20 01:00:12</timestamp>
     <dataType>ANALOG</dataType>
    </inputInfo>
    <inputInfo>
-    <infoName>TEST INFO3</infoName>
-    <value>3.110</value>
-    <timestamp>3333</timestamp>
+    <infoName>PT1</infoName>
+    <value>490.21</value>
+    <timestamp>2021/02/20 01:00:12</timestamp>
     <dataType>ANALOG</dataType>
+   </inputInfo>
+   <inputInfo>
+    <infoName>FT1_QC</infoName>
+    <value>9</value>
+    <timestamp>2021/02/20 01:00:12</timestamp>
+    <dataType>DIGITAL</dataType>
+   </inputInfo>
+   <inputInfo>
+    <infoName>PT1_QC</infoName>
+    <value>9</value>
+    <timestamp>2021/02/20 01:00:12</timestamp>
+    <dataType>DIGITAL</dataType>
    </inputInfo>
   </bhldr:registerInfo>
  </SOAP-ENV:Body>

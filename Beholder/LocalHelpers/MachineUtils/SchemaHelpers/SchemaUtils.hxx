@@ -34,9 +34,13 @@ namespace LocalMachine {
             // Data Getters ----------------------------------------------------------------
             static std::vector<Information::Information> GetData(fileDataValue dataInstance, std::string id);
 
-            static std::vector<Information::Information> DecryptInfo(fileDataValue dataInstance);
+            static std::vector<Information::Information> DecryptInfo(fileDataValue fileData);
 
-            static std::vector<Information::Information> DecompressInfo(std::string filePath, int32_t inputType);
+            static std::vector<Information::Information> DecompressInfo(std::string filePath);
+
+            static valueMap GetDataInfoFromFiles(const std::string filePath);
+
+            static std::pair<std::string, fileDataValue> GetDataInfoFromFile(const std::string file);
 
             // Data Setters ----------------------------------------------------------------
             static void * EncryptCompressedData(void * compressedInfo);

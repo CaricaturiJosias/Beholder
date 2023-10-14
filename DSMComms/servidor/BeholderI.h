@@ -15,8 +15,8 @@ public:
     ~Beholder_i () {}
 
     void LogEventAll(std::string valor, ::DSMComms::EventEnum event);
-    void getValue(::DSMComms::StringSeq valueId, ::DSMComms::ValSeq toGetValue, ::DSMComms::DataType type);
-    void storeValue(::DSMComms::StringSeq valueId, const ::DSMComms::ValSeq & toGetValue, ::DSMComms::DataType type);
+    void getValue(const std::string valueId, ::DSMComms::Value_out toGetValue);
+    void storeValue(const std::string valueId, const ::DSMComms::Value & toSetValue, ::DSMComms::DataType type);
     void shutdown (const std::string password);
 
 private:

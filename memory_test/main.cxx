@@ -118,41 +118,41 @@ bool encrypt(std::string file) {
 
 int main () {
     std::string outputFile = "test.tmp";
-    std::string finalFile = "test.tmp";
+    std::string finalFile = "/home/cezario/beholder/Adata_0.bin";
     std::ifstream ifs("AnalogData.json");
 
     avro::ValidSchema schemaResult;
     avro::compileJsonSchema(ifs, schemaResult);
-    // GENERATION OF INSTANCES
+    // // GENERATION OF INSTANCES
     
-    c::Analog analog;
-    avro::DataFileWriter<c::Analog>
-    writerInstance(
-        outputFile.c_str(),
-        schemaResult,
-        16 * 1024,
-        avro::DEFLATE_CODEC);
+    // c::Analog analog;
+    // avro::DataFileWriter<c::Analog>
+    // writerInstance(
+    //     outputFile.c_str(),
+    //     schemaResult,
+    //     16 * 1024,
+    //     avro::DEFLATE_CODEC);
 
-    for (int i = 1; i < 10; i++) {
-        analog.value = i;
-        analog.quality = i;
-        analog.id = i;
-        analog.timestamp = std::to_string(i);
-        // writerInstance.write(analog);
-    }
-    // writerInstance.close();
+    // for (int i = 1; i < 10; i++) {
+    //     analog.value = i;
+    //     analog.quality = i;
+    //     analog.id = i;
+    //     analog.timestamp = std::to_string(i);
+    //     // writerInstance.write(analog);
+    // }
+    // // writerInstance.close();
 
-    // Now transport the content to another file
-    std::ifstream temp(outputFile);
-    // std::ios::app allow us to actually append
-    std::ofstream final("test.bin", std::ios::app);
-    if (!temp.is_open() || !final.is_open()) {
-        std::cout << "???" << std::endl;
-    }
-    final << temp.rdbuf();
-    final << "\n";
-    temp.close();
-    final.close();
+    // // Now transport the content to another file
+    // std::ifstream temp(outputFile);
+    // // std::ios::app allow us to actually append
+    // std::ofstream final("test.bin", std::ios::app);
+    // if (!temp.is_open() || !final.is_open()) {
+    //     std::cout << "???" << std::endl;
+    // }
+    // final << temp.rdbuf();
+    // final << "\n";
+    // temp.close();
+    // final.close();
 
     avro::DataFileReader<c::Analog> readerInstance(finalFile.c_str(), schemaResult);
 

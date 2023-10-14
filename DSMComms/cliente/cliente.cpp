@@ -55,32 +55,24 @@ int main(int argc, char* argv[])
 }
 
 
-int bhldr__lookup(struct soap *soap, std::vector<std::string> infoList, std::vector<bhldr__dataFormat> &data) {
-	std::cout <<  "Lookup called" << std::endl;
+int bhldr__lookup(struct soap *soap, std::vector<std::string> infoList,  std::vector<bhldr__dataFormat> &data) {
+	// std::cout <<  "Lookup called" << std::endl;
 	std::vector<std::string>::iterator itString = infoList.begin();
-	std::vector<bhldr__dataFormat>::iterator itData = data.begin();
 
-	while (itString != infoList.end() ||
-           itData!= data.end()) {
-		std::cout <<  "InfoId: " << itString->c_str() << std::endl;
+	while (itString != infoList.end()) {
+		// std::cout <<  "InfoId: " << itString->c_str() << std::endl;
 		// Convert dataFormat to Value
 		Value value;
-		
-		// Enum to int to other enum
-		DataType type = (DataType)itData->dataType;
 
-		Beholder->getValue(itString->c_str(), value, type);
-		itData->value = std::to_string(value.storedValue);
-		itData->timestamp = std::to_string(value.timestamp);
+		Beholder->getValue(itString->c_str(), value);
 		++itString;
-		++itData;
 	}
   	return 200;
 }
 
 //gsoap MsgProcessor service method: registerInfo register an info
 int bhldr__registerInfo(struct soap *soap, std::vector<bhldr__dataFormat> messageList, bool &result) {
-	std::cout << "CALLED" << std::endl;
+	// std::cout << "CALLED" << std::endl;
 	for (bhldr__dataFormat message : messageList) {
 		std::cout 	<<  "registerInfo called" << std::endl
 					<< "infoName: " << message.infoName << std::endl
@@ -88,7 +80,7 @@ int bhldr__registerInfo(struct soap *soap, std::vector<bhldr__dataFormat> messag
 					<< "timestamp: " << message.timestamp << std::endl;
 		// Checking the validity of the data
 		if (message.infoName.empty() || message.value.empty() || message.timestamp.empty()) {
-			std::cout << "Something is wrong in the input" << std::endl;
+			// std::cout << "Something is wrong in the input" << std::endl;
 			result = false;
 			return 418;
 		}
@@ -108,7 +100,7 @@ int bhldr__registerInfo(struct soap *soap, std::vector<bhldr__dataFormat> messag
 
 //gsoap MsgProcessor service method: updateInfo update for an info
 int bhldr__updateInfo(struct soap *soap, std::vector<bhldr__dataFormat> messageList) {
-	std::cout << "CALLED" << std::endl;
+	// std::cout << "CALLED" << std::endl;
 	for (bhldr__dataFormat message : messageList) {
 		std::cout <<  "updateInfo called" << std::endl
 					<< "infoName: " << message.infoName << std::endl

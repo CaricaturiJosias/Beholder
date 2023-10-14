@@ -61,10 +61,9 @@ namespace LocalMachine {
         return systemFile;
     }
 
-    std::string Machine::GetNewStorageFile() {
+    std::string Machine::GetNewStorageFile(char prefix) {
         std::filesystem::path storagePath = GetStoragePath();
-        std::string storageFile{storagePath.generic_string() + "data_" + std::to_string(GetAmmountOfFiles()) + ".bin"};
-        std::cout << "Ammount of files: " << std::to_string(GetAmmountOfFiles()) << std::endl;
+        std::string storageFile{storagePath.generic_string() + prefix + "data_" + std::to_string(GetAmmountOfFiles()) + ".bin"};
         // Update the counter
         NewDataFile();        
         return storageFile;

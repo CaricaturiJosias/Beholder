@@ -50,6 +50,8 @@ class Information {
         std::string GetInfoQuality();
         int32_t GetDataType();
 
+        std::string toString();
+
     protected:
 
         std::string a_data;

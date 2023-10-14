@@ -73,9 +73,18 @@ namespace LocalMachine {
             key = ""; // No encryption key = not encrypted
             dataType = dataTypeInput;
         }
+
+        bool empty() {
+            if (data.empty() &&
+                key.empty() &&
+                dataType == 0) {
+                return true;
+            }
+            return false;
+        }
     };
 
-    typedef std::map<keyName, std::vector<fileDataValue> > valueMap;
+    typedef std::map<keyName, fileDataValue > valueMap;
 
     class VirtualTable {
 
@@ -85,6 +94,8 @@ namespace LocalMachine {
 
             VirtualTable();
             ~VirtualTable();
+
+            void ColdStartPopulate();
 
             valueMap GetValueMap();
 

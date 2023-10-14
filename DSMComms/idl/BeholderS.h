@@ -25,8 +25,8 @@
 // TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_codegen.cpp:454
 
-#ifndef _TAO_IDL____BEHOLDERS_HCBNC6_H_
-#define _TAO_IDL____BEHOLDERS_HCBNC6_H_
+#ifndef _TAO_IDL____BEHOLDERS_Y7AY6E_H_
+#define _TAO_IDL____BEHOLDERS_Y7AY6E_H_
 
 
 #include "BeholderC.h"
@@ -36,7 +36,6 @@
 #include "tao/PortableServer/Var_Size_SArgument_T.h"
 #include "tao/PortableServer/Object_SArg_Traits.h"
 #include "tao/PortableServer/UB_String_SArguments.h"
-#include "tao/PortableServer/Vector_SArgument_T.h"
 #include "tao/PortableServer/get_arg.h"
 #include "tao/Special_Basic_Arguments.h"
 #include "tao/UB_String_Arguments.h"
@@ -96,34 +95,6 @@ namespace TAO
     : public
         Fixed_Size_SArg_Traits_T<
             ::DSMComms::Value,
-            TAO::Any_Insert_Policy_Stream
-          >
-  {
-  };
-  // TAO_IDL - Generated from
-  // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_arg_traits.cpp:671
-
-  
-
-  template<>
-  class SArg_Traits< ::DSMComms::ValSeq>
-    : public
-        Vector_SArg_Traits_T<
-            ::DSMComms::ValSeq,
-            TAO::Any_Insert_Policy_Stream
-          >
-  {
-  };
-  // TAO_IDL - Generated from
-  // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_arg_traits.cpp:671
-
-  
-
-  template<>
-  class SArg_Traits< ::DSMComms::StringSeq>
-    : public
-        Vector_SArg_Traits_T<
-            ::DSMComms::StringSeq,
             TAO::Any_Insert_Policy_Stream
           >
   {
@@ -208,8 +179,7 @@ namespace POA_DSMComms
 
     virtual void getValue (
       const std::string valueId,
-      ::DSMComms::Value_out toGetValue,
-      ::DSMComms::DataType type) = 0;
+      ::DSMComms::Value_out toGetValue) = 0;
 
     static void getValue_skel (
         TAO_ServerRequest &server_request,
@@ -220,7 +190,7 @@ namespace POA_DSMComms
 
     virtual void storeValue (
       const std::string valueId,
-      const ::DSMComms::Value & toGetValue,
+      const ::DSMComms::Value & toSetValue,
       ::DSMComms::DataType type) = 0;
 
     static void storeValue_skel (

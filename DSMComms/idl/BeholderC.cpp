@@ -32,7 +32,6 @@
 #include "tao/AnyTypeCode/Alias_TypeCode_Static.h"
 #include "tao/AnyTypeCode/Enum_TypeCode_Static.h"
 #include "tao/AnyTypeCode/Objref_TypeCode_Static.h"
-#include "tao/AnyTypeCode/Sequence_TypeCode_Static.h"
 #include "tao/AnyTypeCode/String_TypeCode_Static.h"
 #include "tao/AnyTypeCode/Struct_TypeCode_Static.h"
 #include "tao/AnyTypeCode/TypeCode_Struct_Field.h"
@@ -45,8 +44,6 @@
 #include "tao/AnyTypeCode/Any_Impl_T.h"
 #include "tao/AnyTypeCode/Any_Dual_Impl_T.h"
 #include "tao/AnyTypeCode/Any_Basic_Impl_T.h"
-#include "tao/Vector_CDR_T.h"
-#include "tao/AnyTypeCode/Vector_AnyOp_T.h"
 #include "cstring"
 
 #if !defined (__ACE_INLINE__)
@@ -150,108 +147,6 @@ DSMComms::Value::_tao_any_destructor (
   delete _tao_tmp_pointer;
 }
 // TAO_IDL - Generated from
-// /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_typecode/alias_typecode.cpp:46
-
-
-// TAO_IDL - Generated from
-// /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_typecode/typecode_defn.cpp:457
-
-
-#ifndef _TAO_TYPECODE_DSMComms_ValSeq_GUARD
-#define _TAO_TYPECODE_DSMComms_ValSeq_GUARD
-
-TAO_BEGIN_VERSIONED_NAMESPACE_DECL
-
-namespace TAO
-{
-  namespace TypeCode
-  {
-    namespace
-    {
-      TAO::TypeCode::Sequence< ::CORBA::TypeCode_ptr const *,
-                              TAO::Null_RefCount_Policy>
-        DSMComms_ValSeq_0 (
-          ::CORBA::tk_sequence,
-          &DSMComms::_tc_Value,
-          0U);
-        
-      ::CORBA::TypeCode_ptr const tc_DSMComms_ValSeq_0 =
-        &DSMComms_ValSeq_0;
-    }
-  }
-}
-
-TAO_END_VERSIONED_NAMESPACE_DECL
-
-#endif /* _TAO_TYPECODE_DSMComms_ValSeq_GUARD */
-
-static TAO::TypeCode::Alias<char const *,
-                            ::CORBA::TypeCode_ptr const *,
-                            TAO::Null_RefCount_Policy>
-  _tao_tc_DSMComms_ValSeq (
-    ::CORBA::tk_alias,
-    "IDL:DSMComms/ValSeq:1.0",
-    "ValSeq",
-    &TAO::TypeCode::tc_DSMComms_ValSeq_0);
-  
-
-namespace DSMComms
-{
-  ::CORBA::TypeCode_ptr const _tc_ValSeq =
-    &_tao_tc_DSMComms_ValSeq;
-}
-// TAO_IDL - Generated from
-// /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_typecode/alias_typecode.cpp:46
-
-
-// TAO_IDL - Generated from
-// /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_typecode/typecode_defn.cpp:457
-
-
-#ifndef _TAO_TYPECODE_DSMComms_StringSeq_GUARD
-#define _TAO_TYPECODE_DSMComms_StringSeq_GUARD
-
-TAO_BEGIN_VERSIONED_NAMESPACE_DECL
-
-namespace TAO
-{
-  namespace TypeCode
-  {
-    namespace
-    {
-      TAO::TypeCode::Sequence< ::CORBA::TypeCode_ptr const *,
-                              TAO::Null_RefCount_Policy>
-        DSMComms_StringSeq_0 (
-          ::CORBA::tk_sequence,
-          &CORBA::_tc_string,
-          0U);
-        
-      ::CORBA::TypeCode_ptr const tc_DSMComms_StringSeq_0 =
-        &DSMComms_StringSeq_0;
-    }
-  }
-}
-
-TAO_END_VERSIONED_NAMESPACE_DECL
-
-#endif /* _TAO_TYPECODE_DSMComms_StringSeq_GUARD */
-
-static TAO::TypeCode::Alias<char const *,
-                            ::CORBA::TypeCode_ptr const *,
-                            TAO::Null_RefCount_Policy>
-  _tao_tc_DSMComms_StringSeq (
-    ::CORBA::tk_alias,
-    "IDL:DSMComms/StringSeq:1.0",
-    "StringSeq",
-    &TAO::TypeCode::tc_DSMComms_StringSeq_0);
-  
-
-namespace DSMComms
-{
-  ::CORBA::TypeCode_ptr const _tc_StringSeq =
-    &_tao_tc_DSMComms_StringSeq;
-}
-// TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_interface/interface_cs.cpp:47
 
 
@@ -328,8 +223,7 @@ DSMComms::POA_Beholder::LogEventAll (
 void
 DSMComms::POA_Beholder::getValue (
   const std::string valueId,
-  ::DSMComms::Value_out toGetValue,
-  ::DSMComms::DataType type)
+  ::DSMComms::Value_out toGetValue)
 {
   if (!this->is_evaluated ())
     {
@@ -339,20 +233,18 @@ DSMComms::POA_Beholder::getValue (
   TAO::Arg_Traits< void>::ret_val _tao_retval;
   TAO::Arg_Traits< std::string>::in_arg_val _tao_valueId (valueId);
   TAO::Arg_Traits< ::DSMComms::Value>::out_arg_val _tao_toGetValue (toGetValue);
-  TAO::Arg_Traits< ::DSMComms::DataType>::in_arg_val _tao_type (type);
 
   TAO::Argument *_the_tao_operation_signature [] =
     {
       std::addressof(_tao_retval),
       std::addressof(_tao_valueId),
-      std::addressof(_tao_toGetValue),
-      std::addressof(_tao_type)
+      std::addressof(_tao_toGetValue)
     };
 
   TAO::Invocation_Adapter _invocation_call (
       this,
       _the_tao_operation_signature,
-      4,
+      3,
       "getValue",
       8,
       TAO::TAO_CO_NONE | TAO::TAO_CO_THRU_POA_STRATEGY
@@ -367,7 +259,7 @@ DSMComms::POA_Beholder::getValue (
 void
 DSMComms::POA_Beholder::storeValue (
   const std::string valueId,
-  const ::DSMComms::Value & toGetValue,
+  const ::DSMComms::Value & toSetValue,
   ::DSMComms::DataType type)
 {
   if (!this->is_evaluated ())
@@ -377,14 +269,14 @@ DSMComms::POA_Beholder::storeValue (
   
   TAO::Arg_Traits< void>::ret_val _tao_retval;
   TAO::Arg_Traits< std::string>::in_arg_val _tao_valueId (valueId);
-  TAO::Arg_Traits< ::DSMComms::Value>::in_arg_val _tao_toGetValue (toGetValue);
+  TAO::Arg_Traits< ::DSMComms::Value>::in_arg_val _tao_toSetValue (toSetValue);
   TAO::Arg_Traits< ::DSMComms::DataType>::in_arg_val _tao_type (type);
 
   TAO::Argument *_the_tao_operation_signature [] =
     {
       std::addressof(_tao_retval),
       std::addressof(_tao_valueId),
-      std::addressof(_tao_toGetValue),
+      std::addressof(_tao_toSetValue),
       std::addressof(_tao_type)
     };
 
@@ -609,68 +501,6 @@ TAO_END_VERSIONED_NAMESPACE_DECL
 
 
 // TAO_IDL - Generated from
-// /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_sequence/any_op_cs.cpp:43
-
-
-TAO_BEGIN_VERSIONED_NAMESPACE_DECL
-namespace CORBA {
-
-
-void operator<<= (
-  ::CORBA::Any &_tao_any,
-  const std::vector< ::DSMComms::Value> &_tao_elem)
-{
-  TAO::insert_value_vector< ::DSMComms::Value> (
-    _tao_any,
-    _tao_elem);
-}
-
-::CORBA::Boolean operator>>= (
-  const ::CORBA::Any &_tao_any,
-  std::vector< ::DSMComms::Value> &_tao_elem)
-{
-  return
-    TAO::extract_value_vector< ::DSMComms::Value> (
-      _tao_any,
-      _tao_elem);
-}
-
-}
-TAO_END_VERSIONED_NAMESPACE_DECL
-
-
-// TAO_IDL - Generated from
-// /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_sequence/any_op_cs.cpp:43
-
-
-TAO_BEGIN_VERSIONED_NAMESPACE_DECL
-namespace CORBA {
-
-
-void operator<<= (
-  ::CORBA::Any &_tao_any,
-  const std::vector< ::char *> &_tao_elem)
-{
-  TAO::insert_value_vector< ::char *> (
-    _tao_any,
-    _tao_elem);
-}
-
-::CORBA::Boolean operator>>= (
-  const ::CORBA::Any &_tao_any,
-  std::vector< ::char *> &_tao_elem)
-{
-  return
-    TAO::extract_value_vector< ::char *> (
-      _tao_any,
-      _tao_elem);
-}
-
-}
-TAO_END_VERSIONED_NAMESPACE_DECL
-
-
-// TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_interface/any_op_cs.cpp:37
 
 
@@ -819,120 +649,6 @@ TAO_BEGIN_VERSIONED_NAMESPACE_DECL
 TAO_END_VERSIONED_NAMESPACE_DECL
 
 
-// TAO_IDL - Generated from
-// /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_sequence/cdr_op_cs.cpp:92
-
-#if !defined _TAO_CDR_OP_DSMComms_ValSeq_CPP_
-#define _TAO_CDR_OP_DSMComms_ValSeq_CPP_
-
-TAO_BEGIN_VERSIONED_NAMESPACE_DECL
-
-::CORBA::Boolean operator<< (
-  TAO_OutputCDR &strm,
-  const std::vector<DSMComms::Value> &_tao_vector)
-{
-  ::CORBA::ULong length = _tao_vector.size ();
-  strm << length;
-
-  for (::CORBA::ULong i = 0UL; i < length; ++i)
-    {
-      if (! (strm << _tao_vector[i]))
-        {
-          return false;
-        }
-    }
-  
-  return true;
-}
-
-::CORBA::Boolean operator>> (
-  TAO_InputCDR &strm,
-  std::vector<DSMComms::Value> &_tao_vector)
-{
-  ::CORBA::ULong length = 0UL;
-  DSMComms::Value tmp;
-
-  if (! (strm >> length))
-    {
-      return false;
-    }
-  
-  _tao_vector.resize (length);
-
-  for (::CORBA::ULong i = 0UL; i < length; ++i)
-    {
-      if (! (strm >> tmp))
-        {
-          return false;
-        }
-      
-      _tao_vector[i] = tmp;
-    }
-  
-  return true;
-}
-
-
-TAO_END_VERSIONED_NAMESPACE_DECL
-
-#endif /* _TAO_CDR_OP_DSMComms_ValSeq_CPP_ */
-// TAO_IDL - Generated from
-// /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_sequence/cdr_op_cs.cpp:92
-
-#if !defined _TAO_CDR_OP_DSMComms_StringSeq_CPP_
-#define _TAO_CDR_OP_DSMComms_StringSeq_CPP_
-
-TAO_BEGIN_VERSIONED_NAMESPACE_DECL
-
-::CORBA::Boolean operator<< (
-  TAO_OutputCDR &strm,
-  const std::vector<char *> &_tao_vector)
-{
-  ::CORBA::ULong length = _tao_vector.size ();
-  strm << length;
-
-  for (::CORBA::ULong i = 0UL; i < length; ++i)
-    {
-      if (! (strm << _tao_vector[i]))
-        {
-          return false;
-        }
-    }
-  
-  return true;
-}
-
-::CORBA::Boolean operator>> (
-  TAO_InputCDR &strm,
-  std::vector<char *> &_tao_vector)
-{
-  ::CORBA::ULong length = 0UL;
-  char * * tmp;
-
-  if (! (strm >> length))
-    {
-      return false;
-    }
-  
-  _tao_vector.resize (length);
-
-  for (::CORBA::ULong i = 0UL; i < length; ++i)
-    {
-      if (! (strm >> tmp))
-        {
-          return false;
-        }
-      
-      _tao_vector[i] = tmp;
-    }
-  
-  return true;
-}
-
-
-TAO_END_VERSIONED_NAMESPACE_DECL
-
-#endif /* _TAO_CDR_OP_DSMComms_StringSeq_CPP_ */
 // TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_interface/cdr_op_cs.cpp:50
 
