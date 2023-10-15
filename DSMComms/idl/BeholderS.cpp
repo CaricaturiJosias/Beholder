@@ -25,8 +25,8 @@
 // TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_codegen.cpp:631
 
-#ifndef _TAO_IDL____BEHOLDERS_H3OWLP_CPP_
-#define _TAO_IDL____BEHOLDERS_H3OWLP_CPP_
+#ifndef _TAO_IDL____BEHOLDERS_JXVW0J_CPP_
+#define _TAO_IDL____BEHOLDERS_JXVW0J_CPP_
 
 
 #include "BeholderS.h"
@@ -271,8 +271,8 @@ namespace POA_DSMComms
           this->args_,
           1);
         
-      TAO::SArg_Traits< ::DSMComms::Value>::out_arg_type arg_2 =
-        TAO::Portable_Server::get_out_arg< ::DSMComms::Value> (
+      TAO::SArg_Traits< ::DSMComms::ValueSequence>::inout_arg_type arg_2 =
+        TAO::Portable_Server::get_inout_arg< ::DSMComms::ValueSequence> (
           this->operation_details_,
           this->args_,
           2);
@@ -297,13 +297,13 @@ void POA_DSMComms::POA_Beholder::getValue_skel (
   TAO_ServantBase *servant)
 {TAO::SArg_Traits< void>::ret_val retval;
   TAO::SArg_Traits< std::string>::in_arg_val _tao_valueId;
-  TAO::SArg_Traits< ::DSMComms::Value>::out_arg_val _tao_toGetValue;
+  TAO::SArg_Traits< ::DSMComms::ValueSequence>::inout_arg_val _tao_toGetValues;
 
   TAO::Argument * const args[] =
     {
       std::addressof(retval),
       std::addressof(_tao_valueId),
-      std::addressof(_tao_toGetValue)
+      std::addressof(_tao_toGetValues)
     };
   
   POA_DSMComms::POA_Beholder * const impl =
@@ -355,28 +355,21 @@ namespace POA_DSMComms
 
     void execute () override
     {
-      TAO::SArg_Traits< std::string>::in_arg_type arg_1 =
-        TAO::Portable_Server::get_in_arg< std::string> (
+      TAO::SArg_Traits< ::DSMComms::idSequence>::in_arg_type arg_1 =
+        TAO::Portable_Server::get_in_arg< ::DSMComms::idSequence> (
           this->operation_details_,
           this->args_,
           1);
         
-      TAO::SArg_Traits< ::DSMComms::Value>::in_arg_type arg_2 =
-        TAO::Portable_Server::get_in_arg< ::DSMComms::Value> (
+      TAO::SArg_Traits< ::DSMComms::ValueSequence>::in_arg_type arg_2 =
+        TAO::Portable_Server::get_in_arg< ::DSMComms::ValueSequence> (
           this->operation_details_,
           this->args_,
           2);
         
-      TAO::SArg_Traits< ::DSMComms::DataType>::in_arg_type arg_3 =
-        TAO::Portable_Server::get_in_arg< ::DSMComms::DataType> (
-          this->operation_details_,
-          this->args_,
-          3);
-        
       this->servant_->storeValue (
         arg_1
-        , arg_2
-        , arg_3);
+        , arg_2);
     }
   
   private:
@@ -393,16 +386,14 @@ void POA_DSMComms::POA_Beholder::storeValue_skel (
   TAO::Portable_Server::Servant_Upcall *TAO_INTERCEPTOR (servant_upcall),
   TAO_ServantBase *servant)
 {TAO::SArg_Traits< void>::ret_val retval;
-  TAO::SArg_Traits< std::string>::in_arg_val _tao_valueId;
-  TAO::SArg_Traits< ::DSMComms::Value>::in_arg_val _tao_toSetValue;
-  TAO::SArg_Traits< ::DSMComms::DataType>::in_arg_val _tao_type;
+  TAO::SArg_Traits< ::DSMComms::idSequence>::in_arg_val _tao_valueId;
+  TAO::SArg_Traits< ::DSMComms::ValueSequence>::in_arg_val _tao_toSetValue;
 
   TAO::Argument * const args[] =
     {
       std::addressof(retval),
       std::addressof(_tao_valueId),
-      std::addressof(_tao_toSetValue),
-      std::addressof(_tao_type)
+      std::addressof(_tao_toSetValue)
     };
   
   POA_DSMComms::POA_Beholder * const impl =
@@ -421,7 +412,7 @@ void POA_DSMComms::POA_Beholder::storeValue_skel (
   TAO::Upcall_Wrapper upcall_wrapper;
   upcall_wrapper.upcall (server_request
                          , args
-                         , 4
+                         , 3
                          , command
 #if TAO_HAS_INTERCEPTORS == 1
                          , servant_upcall

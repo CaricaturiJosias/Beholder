@@ -21,20 +21,23 @@ module DSMComms {
     };
 
     struct Value {
+        string id;
         double storedValue;
         long timestamp;
+        DataType type;
     };
 
-    
+    typedef sequence<Value> ValueSequence;
+    typedef sequence<string> idSequence;
 
     interface POA_Beholder {
 
         // operações
         void LogEventAll(in string valor, in EventEnum event);
         
-        void getValue(in string valueId, out Value toGetValue);
+        void getValue(in string valueId, inout ValueSequence toGetValues);
 
-        void storeValue(in string valueId, in Value toSetValue, in DataType type);
+        void storeValue(in idSequence valueId, in ValueSequence toSetValue);
     };
 
 };
