@@ -1,4 +1,6 @@
 
+cd ../
+
 # Clean soap files
 sudo rm -rf /usr/local/share/gsoap
 sudo rm -rf /usr/local/lib/libgsoap*
