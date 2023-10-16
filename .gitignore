@@ -4,8 +4,6 @@ build/
 3PPIGNORE
 .vscode/
 *cmake_install.cmake
-DSMComms/*/Makefile
-Makefile
 *.o
 *.so
 *.a
