@@ -21,42 +21,64 @@ void Beholder_i::LogEventAll(std::string valor, ::DSMComms::EventEnum event) {
   // nothing happens
 }
 
-void Beholder_i::getValue(const std::string valueId, ::DSMComms::ValueSequence & toGetValue) {
-  std::cout << "Received lookup for id " << valueId << std::endl;
-  std::vector<Information::Information> result = LocalMachine::MachineUtils::LookUpData(valueId);
+void Beholder_i::getValue(::DSMComms::Value & toGetValue) {
+  std::cout << "Received lookup for id " << toGetValue.id.in() << std::endl;
+  std::string timestamp;
+  if (toGetValue.timestamp.in() != nullptr) {
+    timestamp = toGetValue.timestamp.in();
+  }
+  std::cout << "With timestamp " << timestamp << std::endl;
+  std::string id = toGetValue.id.in();
+  std::vector<Information::Information> result = LocalMachine::MachineUtils::LookUpData(id, timestamp);
+
   std::cout << "Size of result: " << result.size() << std::endl;
 
+  if (result.size() == 0) {
+    toGetValue.storedValue = 0;
+    toGetValue.type = DSMComms::DataType::UNKNOWN;
+    return;
+  }
+
+  Information::Information firstInfo = *(result.begin());
+  toGetValue.id = firstInfo.GetInfoId().c_str();
+  toGetValue.storedValue = std::stod(firstInfo.GetInfoValue());
+  toGetValue.timestamp = firstInfo.GetInfoTimeStamp().c_str();
+  toGetValue.type = static_cast<DSMComms::DataType>(std::stoi(firstInfo.GetInfoQuality()));
+
   for (Information::Information info : result) {
-    // std::cout << "Printing info: " << std::endl << info.toString() << std::endl;
     DSMComms::Value value;
     value.id = info.GetInfoId().c_str();
     value.storedValue = std::stod(info.GetInfoValue());
-    value.timestamp = std::stol(info.GetInfoTimeStamp());
+    value.timestamp = info.GetInfoTimeStamp().c_str();
     value.type = static_cast<DSMComms::DataType>(std::stoi(info.GetInfoQuality()));
-    toGetValue.push_back(value);
+    std::cout << "Information: " << std::endl << info.toString() << std::endl;
+    std::cout << "Value: " << std::endl
+              << "Id : " << value.id << std::endl
+              << "Value : " << value.storedValue << std::endl
+              << "Timestamp : " << value.timestamp << std::endl
+              << "Type : " << value.type << std::endl << std::endl;
   }
   return;
 }
 
-void Beholder_i::storeValue(const ::DSMComms::idSequence & valueId, const ::DSMComms::ValueSequence & toSetValues) {
+void Beholder_i::storeValue(const ::DSMComms::Value & toSetValue) {
   // We expect the data to have already been checked out
+  std::cout << "Entered" << std::endl;
   LocalMachine::SchemaUtils schemaItem;
-  std::vector<char *>::const_iterator  charIt = valueId.begin();
-  std::vector<DSMComms::Value>::const_iterator  valueIt = toSetValues.begin();
 
-  while (valueIt != toSetValues.end()) {
-    DSMComms::Value value = *valueIt;
-    std::string strValue = std::to_string(value.storedValue);
-    std::string timestamp = std::to_string(value.timestamp);
-    std::string id = std::string(*charIt);
+  std::cout 	<< "Value: " << std::endl
+        << "id: " << toSetValue.id << std::endl
+        << "storedValue: " << toSetValue.storedValue << std::endl
+        << "timestamp: " << toSetValue.timestamp << std::endl
+        << "type: " << toSetValue.type << std::endl;
+  std::string id = toSetValue.id.in();
+  std::string strValue = std::to_string(toSetValue.storedValue);
+  std::string timestamp = toSetValue.timestamp.in();
 
-    int32_t typeVal = value.type;
-    Information::Information * info = new Information::Information(id, strValue, timestamp, std::string("1"), typeVal);
-    schemaItem.CompressData(info);
-
-    ++valueIt;
-    ++charIt;
-  }
+  int32_t typeVal = toSetValue.type;
+  Information::Information * info = new Information::Information(id, strValue, timestamp, std::string("1"), typeVal);
+  schemaItem.CompressData(info);
+  std::cout << "Finished" << std::endl;
 
 }
 

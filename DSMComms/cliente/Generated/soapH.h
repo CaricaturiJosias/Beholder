@@ -1282,12 +1282,14 @@ inline struct bhldr__lookup * soap_new_req_bhldr__lookup(
 
 inline struct bhldr__lookup * soap_new_set_bhldr__lookup(
 	struct soap *soap,
-	const std::vector<std::string> & infoId)
+	const std::vector<std::string> & infoId,
+	const std::vector<std::string> & timestamp)
 {
 	struct bhldr__lookup *_p = ::soap_new_bhldr__lookup(soap);
 	if (_p)
 	{	::soap_default_bhldr__lookup(soap, _p);
 		_p->infoId = infoId;
+		_p->timestamp = timestamp;
 	}
 	return _p;
 }

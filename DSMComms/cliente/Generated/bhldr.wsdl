@@ -49,6 +49,7 @@
       <complexType>
           <sequence>
             <element name="infoId" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/><!-- bhldr__lookup::infoId -->
+            <element name="timestamp" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/><!-- bhldr__lookup::timestamp -->
           </sequence>
       </complexType>
     </element>

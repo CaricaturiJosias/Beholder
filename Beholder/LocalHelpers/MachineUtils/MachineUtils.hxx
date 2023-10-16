@@ -60,7 +60,7 @@ namespace LocalMachine {
 
             static  void UpdateTable(std::vector<Information::Information> information, Entity::Entity dataOwner);
 
-            static std::vector<Information::Information> LookUpData(std::string id);
+            static std::vector<Information::Information> LookUpData(std::string id, std::string timestamp = std::string(""));
 
             static std::vector<Information::Information> GetDataInArray(Message::BaseMsg dataInfo);
 

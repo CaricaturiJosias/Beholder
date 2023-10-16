@@ -17,7 +17,7 @@
 
 namespace LocalMachine {
     
-    uint32_t MAX_BUFFER_SIZE = 3;
+    uint32_t MAX_BUFFER_SIZE = 1;
 
     double VirtualTable::numRows = 0;
 
@@ -57,7 +57,7 @@ namespace LocalMachine {
         return dataMapValue;
     }
 
-    std::vector<Information::Information> VirtualTable::GetStoredValue(keyName id) {
+    std::vector<Information::Information> VirtualTable::GetStoredValue(keyName id, std::string timestamp) {
         std::vector<Information::Information> result;
         std::vector<Information::Information> instanceVector;
         
@@ -67,39 +67,58 @@ namespace LocalMachine {
         std::vector<fileDataValue> instances;
         if (it == dataMapValue.end()) {
             // TODO - LOG ERROR
-            // std::cout << "VirtualTable::GetStoredValue failed " << std::endl;
+            std::cout << "VirtualTable::GetStoredValue empty " << std::endl;
             // return result;
         }
 
+        std::cout << "VirtualTable::GetStoredValue not empty " << std::endl;
         // For every instance, look at the encrypted file and search for any ID that matches
         while (it != dataMapValue.end()) {
             fileDataValue dataInstance = it->second;
             instanceVector = SchemaUtils::GetData(dataInstance, id);
             if (instanceVector.empty()) {
-                // std::cout << "Returned empty" << std::endl;
+                std::cout << "Empty instance" << std::endl;
                 ++it;
                 continue;
             }
-            result.insert(result.end(), instanceVector.begin(), instanceVector.end());
+
+            if (timestamp.empty() || timestamp == Information::DEFAULT_TIME) {
+                result.insert(result.end(), instanceVector.begin(), instanceVector.end());
+                std::cout << "Timestamp is default or empty, timestamp: " << timestamp << std::endl;
+            } else {
+                std::cout << "Timestamp not empty: " << timestamp << std::endl;
+                for (Information::Information instance : instanceVector) {
+                    // If timestamp is defined, look for a match
+                    std::cout << "Instance: " << instance.GetInfoTimeStamp() << std::endl;
+                    if (instance.GetInfoTimeStamp() == timestamp) {
+                        std::cout << "Found " << instance.GetInfoTimeStamp() << std::endl;
+                        result.push_back(instance);
+                    }
+                }
+            }
             ++it;
         }
         return result;
     }
 
     bool VirtualTable::StoreValue(dataFilePath data, keyName valueName, int32_t dataType) {
+        std::string idPrefix = ((dataType == ANALOG) ? std::string("A") : ""+ std::string("D"));
+        std::string valueId = idPrefix + valueName;
         // No encryption key = not encrypted
         if (valueName.empty()) {
             // TODO - LOG error
             return false;
         }
 
-        valueMap::iterator it = dataMapValue.find(valueName);
+        valueMap::iterator it = dataMapValue.find(valueId);
         if (it != dataMapValue.end()) {
             // TODO - Log existing value
+            std::cout <<  "Stored value already exists: " << it->first << std::endl;
             return false;
         }
         fileDataValue fileInstance = fileDataValue(data, dataType);
-        dataMapValue[valueName] = fileInstance;
+        std::cout <<  "New value for the data map: " << valueId << std::endl;
+        dataMapValue[valueId] = fileInstance;
         return true;
     }
 
@@ -107,6 +126,8 @@ namespace LocalMachine {
                                     keyName valueName,
                                     EncryptionKey encryptionKey,
                                     int32_t dataType) {
+        std::string idPrefix = ((dataType == ANALOG) ? std::string("A") : ""+ std::string("D"));
+        std::string valueId = idPrefix + valueName;
         if (encryptionKey.empty()) {
             // TODO - LOG error
             return false;
@@ -115,15 +136,16 @@ namespace LocalMachine {
             return false;
         }
 
-        valueMap::iterator it = dataMapValue.find(valueName);
+        valueMap::iterator it = dataMapValue.find(valueId);
         if (it != dataMapValue.end()) {
             // TODO - Log existing value
-            // std::cout <<  "Stored value already exists: " << it->second.data << std::endl;
+            std::cout <<  "Stored value already exists: " << it->second.data << std::endl;
             return false;
         }
 
         fileDataValue fileInstance = fileDataValue(value, dataType);
-        dataMapValue[valueName] = fileInstance;
+        std::cout <<  "New value for the data map: " << valueId << std::endl;
+        dataMapValue[valueId] = fileInstance;
         return true;
     }
 

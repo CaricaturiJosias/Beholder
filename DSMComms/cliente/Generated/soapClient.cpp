@@ -17,18 +17,19 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 #endif
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapClient.cpp ver 2.8.131 2023-10-15 00:58:06 GMT")
+SOAP_SOURCE_STAMP("@(#) soapClient.cpp ver 2.8.131 2023-10-16 02:14:38 GMT")
 
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<std::string> infoId, std::vector<struct bhldr__dataFormat> &data)
-{	if (soap_send_bhldr__lookup(soap, soap_endpoint, soap_action, infoId) || soap_recv_bhldr__lookup(soap, data))
+SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<std::string> infoId, std::vector<std::string> timestamp, std::vector<struct bhldr__dataFormat> &data)
+{	if (soap_send_bhldr__lookup(soap, soap_endpoint, soap_action, infoId, timestamp) || soap_recv_bhldr__lookup(soap, data))
 		return soap->error;
 	return SOAP_OK;
 }
 
-SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<std::string> infoId)
+SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<std::string> infoId, std::vector<std::string> timestamp)
 {	struct bhldr__lookup soap_tmp_bhldr__lookup;
 	soap_tmp_bhldr__lookup.infoId = infoId;
+	soap_tmp_bhldr__lookup.timestamp = timestamp;
 	soap_begin(soap);
 	soap->encodingStyle = NULL; /* use SOAP literal style */
 	soap_serializeheader(soap);

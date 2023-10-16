@@ -8,6 +8,7 @@
  <SOAP-ENV:Body>
   <bhldr:lookup>
    <infoId></infoId>
+   <timestamp></timestamp>
   </bhldr:lookup>
  </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

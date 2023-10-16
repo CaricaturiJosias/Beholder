@@ -161,7 +161,11 @@ namespace LocalMachine {
                     // std::cout << entry.path().filename() << " is empty??" << std::endl;
                     continue;
                 }
-                outputResult[iteratorInstance.first] = iteratorInstance.second;
+                std::string idPrefix = ((iteratorInstance.second.dataType == ANALOG) ?
+                                            std::string("A") : 
+                                            std::string("D"));
+                std::string valueId = idPrefix + iteratorInstance.first ;
+                outputResult[valueId] = iteratorInstance.second;
             }
         }
         return outputResult;

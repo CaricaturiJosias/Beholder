@@ -15,7 +15,7 @@ struct bhldr__dataFormat {
     enum bhldr__DataType dataType; // required (identifies the data type)
 };
 
-int bhldr__lookup(std::vector<std::string> infoId, std::vector<struct bhldr__dataFormat> &data);
+int bhldr__lookup(std::vector<std::string> infoId, std::vector<std::string> timestamp, std::vector<struct bhldr__dataFormat> &data);
 
 int bhldr__registerInfo(std::vector<struct bhldr__dataFormat> inputInfo, bool &result);
 

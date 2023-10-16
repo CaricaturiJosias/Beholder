@@ -18,7 +18,7 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapC.cpp ver 2.8.131 2023-10-15 00:58:06 GMT")
+SOAP_SOURCE_STAMP("@(#) soapC.cpp ver 2.8.131 2023-10-16 02:14:38 GMT")
 
 
 #ifndef WITH_NOGLOBAL
@@ -1976,6 +1976,7 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_default_bhldr__lookup(struct soap *soap, struct 
 {
 	(void)soap; (void)a; /* appease -Wall -Werror */
 	soap_default_std__vectorTemplateOfstd__string(soap, &a->infoId);
+	soap_default_std__vectorTemplateOfstd__string(soap, &a->timestamp);
 }
 
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_bhldr__lookup(struct soap *soap, const struct bhldr__lookup *a)
@@ -1983,6 +1984,7 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_bhldr__lookup(struct soap *soap, const
 	(void)soap; (void)a; /* appease -Wall -Werror */
 #ifndef WITH_NOIDREF
 	soap_serialize_std__vectorTemplateOfstd__string(soap, &a->infoId);
+	soap_serialize_std__vectorTemplateOfstd__string(soap, &a->timestamp);
 #endif
 }
 
@@ -1992,6 +1994,8 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_out_bhldr__lookup(struct soap *soap, const char *
 	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_bhldr__lookup), type))
 		return soap->error;
 	if (soap_out_std__vectorTemplateOfstd__string(soap, "infoId", -1, &a->infoId, ""))
+		return soap->error;
+	if (soap_out_std__vectorTemplateOfstd__string(soap, "timestamp", -1, &a->timestamp, ""))
 		return soap->error;
 	return soap_element_end_out(soap, tag);
 }
@@ -2011,6 +2015,10 @@ SOAP_FMAC3 struct bhldr__lookup * SOAP_FMAC4 soap_in_bhldr__lookup(struct soap *
 		{	soap->error = SOAP_TAG_MISMATCH;
 			if (soap->error == SOAP_TAG_MISMATCH)
 			{	if (soap_in_std__vectorTemplateOfstd__string(soap, "infoId", &a->infoId, "xsd:string"))
+					continue;
+			}
+			if (soap->error == SOAP_TAG_MISMATCH)
+			{	if (soap_in_std__vectorTemplateOfstd__string(soap, "timestamp", &a->timestamp, "xsd:string"))
 					continue;
 			}
 			if (soap->error == SOAP_TAG_MISMATCH)

@@ -49,10 +49,10 @@ namespace LocalMachine {
         return;
     }
 
-    std::vector<Information::Information> MachineUtils::LookUpData(std::string id) {
+    std::vector<Information::Information> MachineUtils::LookUpData(std::string id, std::string timestamp) {
         // We don't expect it to be empty
         std::shared_ptr<VirtualTable> table = Machine::GetVirtualTable();
-        return table->GetStoredValue(id);
+        return table->GetStoredValue(id, timestamp);
     }
 
     std::vector<Information::Information> MachineUtils::GetDataInArray(Message::BaseMsg dataInfo) {

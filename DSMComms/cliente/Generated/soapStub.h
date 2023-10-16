@@ -109,11 +109,13 @@ struct SOAP_CMAC bhldr__lookup {
       public:
         /** Optional element 'infoId' of XML schema type 'xsd:string' */
         std::vector<std::string> infoId;
+        /** Optional element 'timestamp' of XML schema type 'xsd:string' */
+        std::vector<std::string> timestamp;
       public:
         /** Return unique type id SOAP_TYPE_bhldr__lookup */
         long soap_type() const { return SOAP_TYPE_bhldr__lookup; }
         /** Constructor with member initializations */
-        bhldr__lookup() : infoId() { }
+        bhldr__lookup() : infoId(), timestamp() { }
         /** Friend allocator */
         friend SOAP_FMAC1 bhldr__lookup * SOAP_FMAC2 soap_instantiate_bhldr__lookup(struct soap*, int, const char*, const char*, size_t*);
 };
@@ -453,9 +455,9 @@ typedef char *_QName;
 
     
     /** Web service synchronous operation 'soap_call_bhldr__lookup' to the specified endpoint and SOAP Action header, returns SOAP_OK or error code */
-    SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<std::string> infoId, std::vector<struct bhldr__dataFormat> &data);
+    SOAP_FMAC5 int SOAP_FMAC6 soap_call_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<std::string> infoId, std::vector<std::string> timestamp, std::vector<struct bhldr__dataFormat> &data);
     /** Web service asynchronous operation 'soap_send_bhldr__lookup' to send a request message to the specified endpoint and SOAP Action header, returns SOAP_OK or error code */
-    SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<std::string> infoId);
+    SOAP_FMAC5 int SOAP_FMAC6 soap_send_bhldr__lookup(struct soap *soap, const char *soap_endpoint, const char *soap_action, std::vector<std::string> infoId, std::vector<std::string> timestamp);
     /** Web service asynchronous operation 'soap_recv_bhldr__lookup' to receive a response message from the connected endpoint, returns SOAP_OK or error code */
     SOAP_FMAC5 int SOAP_FMAC6 soap_recv_bhldr__lookup(struct soap *soap, std::vector<struct bhldr__dataFormat> &data);
     
@@ -477,7 +479,7 @@ typedef char *_QName;
 \******************************************************************************/
 
     /** Web service operation 'bhldr__lookup' implementation, should return SOAP_OK or error code */
-    SOAP_FMAC5 int SOAP_FMAC6 bhldr__lookup(struct soap*, std::vector<std::string> infoId, std::vector<struct bhldr__dataFormat> &data);
+    SOAP_FMAC5 int SOAP_FMAC6 bhldr__lookup(struct soap*, std::vector<std::string> infoId, std::vector<std::string> timestamp, std::vector<struct bhldr__dataFormat> &data);
     /** Web service operation 'bhldr__registerInfo' implementation, should return SOAP_OK or error code */
     SOAP_FMAC5 int SOAP_FMAC6 bhldr__registerInfo(struct soap*, std::vector<struct bhldr__dataFormat> inputInfo, bool &result);
     /** Web service one-way operation 'bhldr__updateInfo' implementation, should return value of soap_send_empty_response() to send HTTP Accept acknowledgment, or return an error code, or return SOAP_OK to immediately return without sending an HTTP response message */

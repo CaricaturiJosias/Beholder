@@ -25,8 +25,8 @@
 // TAO_IDL - Generated from
 // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_codegen.cpp:454
 
-#ifndef _TAO_IDL____BEHOLDERS_JXVW0J_H_
-#define _TAO_IDL____BEHOLDERS_JXVW0J_H_
+#ifndef _TAO_IDL____BEHOLDERS_JYP5WN_H_
+#define _TAO_IDL____BEHOLDERS_JYP5WN_H_
 
 
 #include "BeholderC.h"
@@ -115,20 +115,6 @@ namespace TAO
   {
   };
   // TAO_IDL - Generated from
-  // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_arg_traits.cpp:671
-
-  
-
-  template<>
-  class SArg_Traits< ::DSMComms::idSequence>
-    : public
-        Vector_SArg_Traits_T<
-            ::DSMComms::idSequence,
-            TAO::Any_Insert_Policy_Stream
-          >
-  {
-  };
-  // TAO_IDL - Generated from
   // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_arg_traits.cpp:142
 
   
@@ -207,8 +193,7 @@ namespace POA_DSMComms
     // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_operation/operation_sh.cpp:35
 
     virtual void getValue (
-      const std::string valueId,
-      ::DSMComms::ValueSequence & toGetValues) = 0;
+      ::DSMComms::Value & toGetValue) = 0;
 
     static void getValue_skel (
         TAO_ServerRequest &server_request,
@@ -218,8 +203,7 @@ namespace POA_DSMComms
     // /home/cezario/Dev/ACE_wrappers/TAO/TAO_IDL/be/be_visitor_operation/operation_sh.cpp:35
 
     virtual void storeValue (
-      const ::DSMComms::idSequence & valueId,
-      const ::DSMComms::ValueSequence & toSetValue) = 0;
+      const ::DSMComms::Value & toSetValue) = 0;
 
     static void storeValue_skel (
         TAO_ServerRequest &server_request,

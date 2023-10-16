@@ -99,7 +99,7 @@ namespace LocalMachine {
 
             valueMap GetValueMap();
 
-            std::vector<Information::Information> GetStoredValue(keyName id);
+            std::vector<Information::Information> GetStoredValue(keyName id, std::string timestamp);
 
             bool StoreValue(dataFilePath value, keyName valueName, int32_t dataType);
 
