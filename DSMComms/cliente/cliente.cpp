@@ -13,7 +13,7 @@
 #include "gsoap/plugin/threads.h"
 
 // Beholder
-// #include <Beholder/VirtualTable.hxx>
+#include <Beholder/pugixml.hpp>
 // #include <Beholder/SchemaUtils.hxx>
 
 using namespace std;
@@ -82,19 +82,59 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-// void buildResponse(struct soap *soap) {
-// 	soap->http_content = "text/xml; charset=utf-8"; // HTTP header with text/xml content 
-// 	if (soap_response(soap, SOAP_FILE)) {
-// 		soap_envelope_begin_out(soap);
-// 		soap_envelope_begin_out(soap);
-//    		soap_putheader(soap);
-//    		soap_body_begin_out(soap);
-//    		// soap_put_bhldr__lookupResponse(soap, &data, "data", "");
-//    		soap_body_end_out(soap);
-//    		soap_envelope_end_out(soap);
-//    		soap_end_send(soap);
-// 	}
-// }
+void buildResponse(struct soap *soap, std::vector<Value> toSendValues) {
+	soap->http_content = "text/xml; charset=utf-8"; // HTTP header with text/xml content 
+	if (soap_response(soap, SOAP_FILE)) {
+		soap_envelope_begin_out(soap);
+		soap_envelope_begin_out(soap);
+   		soap_putheader(soap);
+   		soap_body_begin_out(soap);
+   		// soap_put_bhldr__lookupResponse(soap, &data, "data", "");
+   		soap_body_end_out(soap);
+   		soap_envelope_end_out(soap);
+   		soap_end_send(soap);
+	}
+	// Create a new XML document
+    pugi::xml_document doc;
+
+    // Add the XML declaration
+    pugi::xml_node declaration = doc.append_child(pugi::node_declaration);
+    declaration.append_attribute("version") = "1.0";
+    declaration.append_attribute("encoding") = "UTF-8";
+
+    // Create the root node (SOAP-ENV:Envelope)
+    pugi::xml_node envelope = doc.append_child("SOAP-ENV:Envelope");
+    envelope.append_attribute("xmlns:SOAP-ENV") = "http://schemas.xmlsoap.org/soap/envelope/";
+    envelope.append_attribute("xmlns:SOAP-ENC") = "http://schemas.xmlsoap.org/soap/encoding/";
+    envelope.append_attribute("xmlns:xsi") = "http://www.w3.org/2001/XMLSchema-instance";
+    envelope.append_attribute("xmlns:xsd") = "http://www.w3.org/2001/XMLSchema";
+    envelope.append_attribute("xmlns:bhldr") = "http://tempuri.org/bhldr.xsd";
+
+    // Create SOAP-ENV:Body and bhldr:lookupResponse nodes
+    pugi::xml_node body = envelope.append_child("SOAP-ENV:Body");
+    pugi::xml_node lookupResponse = body.append_child("bhldr:lookupResponse");
+
+	for (Value itVal : toSendValues) {
+		// Create data node
+		pugi::xml_node data = lookupResponse.append_child("data");
+		
+		std::string type;
+		if (itVal.type == DataType::ANALOG) {
+			type = "ANALOG";
+		} else {
+			type = "DIGITAL";
+		}
+		// Create child nodes of the data node
+		data.append_child("infoName").text().set(itVal.id.in());
+		data.append_child("value").text().set(std::to_string(itVal.storedValue).c_str());
+		data.append_child("timestamp").text().set(itVal.timestamp.in());
+		data.append_child("dataType").text().set(type.c_str());
+	}
+	std::cout << "Generated it" << std::endl;
+    // Save the XML to a file or print it to the console
+    doc.save_file("output.xml"); // Change the filename as needed
+
+}
 
 bhldr__dataFormat valueToStruct (Value value) {
 	bhldr__dataFormat data;
@@ -110,9 +150,10 @@ int bhldr__lookup(struct soap *soap, std::vector<std::string> infoList, std::vec
 	std::vector<std::string>::iterator itString = infoList.begin();
 	std::vector<std::string>::iterator timeIt = timestamps.begin();
 	std::cout << "Info list size: " << infoList.size() << std::endl;
+	std::vector<Value> resultingValues;
 
 	while (itString != infoList.end()) {
-		// std::cout <<  "InfoId: " << itString->c_str() << std::endl;
+		std::cout <<  "InfoId: " << itString->c_str() << std::endl;
 		// Convert dataFormat to Value
 		std::string timestamp;
 		if (timeIt != timestamps.end()) {
@@ -123,13 +164,10 @@ int bhldr__lookup(struct soap *soap, std::vector<std::string> infoList, std::vec
 		value.timestamp = timestamp.c_str();
 		Beholder->getValue(value);
 		// value
-		std::cout << "Output: " << std::endl
-			<< "Id: " << std::string(value.id) << std::endl
-			<< "storedValue: " << std::to_string(value.storedValue) << std::endl
-			<< "timestamp: " << value.timestamp << std::endl
-			<< "type: " << std::to_string(value.type) << std::endl;
-		itString++;
+		resultingValues.push_back(value);
+		++itString;
 	}
+	buildResponse(soap, resultingValues);
   	return 200;
 }
 

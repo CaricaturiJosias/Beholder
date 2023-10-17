@@ -93,7 +93,6 @@ namespace LocalMachine {
         
         // stuff done to decrypt ...
         std::string decryptedPath = filePath;
-        // std::cout << "Current file path: " << decryptedPath << std::endl;
 
         // The results should be handled by the caller
         return DecompressInfo(decryptedPath);
@@ -101,7 +100,7 @@ namespace LocalMachine {
 
     std::vector<Information::Information> SchemaUtils::DecompressInfo(std::string file) {
         std::vector<Information::Information> infoInFile;
-        // std::cout << "DecompressInfo: " << file << std::endl;
+        std::cout << "DecompressInfo: " << file << std::endl;
         int32_t inputType;
         std::filesystem::path path(file);
 
@@ -115,7 +114,7 @@ namespace LocalMachine {
             inputType = DIGITAL;
         } else {
             // TODO - Log error message
-            // std::cout << "Invalid prefix: " << prefix << "On file " << file << std::endl;
+            std::cout << "Invalid prefix: " << prefix << "On file " << file << std::endl;
             return infoInFile;
         }
 
@@ -131,9 +130,9 @@ namespace LocalMachine {
         if (inputType == ANALOG) {
             avro::DataFileReader<c::Analog> readerInstance(path.c_str(), schemaResult);
             c::Analog analog;
-            // std::cout << "Ready to read" << std::endl;
 
             while(readerInstance.read(analog)) {
+                std::cout << "Reading ANALOG" << std::endl;
                 infoInFile.push_back(Information::Information(analog));
             }
             readerInstance.close();
@@ -142,6 +141,7 @@ namespace LocalMachine {
             avro::DataFileReader<c::Digital> readerInstance(path.c_str(), schemaResult);
             c::Digital digital;
             while(readerInstance.read(digital)) {
+                std::cout << "Reading DIGITAL" << std::endl;
                 infoInFile.push_back(Information::Information(digital));
             }
             readerInstance.close();

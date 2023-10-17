@@ -17,7 +17,7 @@
 
 namespace LocalMachine {
     
-    uint32_t MAX_BUFFER_SIZE = 1;
+    uint32_t MAX_BUFFER_SIZE = 2;
 
     double VirtualTable::numRows = 0;
 
@@ -68,31 +68,25 @@ namespace LocalMachine {
         if (it == dataMapValue.end()) {
             // TODO - LOG ERROR
             std::cout << "VirtualTable::GetStoredValue empty " << std::endl;
-            // return result;
+            return result;
         }
 
-        std::cout << "VirtualTable::GetStoredValue not empty " << std::endl;
         // For every instance, look at the encrypted file and search for any ID that matches
         while (it != dataMapValue.end()) {
             fileDataValue dataInstance = it->second;
             instanceVector = SchemaUtils::GetData(dataInstance, id);
             if (instanceVector.empty()) {
-                std::cout << "Empty instance" << std::endl;
                 ++it;
                 continue;
             }
-
             if (timestamp.empty() || timestamp == Information::DEFAULT_TIME) {
                 result.insert(result.end(), instanceVector.begin(), instanceVector.end());
-                std::cout << "Timestamp is default or empty, timestamp: " << timestamp << std::endl;
             } else {
-                std::cout << "Timestamp not empty: " << timestamp << std::endl;
                 for (Information::Information instance : instanceVector) {
                     // If timestamp is defined, look for a match
-                    std::cout << "Instance: " << instance.GetInfoTimeStamp() << std::endl;
                     if (instance.GetInfoTimeStamp() == timestamp) {
-                        std::cout << "Found " << instance.GetInfoTimeStamp() << std::endl;
                         result.push_back(instance);
+                        return result; // Why look for 2 values with the same timestamp?
                     }
                 }
             }
