@@ -78,7 +78,7 @@
 <service name="Service">
   <documentation>gSOAP 2.8.131 generated service definition</documentation>
   <port name="Service" binding="tns:Service">
-    <SOAP:address location="http://localhost:80"/>
+    <SOAP:address location="http://localhost:8080"/>
   </port>
 </service>
 

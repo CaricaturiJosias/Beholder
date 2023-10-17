@@ -1,13 +1,17 @@
+#!/usr/bin/python3
 import requests
-from requests.structures import CaseInsensitiveDict
-import xml.etree.ElementTree as ET
 
 url = "http://localhost:8080"
 
-headers = CaseInsensitiveDict()
-headers["Content-Type"] = "application/soap+xml"
-
-data = """
+request_data = {
+    'infoId': 'FT1',
+    'dataType': 'ANALOG',
+    'timestamp': '2021/02/20 01:00:12'
+}
+# SOAP request URL
+ 
+# structured XML
+payload = """
 <?xml version="1.0" encoding="UTF-8"?>
 <SOAP-ENV:Envelope
     xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
@@ -20,35 +24,38 @@ data = """
    <inputInfo>
     <infoName>FT1</infoName>
     <value>59.9982</value>
-    <timestamp>2021/02/20 01:00:12</timestamp>
+    <timestamp>2023/10/177 18:24:12</timestamp>
     <dataType>ANALOG</dataType>
    </inputInfo>
    <inputInfo>
     <infoName>PT1</infoName>
     <value>490.21</value>
-    <timestamp>2021/02/20 01:00:12</timestamp>
+    <timestamp>2023/10/177 18:24:12</timestamp>
     <dataType>ANALOG</dataType>
    </inputInfo>
    <inputInfo>
     <infoName>FT1_QC</infoName>
     <value>9</value>
-    <timestamp>2021/02/20 01:00:12</timestamp>
+    <timestamp>2023/10/177 18:24:12</timestamp>
     <dataType>DIGITAL</dataType>
    </inputInfo>
    <inputInfo>
     <infoName>PT1_QC</infoName>
     <value>9</value>
-    <timestamp>2021/02/20 01:00:12</timestamp>
+    <timestamp>2023/10/177 18:24:12</timestamp>
     <dataType>DIGITAL</dataType>
    </inputInfo>
   </bhldr:registerInfo>
  </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
 """
-
-resp = requests.post(url, headers=headers, data=data)
-
-root = ET.fromstring(resp.content)
-# tree = ElementTree.fromstring(resp.content)
-# for root in tree:
-#     print(root.tag, root.attrib)
+# headers
+headers = {
+    'Content-Type': 'text/xml; charset=utf-8'
+}
+# POST request
+response = requests.request("POST", url, headers=headers, data=payload)
+ 
+# prints the response
+print(response.text)
+print(response)
