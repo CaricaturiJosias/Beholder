@@ -15,7 +15,12 @@ struct bhldr__dataFormat {
     enum bhldr__DataType dataType; // required (identifies the data type)
 };
 
-int bhldr__lookup(std::vector<std::string> infoId, std::vector<std::string> timestamp, std::vector<struct bhldr__dataFormat> &data);
+struct bhldr__requestFormat {
+    std::string  infoName; // required (Name to be translated with the ID maps)
+    std::string  timestamp; // optional (Timestamp of the sender, will be the machine local time if empty)
+};
+
+int bhldr__lookup(std::vector<struct bhldr__requestFormat> input, std::vector<struct bhldr__dataFormat> &data);
 
 int bhldr__registerInfo(std::vector<struct bhldr__dataFormat> inputInfo, bool &result);
 

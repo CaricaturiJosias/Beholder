@@ -44,12 +44,17 @@
             <element name="dataType" type="bhldr:DataType" minOccurs="1" maxOccurs="1"/><!-- bhldr__dataFormat::dataType -->
           </sequence>
     </complexType>
+    <complexType name="requestFormat"><!-- bhldr__requestFormat -->
+          <sequence>
+            <element name="infoName" type="xsd:string" minOccurs="1" maxOccurs="1"/><!-- bhldr__requestFormat::infoName -->
+            <element name="timestamp" type="xsd:string" minOccurs="1" maxOccurs="1"/><!-- bhldr__requestFormat::timestamp -->
+          </sequence>
+    </complexType>
     <!-- operation request element -->
     <element name="lookup">
       <complexType>
           <sequence>
-            <element name="infoId" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/><!-- bhldr__lookup::infoId -->
-            <element name="timestamp" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/><!-- bhldr__lookup::timestamp -->
+            <element name="input" type="bhldr:requestFormat" minOccurs="0" maxOccurs="unbounded"/><!-- bhldr__lookup::input -->
           </sequence>
       </complexType>
     </element>

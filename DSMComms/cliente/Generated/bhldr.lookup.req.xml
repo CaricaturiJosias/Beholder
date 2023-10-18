@@ -7,8 +7,10 @@
     xmlns:bhldr="http://tempuri.org/bhldr.xsd">
  <SOAP-ENV:Body>
   <bhldr:lookup>
-   <infoId></infoId>
-   <timestamp></timestamp>
+   <input>
+    <infoName></infoName>
+    <timestamp></timestamp>
+   </input>
   </bhldr:lookup>
  </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

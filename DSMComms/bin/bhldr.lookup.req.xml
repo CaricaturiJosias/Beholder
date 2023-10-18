@@ -7,9 +7,10 @@
     xmlns:bhldr="http://tempuri.org/bhldr.xsd">
  <SOAP-ENV:Body>
   <bhldr:lookup>
-   <infoId>FT1</infoId>
-   <dataType>ANALOG</dataType>
-   <timestamp>2021/02/20 01:00:12</timestamp>
+    <input>
+        <infoName><FT1/infoName>
+        <timestamp>2021/02/20 01:00:12</timestamp>
+    </input>
   </bhldr:lookup>
  </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

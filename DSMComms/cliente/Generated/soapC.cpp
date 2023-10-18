@@ -18,7 +18,7 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapC.cpp ver 2.8.131 2023-10-17 19:24:31 GMT")
+SOAP_SOURCE_STAMP("@(#) soapC.cpp ver 2.8.131 2023-10-18 05:05:31 GMT")
 
 
 #ifndef WITH_NOGLOBAL
@@ -210,6 +210,8 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, const char *tag,
 		return soap_in_bhldr__lookup(soap, tag, NULL, "bhldr:lookup");
 	case SOAP_TYPE_bhldr__lookupResponse:
 		return soap_in_bhldr__lookupResponse(soap, tag, NULL, "bhldr:lookupResponse");
+	case SOAP_TYPE_bhldr__requestFormat:
+		return soap_in_bhldr__requestFormat(soap, tag, NULL, "bhldr:requestFormat");
 	case SOAP_TYPE_bhldr__dataFormat:
 		return soap_in_bhldr__dataFormat(soap, tag, NULL, "bhldr:dataFormat");
 	case SOAP_TYPE__QName:
@@ -268,6 +270,10 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_getelement(struct soap *soap, const char *tag,
 		if (!soap_match_tag(soap, t, "bhldr:lookupResponse"))
 		{	*type = SOAP_TYPE_bhldr__lookupResponse;
 			return soap_in_bhldr__lookupResponse(soap, tag, NULL, NULL);
+		}
+		if (!soap_match_tag(soap, t, "bhldr:requestFormat"))
+		{	*type = SOAP_TYPE_bhldr__requestFormat;
+			return soap_in_bhldr__requestFormat(soap, tag, NULL, NULL);
 		}
 		if (!soap_match_tag(soap, t, "bhldr:dataFormat"))
 		{	*type = SOAP_TYPE_bhldr__dataFormat;
@@ -365,6 +371,8 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_putelement(struct soap *soap, const void *ptr, co
 		return soap_out_bhldr__lookup(soap, tag, id, (const struct bhldr__lookup *)ptr, "bhldr:lookup");
 	case SOAP_TYPE_bhldr__lookupResponse:
 		return soap_out_bhldr__lookupResponse(soap, tag, id, (const struct bhldr__lookupResponse *)ptr, "bhldr:lookupResponse");
+	case SOAP_TYPE_bhldr__requestFormat:
+		return soap_out_bhldr__requestFormat(soap, tag, id, (const struct bhldr__requestFormat *)ptr, "bhldr:requestFormat");
 	case SOAP_TYPE_bhldr__dataFormat:
 		return soap_out_bhldr__dataFormat(soap, tag, id, (const struct bhldr__dataFormat *)ptr, "bhldr:dataFormat");
 	case SOAP_TYPE__QName:
@@ -408,6 +416,9 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_markelement(struct soap *soap, const void *ptr, 
 		break;
 	case SOAP_TYPE_bhldr__lookupResponse:
 		soap_serialize_bhldr__lookupResponse(soap, (const struct bhldr__lookupResponse *)ptr);
+		break;
+	case SOAP_TYPE_bhldr__requestFormat:
+		soap_serialize_bhldr__requestFormat(soap, (const struct bhldr__requestFormat *)ptr);
 		break;
 	case SOAP_TYPE_bhldr__dataFormat:
 		soap_serialize_bhldr__dataFormat(soap, (const struct bhldr__dataFormat *)ptr);
@@ -456,6 +467,8 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_instantiate(struct soap *soap, int t, const ch
 		return (void*)soap_instantiate_std__string(soap, -1, type, arrayType, n);
 	case SOAP_TYPE_bhldr__dataFormat:
 		return (void*)soap_instantiate_bhldr__dataFormat(soap, -1, type, arrayType, n);
+	case SOAP_TYPE_bhldr__requestFormat:
+		return (void*)soap_instantiate_bhldr__requestFormat(soap, -1, type, arrayType, n);
 	case SOAP_TYPE_bhldr__lookupResponse:
 		return (void*)soap_instantiate_bhldr__lookupResponse(soap, -1, type, arrayType, n);
 	case SOAP_TYPE_bhldr__lookup:
@@ -488,8 +501,8 @@ SOAP_FMAC3 void * SOAP_FMAC4 soap_instantiate(struct soap *soap, int t, const ch
 #endif
 	case SOAP_TYPE_std__vectorTemplateOfbhldr__dataFormat:
 		return (void*)soap_instantiate_std__vectorTemplateOfbhldr__dataFormat(soap, -1, type, arrayType, n);
-	case SOAP_TYPE_std__vectorTemplateOfstd__string:
-		return (void*)soap_instantiate_std__vectorTemplateOfstd__string(soap, -1, type, arrayType, n);
+	case SOAP_TYPE_std__vectorTemplateOfbhldr__requestFormat:
+		return (void*)soap_instantiate_std__vectorTemplateOfbhldr__requestFormat(soap, -1, type, arrayType, n);
 	}
 	return NULL;
 }
@@ -512,6 +525,12 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_fdelete(struct soap *soap, struct soap_clist *p)
 			SOAP_DELETE(soap, static_cast<struct bhldr__dataFormat*>(p->ptr), struct bhldr__dataFormat);
 		else
 			SOAP_DELETE_ARRAY(soap, static_cast<struct bhldr__dataFormat*>(p->ptr), struct bhldr__dataFormat);
+		break;
+	case SOAP_TYPE_bhldr__requestFormat:
+		if (p->size < 0)
+			SOAP_DELETE(soap, static_cast<struct bhldr__requestFormat*>(p->ptr), struct bhldr__requestFormat);
+		else
+			SOAP_DELETE_ARRAY(soap, static_cast<struct bhldr__requestFormat*>(p->ptr), struct bhldr__requestFormat);
 		break;
 	case SOAP_TYPE_bhldr__lookupResponse:
 		if (p->size < 0)
@@ -589,11 +608,11 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_fdelete(struct soap *soap, struct soap_clist *p)
 		else
 			SOAP_DELETE_ARRAY(soap, static_cast<std::vector<struct bhldr__dataFormat> *>(p->ptr), std::vector<struct bhldr__dataFormat> );
 		break;
-	case SOAP_TYPE_std__vectorTemplateOfstd__string:
+	case SOAP_TYPE_std__vectorTemplateOfbhldr__requestFormat:
 		if (p->size < 0)
-			SOAP_DELETE(soap, static_cast<std::vector<std::string> *>(p->ptr), std::vector<std::string> );
+			SOAP_DELETE(soap, static_cast<std::vector<struct bhldr__requestFormat> *>(p->ptr), std::vector<struct bhldr__requestFormat> );
 		else
-			SOAP_DELETE_ARRAY(soap, static_cast<std::vector<std::string> *>(p->ptr), std::vector<std::string> );
+			SOAP_DELETE_ARRAY(soap, static_cast<std::vector<struct bhldr__requestFormat> *>(p->ptr), std::vector<struct bhldr__requestFormat> );
 		break;
 	default:
 		return SOAP_ERR;
@@ -632,10 +651,10 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_finsert(struct soap *soap, int t, int tt, void *
 			(*(std::vector<struct bhldr__dataFormat> *)p)[index] = *(struct bhldr__dataFormat *)q;
 		}
 		break;
-	case SOAP_TYPE_std__vectorTemplateOfstd__string:
-		if (t == SOAP_TYPE_std__string)
-		{	DBGLOG(TEST, SOAP_MESSAGE(fdebug, "Container std::vector<std::string>  insert type=%d in %d location=%p object=%p at index=%lu\n", t, tt, p, q, (unsigned long)index));
-			(*(std::vector<std::string> *)p)[index] = *(std::string *)q;
+	case SOAP_TYPE_std__vectorTemplateOfbhldr__requestFormat:
+		if (t == SOAP_TYPE_bhldr__requestFormat)
+		{	DBGLOG(TEST, SOAP_MESSAGE(fdebug, "Container std::vector<struct bhldr__requestFormat>  insert type=%d in %d location=%p object=%p at index=%lu\n", t, tt, p, q, (unsigned long)index));
+			(*(std::vector<struct bhldr__requestFormat> *)p)[index] = *(struct bhldr__requestFormat *)q;
 		}
 		break;
 	case SOAP_TYPE_std__string:
@@ -645,6 +664,10 @@ SOAP_FMAC3 void SOAP_FMAC4 soap_finsert(struct soap *soap, int t, int tt, void *
 	case SOAP_TYPE_bhldr__dataFormat:
 		DBGLOG(TEST, SOAP_MESSAGE(fdebug, "Copy struct bhldr__dataFormat type=%d location=%p object=%p\n", t, p, q));
 		*(struct bhldr__dataFormat*)p = *(struct bhldr__dataFormat*)q;
+		break;
+	case SOAP_TYPE_bhldr__requestFormat:
+		DBGLOG(TEST, SOAP_MESSAGE(fdebug, "Copy struct bhldr__requestFormat type=%d location=%p object=%p\n", t, p, q));
+		*(struct bhldr__requestFormat*)p = *(struct bhldr__requestFormat*)q;
 		break;
 	case SOAP_TYPE_bhldr__lookupResponse:
 		DBGLOG(TEST, SOAP_MESSAGE(fdebug, "Copy struct bhldr__lookupResponse type=%d location=%p object=%p\n", t, p, q));
@@ -1975,16 +1998,14 @@ SOAP_FMAC3 struct bhldr__registerInfoResponse * SOAP_FMAC4 soap_get_bhldr__regis
 SOAP_FMAC3 void SOAP_FMAC4 soap_default_bhldr__lookup(struct soap *soap, struct bhldr__lookup *a)
 {
 	(void)soap; (void)a; /* appease -Wall -Werror */
-	soap_default_std__vectorTemplateOfstd__string(soap, &a->infoId);
-	soap_default_std__vectorTemplateOfstd__string(soap, &a->timestamp);
+	soap_default_std__vectorTemplateOfbhldr__requestFormat(soap, &a->input);
 }
 
 SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_bhldr__lookup(struct soap *soap, const struct bhldr__lookup *a)
 {
 	(void)soap; (void)a; /* appease -Wall -Werror */
 #ifndef WITH_NOIDREF
-	soap_serialize_std__vectorTemplateOfstd__string(soap, &a->infoId);
-	soap_serialize_std__vectorTemplateOfstd__string(soap, &a->timestamp);
+	soap_serialize_std__vectorTemplateOfbhldr__requestFormat(soap, &a->input);
 #endif
 }
 
@@ -1993,9 +2014,7 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_out_bhldr__lookup(struct soap *soap, const char *
 	(void)soap; (void)tag; (void)id; (void)a; (void)type; /* appease -Wall -Werror */
 	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_bhldr__lookup), type))
 		return soap->error;
-	if (soap_out_std__vectorTemplateOfstd__string(soap, "infoId", -1, &a->infoId, ""))
-		return soap->error;
-	if (soap_out_std__vectorTemplateOfstd__string(soap, "timestamp", -1, &a->timestamp, ""))
+	if (soap_out_std__vectorTemplateOfbhldr__requestFormat(soap, "input", -1, &a->input, ""))
 		return soap->error;
 	return soap_element_end_out(soap, tag);
 }
@@ -2014,11 +2033,7 @@ SOAP_FMAC3 struct bhldr__lookup * SOAP_FMAC4 soap_in_bhldr__lookup(struct soap *
 		for (;;)
 		{	soap->error = SOAP_TAG_MISMATCH;
 			if (soap->error == SOAP_TAG_MISMATCH)
-			{	if (soap_in_std__vectorTemplateOfstd__string(soap, "infoId", &a->infoId, "xsd:string"))
-					continue;
-			}
-			if (soap->error == SOAP_TAG_MISMATCH)
-			{	if (soap_in_std__vectorTemplateOfstd__string(soap, "timestamp", &a->timestamp, "xsd:string"))
+			{	if (soap_in_std__vectorTemplateOfbhldr__requestFormat(soap, "input", &a->input, "bhldr:requestFormat"))
 					continue;
 			}
 			if (soap->error == SOAP_TAG_MISMATCH)
@@ -2183,6 +2198,128 @@ SOAP_FMAC3 int SOAP_FMAC4 soap_put_bhldr__lookupResponse(struct soap *soap, cons
 SOAP_FMAC3 struct bhldr__lookupResponse * SOAP_FMAC4 soap_get_bhldr__lookupResponse(struct soap *soap, struct bhldr__lookupResponse *p, const char *tag, const char *type)
 {
 	if ((p = soap_in_bhldr__lookupResponse(soap, tag, p, type)))
+		if (soap_getindependent(soap))
+			return NULL;
+	return p;
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_bhldr__requestFormat(struct soap *soap, struct bhldr__requestFormat *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+	soap_default_std__string(soap, &a->infoName);
+	soap_default_std__string(soap, &a->timestamp);
+}
+
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_bhldr__requestFormat(struct soap *soap, const struct bhldr__requestFormat *a)
+{
+	(void)soap; (void)a; /* appease -Wall -Werror */
+#ifndef WITH_NOIDREF
+	soap_serialize_std__string(soap, &a->infoName);
+	soap_serialize_std__string(soap, &a->timestamp);
+#endif
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_bhldr__requestFormat(struct soap *soap, const char *tag, int id, const struct bhldr__requestFormat *a, const char *type)
+{
+	(void)soap; (void)tag; (void)id; (void)a; (void)type; /* appease -Wall -Werror */
+	if (soap_element_begin_out(soap, tag, soap_embedded_id(soap, id, a, SOAP_TYPE_bhldr__requestFormat), type))
+		return soap->error;
+	if (soap_out_std__string(soap, "infoName", -1, &a->infoName, ""))
+		return soap->error;
+	if (soap_out_std__string(soap, "timestamp", -1, &a->timestamp, ""))
+		return soap->error;
+	return soap_element_end_out(soap, tag);
+}
+
+SOAP_FMAC3 struct bhldr__requestFormat * SOAP_FMAC4 soap_in_bhldr__requestFormat(struct soap *soap, const char *tag, struct bhldr__requestFormat *a, const char *type)
+{
+	size_t soap_flag_infoName = 1;
+	size_t soap_flag_timestamp = 1;
+	if (soap_element_begin_in(soap, tag, 0, NULL))
+		return NULL;
+	(void)type; /* appease -Wall -Werror */
+	a = (struct bhldr__requestFormat*)soap_id_enter(soap, soap->id, a, SOAP_TYPE_bhldr__requestFormat, sizeof(struct bhldr__requestFormat), soap->type, soap->arrayType, soap_instantiate, soap_fbase);
+	if (!a)
+		return NULL;
+	soap_default_bhldr__requestFormat(soap, a);
+	if (soap->body && *soap->href != '#')
+	{
+		for (;;)
+		{	soap->error = SOAP_TAG_MISMATCH;
+			if (soap_flag_infoName && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+			{	if (soap_in_std__string(soap, "infoName", &a->infoName, "xsd:string"))
+				{	soap_flag_infoName--;
+					continue;
+				}
+			}
+			if (soap_flag_timestamp && (soap->error == SOAP_TAG_MISMATCH || soap->error == SOAP_NO_TAG))
+			{	if (soap_in_std__string(soap, "timestamp", &a->timestamp, "xsd:string"))
+				{	soap_flag_timestamp--;
+					continue;
+				}
+			}
+			if (soap->error == SOAP_TAG_MISMATCH)
+				soap->error = soap_ignore_element(soap);
+			if (soap->error == SOAP_NO_TAG)
+				break;
+			if (soap->error)
+				return NULL;
+		}
+		if (soap_element_end_in(soap, tag))
+			return NULL;
+		if ((soap->mode & SOAP_XML_STRICT) && (soap_flag_infoName > 0 || soap_flag_timestamp > 0))
+		{	soap->error = SOAP_OCCURS;
+			return NULL;
+		}
+	}
+	else if ((soap->mode & SOAP_XML_STRICT) && *soap->href != '#')
+	{	soap->error = SOAP_OCCURS;
+		return NULL;
+	}
+	else
+	{	a = (struct bhldr__requestFormat *)soap_id_forward(soap, soap->href, (void*)a, 0, SOAP_TYPE_bhldr__requestFormat, SOAP_TYPE_bhldr__requestFormat, sizeof(struct bhldr__requestFormat), 0, soap_finsert, NULL);
+		if (soap->body && soap_element_end_in(soap, tag))
+			return NULL;
+	}
+	return a;
+}
+
+SOAP_FMAC1 struct bhldr__requestFormat * SOAP_FMAC2 soap_instantiate_bhldr__requestFormat(struct soap *soap, int n, const char *type, const char *arrayType, size_t *size)
+{
+	DBGLOG(TEST, SOAP_MESSAGE(fdebug, "soap_instantiate_bhldr__requestFormat(%p, %d, %s, %s)\n", (void*)soap, n, type?type:"", arrayType?arrayType:""));
+	(void)type; (void)arrayType; /* appease -Wall -Werror */
+	struct bhldr__requestFormat *p;
+	size_t k = sizeof(struct bhldr__requestFormat);
+	struct soap_clist *cp = soap_link(soap, SOAP_TYPE_bhldr__requestFormat, n, soap_fdelete);
+	if (!cp && soap && n != SOAP_NO_LINK_TO_DELETE)
+		return NULL;
+	if (n < 0)
+	{	p = SOAP_NEW(soap, struct bhldr__requestFormat);
+	}
+	else
+	{	p = SOAP_NEW_ARRAY(soap, struct bhldr__requestFormat, n);
+		k *= n;
+	}
+	DBGLOG(TEST, SOAP_MESSAGE(fdebug, "Instantiated struct bhldr__requestFormat location=%p n=%d\n", (void*)p, n));
+	if (size)
+		*size = k;
+	if (!p)
+		soap->error = SOAP_EOM;
+	else if (cp)
+		cp->ptr = (void*)p;
+	return p;
+}
+
+SOAP_FMAC3 int SOAP_FMAC4 soap_put_bhldr__requestFormat(struct soap *soap, const struct bhldr__requestFormat *a, const char *tag, const char *type)
+{
+	if (soap_out_bhldr__requestFormat(soap, tag ? tag : "bhldr:requestFormat", -2, a, type))
+		return soap->error;
+	return soap_putindependent(soap);
+}
+
+SOAP_FMAC3 struct bhldr__requestFormat * SOAP_FMAC4 soap_get_bhldr__requestFormat(struct soap *soap, struct bhldr__requestFormat *p, const char *tag, const char *type)
+{
+	if ((p = soap_in_bhldr__requestFormat(soap, tag, p, type)))
 		if (soap_getindependent(soap))
 			return NULL;
 	return p;
@@ -2688,33 +2825,33 @@ SOAP_FMAC1 std::vector<struct bhldr__dataFormat>  * SOAP_FMAC2 soap_instantiate_
 	return p;
 }
 
-SOAP_FMAC3 void SOAP_FMAC4 soap_default_std__vectorTemplateOfstd__string(struct soap *soap, std::vector<std::string> *p)
+SOAP_FMAC3 void SOAP_FMAC4 soap_default_std__vectorTemplateOfbhldr__requestFormat(struct soap *soap, std::vector<struct bhldr__requestFormat> *p)
 {
 	(void)soap; /* appease -Wall -Werror */
 	p->clear();
 }
 
-SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_std__vectorTemplateOfstd__string(struct soap *soap, const std::vector<std::string> *a)
+SOAP_FMAC3 void SOAP_FMAC4 soap_serialize_std__vectorTemplateOfbhldr__requestFormat(struct soap *soap, const std::vector<struct bhldr__requestFormat> *a)
 {
 	(void)soap; (void)a;/* appease -Wall -Werror */
 #ifndef WITH_NOIDREF
-	for (std::vector<std::string> ::const_iterator i = a->begin(); i != a->end(); ++i)
-		soap_serialize_std__string(soap, &(*i));
+	for (std::vector<struct bhldr__requestFormat> ::const_iterator i = a->begin(); i != a->end(); ++i)
+		soap_serialize_bhldr__requestFormat(soap, &(*i));
 #endif
 }
 
-SOAP_FMAC3 int SOAP_FMAC4 soap_out_std__vectorTemplateOfstd__string(struct soap *soap, const char *tag, int id, const std::vector<std::string> *a, const char *type)
+SOAP_FMAC3 int SOAP_FMAC4 soap_out_std__vectorTemplateOfbhldr__requestFormat(struct soap *soap, const char *tag, int id, const std::vector<struct bhldr__requestFormat> *a, const char *type)
 {
 	(void)id; (void)type; /* appease -Wall -Werror */
-	for (std::vector<std::string> ::const_iterator i = a->begin(); i != a->end(); ++i)
+	for (std::vector<struct bhldr__requestFormat> ::const_iterator i = a->begin(); i != a->end(); ++i)
 	{
-		if (soap_out_std__string(soap, tag, id, &(*i), ""))
+		if (soap_out_bhldr__requestFormat(soap, tag, id, &(*i), ""))
 			return soap->error;
 	}
 	return SOAP_OK;
 }
 
-SOAP_FMAC3 std::vector<std::string> * SOAP_FMAC4 soap_in_std__vectorTemplateOfstd__string(struct soap *soap, const char *tag, std::vector<std::string> *a, const char *type)
+SOAP_FMAC3 std::vector<struct bhldr__requestFormat> * SOAP_FMAC4 soap_in_std__vectorTemplateOfbhldr__requestFormat(struct soap *soap, const char *tag, std::vector<struct bhldr__requestFormat> *a, const char *type)
 {
 	(void)type; /* appease -Wall -Werror */
 	short soap_flag;
@@ -2725,36 +2862,36 @@ SOAP_FMAC3 std::vector<std::string> * SOAP_FMAC4 soap_in_std__vectorTemplateOfst
 				break;
 			soap_revert(soap);
 		}
-		if (!a && !(a = soap_new_std__vectorTemplateOfstd__string(soap)))
+		if (!a && !(a = soap_new_std__vectorTemplateOfbhldr__requestFormat(soap)))
 			return NULL;
 		else if (static_cast<size_t>(a->size()) > soap->maxoccurs)
 		{	soap->error = SOAP_OCCURS;
 			return NULL;
 		}
-		std::string n;
-		soap_default_std__string(soap, &n);
+		struct bhldr__requestFormat n;
+		soap_default_bhldr__requestFormat(soap, &n);
 		short soap_shaky = soap_begin_shaky(soap);
 		if (tag && *tag != '-' && (*soap->id || *soap->href == '#'))
-		{	if (!soap_id_forward(soap, *soap->id?soap->id:soap->href, a, static_cast<size_t>(a->size()), SOAP_TYPE_std__string, SOAP_TYPE_std__vectorTemplateOfstd__string, sizeof(std::string), 0, soap_finsert, soap_fbase))
+		{	if (!soap_id_forward(soap, *soap->id?soap->id:soap->href, a, static_cast<size_t>(a->size()), SOAP_TYPE_bhldr__requestFormat, SOAP_TYPE_std__vectorTemplateOfbhldr__requestFormat, sizeof(struct bhldr__requestFormat), 0, soap_finsert, soap_fbase))
 				break;
-			if (!soap_in_std__string(soap, tag, NULL, "xsd:string"))
+			if (!soap_in_bhldr__requestFormat(soap, tag, NULL, "bhldr:requestFormat"))
 				break;
 		}
 		else
-		{	if (!soap_in_std__string(soap, tag, &n, "xsd:string"))
+		{	if (!soap_in_bhldr__requestFormat(soap, tag, &n, "bhldr:requestFormat"))
 				break;
 		}
 		soap_end_shaky(soap, soap_shaky);
 		if (a->size())
 		{	const void *p = &*a->begin();
-			soap_update_pointers(soap, (const char*)&(*a->insert(a->end(), n)), (const char*)&n, sizeof(std::string));
+			soap_update_pointers(soap, (const char*)&(*a->insert(a->end(), n)), (const char*)&n, sizeof(struct bhldr__requestFormat));
 			if (p != &*a->begin())
 			{	DBGLOG(TEST, SOAP_MESSAGE(fdebug, "Container capacity increased: updating pointers\n"));
-				soap_update_pointers(soap, (const char*)&*a->begin(), (const char*)p, (a->size() - 1) * sizeof(std::string));
+				soap_update_pointers(soap, (const char*)&*a->begin(), (const char*)p, (a->size() - 1) * sizeof(struct bhldr__requestFormat));
 			}
 		}
 		else
-		{	soap_update_pointers(soap, (const char*)&(*a->insert(a->end(), n)), (const char*)&n, sizeof(std::string));
+		{	soap_update_pointers(soap, (const char*)&(*a->insert(a->end(), n)), (const char*)&n, sizeof(struct bhldr__requestFormat));
 		}
 		if (!tag || *tag == '-')
 			return a;
@@ -2766,23 +2903,23 @@ SOAP_FMAC3 std::vector<std::string> * SOAP_FMAC4 soap_in_std__vectorTemplateOfst
 	return NULL;
 }
 
-SOAP_FMAC1 std::vector<std::string>  * SOAP_FMAC2 soap_instantiate_std__vectorTemplateOfstd__string(struct soap *soap, int n, const char *type, const char *arrayType, size_t *size)
+SOAP_FMAC1 std::vector<struct bhldr__requestFormat>  * SOAP_FMAC2 soap_instantiate_std__vectorTemplateOfbhldr__requestFormat(struct soap *soap, int n, const char *type, const char *arrayType, size_t *size)
 {
-	DBGLOG(TEST, SOAP_MESSAGE(fdebug, "soap_instantiate_std__vectorTemplateOfstd__string(%p, %d, %s, %s)\n", (void*)soap, n, type?type:"", arrayType?arrayType:""));
+	DBGLOG(TEST, SOAP_MESSAGE(fdebug, "soap_instantiate_std__vectorTemplateOfbhldr__requestFormat(%p, %d, %s, %s)\n", (void*)soap, n, type?type:"", arrayType?arrayType:""));
 	(void)type; (void)arrayType; /* appease -Wall -Werror */
-	std::vector<std::string> *p;
-	size_t k = sizeof(std::vector<std::string> );
-	struct soap_clist *cp = soap_link(soap, SOAP_TYPE_std__vectorTemplateOfstd__string, n, soap_fdelete);
+	std::vector<struct bhldr__requestFormat> *p;
+	size_t k = sizeof(std::vector<struct bhldr__requestFormat> );
+	struct soap_clist *cp = soap_link(soap, SOAP_TYPE_std__vectorTemplateOfbhldr__requestFormat, n, soap_fdelete);
 	if (!cp && soap && n != SOAP_NO_LINK_TO_DELETE)
 		return NULL;
 	if (n < 0)
-	{	p = SOAP_NEW(soap, std::vector<std::string> );
+	{	p = SOAP_NEW(soap, std::vector<struct bhldr__requestFormat> );
 	}
 	else
-	{	p = SOAP_NEW_ARRAY(soap, std::vector<std::string> , n);
+	{	p = SOAP_NEW_ARRAY(soap, std::vector<struct bhldr__requestFormat> , n);
 		k *= n;
 	}
-	DBGLOG(TEST, SOAP_MESSAGE(fdebug, "Instantiated std::vector<std::string>  location=%p n=%d\n", (void*)p, n));
+	DBGLOG(TEST, SOAP_MESSAGE(fdebug, "Instantiated std::vector<struct bhldr__requestFormat>  location=%p n=%d\n", (void*)p, n));
 	if (size)
 		*size = k;
 	if (!p)

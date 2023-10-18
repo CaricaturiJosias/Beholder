@@ -132,7 +132,6 @@ namespace LocalMachine {
             c::Analog analog;
 
             while(readerInstance.read(analog)) {
-                std::cout << "Reading ANALOG" << std::endl;
                 infoInFile.push_back(Information::Information(analog));
             }
             readerInstance.close();
@@ -141,7 +140,6 @@ namespace LocalMachine {
             avro::DataFileReader<c::Digital> readerInstance(path.c_str(), schemaResult);
             c::Digital digital;
             while(readerInstance.read(digital)) {
-                std::cout << "Reading DIGITAL" << std::endl;
                 infoInFile.push_back(Information::Information(digital));
             }
             readerInstance.close();

@@ -15,9 +15,11 @@
 #include <SchemaUtils.hxx>
 #include <filesystem>
 
+#include <cstring>
+
 namespace LocalMachine {
     
-    uint32_t MAX_BUFFER_SIZE = 2;
+    uint32_t MAX_BUFFER_SIZE = 30;
 
     double VirtualTable::numRows = 0;
 
@@ -80,7 +82,31 @@ namespace LocalMachine {
                 continue;
             }
             if (timestamp.empty() || timestamp == Information::DEFAULT_TIME) {
-                result.insert(result.end(), instanceVector.begin(), instanceVector.end());
+                // If not defined look for most recent
+                Information::Information mostRecent = *instanceVector.begin();
+                for (auto infoIt : instanceVector) {
+                    /**
+                     * Yes, this works
+                     * 
+                     * Lets say i have 
+                     * 2012/01/24 23:55:21
+                     * and
+                     * 2022/11/30 15:20:04
+                     * 
+                     * c++ compares from left to right,
+                     * since we want the BIGGER value on each
+                     * to be the most recent, we are cool with this
+                     * 201 is lower than 202 because the ascii for 2 is higher
+                    */
+                    bool bigger = 
+                        std::strcmp(infoIt.GetInfoTimeStamp().c_str(),
+                                    mostRecent.GetInfoTimeStamp().c_str()) > 0;
+                    if (bigger) {
+                        mostRecent = infoIt;
+                    }
+                }
+                result.push_back(mostRecent);
+
             } else {
                 for (Information::Information instance : instanceVector) {
                     // If timestamp is defined, look for a match

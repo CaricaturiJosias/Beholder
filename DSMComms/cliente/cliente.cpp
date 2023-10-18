@@ -23,7 +23,7 @@ using namespace DSMComms;
 // So we can contact the server on the SOAP requests
 POA_Beholder_var Beholder;
 
-int port = 8080; //  Port number we are using
+int port = 12332; //  Port number we are using
 
 void *process_request(void *arg)
 {
@@ -117,35 +117,31 @@ int main(int argc, char* argv[])
 
 bhldr__dataFormat valueToStruct (Value value) {
 	bhldr__dataFormat data;
-	data.infoName = value.id;
-	data.value = value.storedValue;
-	data.timestamp = value.timestamp;
+	data.infoName = value.id.in();
+	data.value = std::to_string(value.storedValue);
+	data.timestamp = value.timestamp.in();
 	data.dataType = static_cast<bhldr__DataType>(value.type);
     return data;
 }
 
-int bhldr__lookup(struct soap *soap, std::vector<std::string> infoList, std::vector<std::string> timestamps, std::vector<bhldr__dataFormat> &data) {
-	std::cout <<  "Lookup called" << std::endl;
-	std::vector<std::string>::iterator itString = infoList.begin();
-	std::vector<std::string>::iterator timeIt = timestamps.begin();
-	std::cout << "Info list size: " << infoList.size() << std::endl;
+int bhldr__lookup(struct soap *soap, std::vector<struct bhldr__requestFormat> input, std::vector<bhldr__dataFormat> &data) {
+	std::vector<struct bhldr__requestFormat>::iterator itRequests = input.begin();
 	std::vector<Value> resultingValues;
-
-	while (itString != infoList.end()) {
-		std::cout <<  "InfoId: " << itString->c_str() << std::endl;
+	std::cout << "Size: " << input.size() << std::endl;
+	while (itRequests != input.end()) {
 		// Convert dataFormat to Value
 		std::string timestamp;
-		if (timeIt != timestamps.end()) {
-			timestamp = *timeIt;
-		}
 		Value value;
-		value.id = itString->c_str();
-		value.timestamp = timestamp.c_str();
+		value.id = itRequests->infoName.c_str();
+		value.timestamp = itRequests->timestamp.c_str();
 		Beholder->getValue(value);
 		// value
 		resultingValues.push_back(value);
-		++itString;
+		++itRequests;
 		data.push_back(valueToStruct(value));
+	}
+	for (auto item : data) {
+		std::cout << item.value << std::endl;
 	}
   	return SOAP_OK;
 }
@@ -167,11 +163,6 @@ int bhldr__registerInfo(struct soap *soap, std::vector<bhldr__dataFormat> messag
 		value.timestamp = message.timestamp.c_str();
 		value.type = (DataType)message.dataType;
 
-		std::cout 	<< "Value: " << std::endl
-					<< "id: " << value.id << std::endl
-					<< "storedValue: " << value.storedValue << std::endl
-					<< "timestamp: " << value.timestamp << std::endl
-					<< "type: " << value.type << std::endl;
 		Beholder->storeValue(value);
 	}
 	result = true;

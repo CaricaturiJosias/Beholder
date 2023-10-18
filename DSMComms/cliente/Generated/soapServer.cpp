@@ -17,7 +17,7 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 #endif
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapServer.cpp ver 2.8.131 2023-10-17 19:24:31 GMT")
+SOAP_SOURCE_STAMP("@(#) soapServer.cpp ver 2.8.131 2023-10-18 05:05:31 GMT")
 extern "C" SOAP_FMAC5 int SOAP_FMAC6 soap_serve(struct soap *soap)
 {
 #ifndef WITH_FASTCGI
@@ -77,7 +77,7 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_bhldr__lookup(struct soap *soap)
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap->error;
-	soap->error = bhldr__lookup(soap, soap_tmp_bhldr__lookup.infoId, soap_tmp_bhldr__lookup.timestamp, soap_tmp_bhldr__lookupResponse.data);
+	soap->error = bhldr__lookup(soap, soap_tmp_bhldr__lookup.input, soap_tmp_bhldr__lookupResponse.data);
 	if (soap->error)
 		return soap->error;
 	soap->encodingStyle = NULL; /* use SOAP literal style */

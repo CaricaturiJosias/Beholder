@@ -22,16 +22,13 @@ void Beholder_i::LogEventAll(std::string valor, ::DSMComms::EventEnum event) {
 }
 
 void Beholder_i::getValue(::DSMComms::Value & toGetValue) {
-  std::cout << "Received lookup for id " << toGetValue.id.in() << std::endl;
   std::string timestamp;
   if (toGetValue.timestamp.in() != nullptr) {
     timestamp = toGetValue.timestamp.in();
   }
-  std::cout << "With timestamp " << timestamp << std::endl;
   std::string id = toGetValue.id.in();
   std::vector<Information::Information> result = LocalMachine::MachineUtils::LookUpData(id, timestamp);
 
-  std::cout << "Size of result: " << result.size() << std::endl;
 
   if (result.size() == 0) {
     toGetValue.storedValue = 0;
@@ -51,26 +48,14 @@ void Beholder_i::getValue(::DSMComms::Value & toGetValue) {
     value.storedValue = std::stod(info.GetInfoValue());
     value.timestamp = info.GetInfoTimeStamp().c_str();
     value.type = static_cast<DSMComms::DataType>(std::stoi(info.GetInfoQuality()));
-    std::cout << "Information: " << std::endl << info.toString() << std::endl;
-    std::cout << "Value: " << std::endl
-              << "Id : " << value.id << std::endl
-              << "Value : " << value.storedValue << std::endl
-              << "Timestamp : " << value.timestamp << std::endl
-              << "Type : " << value.type << std::endl << std::endl;
   }
   return;
 }
 
 void Beholder_i::storeValue(const ::DSMComms::Value & toSetValue) {
   // We expect the data to have already been checked out
-  std::cout << "Entered" << std::endl;
   LocalMachine::SchemaUtils schemaItem;
 
-  std::cout 	<< "Value: " << std::endl
-        << "id: " << toSetValue.id << std::endl
-        << "storedValue: " << toSetValue.storedValue << std::endl
-        << "timestamp: " << toSetValue.timestamp << std::endl
-        << "type: " << toSetValue.type << std::endl;
   std::string id = toSetValue.id.in();
   std::string strValue = std::to_string(toSetValue.storedValue);
   std::string timestamp = toSetValue.timestamp.in();
@@ -78,7 +63,6 @@ void Beholder_i::storeValue(const ::DSMComms::Value & toSetValue) {
   int32_t typeVal = toSetValue.type;
   Information::Information * info = new Information::Information(id, strValue, timestamp, std::string("1"), typeVal);
   schemaItem.CompressData(info);
-  std::cout << "Finished" << std::endl;
 
 }
 
