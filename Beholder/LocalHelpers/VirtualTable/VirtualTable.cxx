@@ -64,7 +64,7 @@ namespace LocalMachine {
         std::vector<Information::Information> result;
         std::vector<Information::Information> instanceVector;
         Information::Information returningInfo;
-        
+        bool mostRecent = timestamp.empty() || timestamp == Information::DEFAULT_TIME;
         // std::cout << "VirtualTable::GetStoredValue looking for " << id << std::endl;
 
         valueMap::iterator it = dataMapValue.begin();
@@ -88,13 +88,17 @@ namespace LocalMachine {
                 ++it;
                 continue;
             }
-
-            if (timestamp.empty() || timestamp == Information::DEFAULT_TIME) {
+            if (mostRecent) {
                 // If not defined look for most recent
-                returningInfo = *instanceVector.begin();
+                if (returningInfo.empty()) {
+                    // Avoid redefinition
+                    returningInfo = *instanceVector.begin();
+                }
+
                 struct std::tm tm1{};
                 struct std::tm tm2{};
                 std::vector<Information::Information>::iterator infoIt = instanceVector.begin();
+
                 while (infoIt != instanceVector.end()) {
 
                     // get values from time
@@ -105,13 +109,12 @@ namespace LocalMachine {
                             std::string(Information::TIME_FORMAT).c_str(),
                             &tm2);
 
-                    time_t timeMostRecent = mktime(&tm1);
-                    time_t timeIt = mktime(&tm2);
-                    if (timeMostRecent > timeIt) {
+                    double timeDiff = difftime(mktime(&tm1), mktime(&tm2));
+                    // Is most recent older than current iterator?
+                    // > 0 : Most recent is the actual most recent
+                    // < 0 : Most recent happened before infoIt
+                    if (timeDiff < 0) {
                         returningInfo = *infoIt;
-                    } else {
-                        ++infoIt;
-                        continue;
                     }
                     ++infoIt;
                 }
@@ -125,6 +128,10 @@ namespace LocalMachine {
                 }
             }
             ++it;
+        }
+
+        if (mostRecent) {
+            result.push_back(returningInfo);
         }
 
         return result;
