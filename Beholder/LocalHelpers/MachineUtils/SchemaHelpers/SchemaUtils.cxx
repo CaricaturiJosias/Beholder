@@ -100,7 +100,6 @@ namespace LocalMachine {
 
     std::vector<Information::Information> SchemaUtils::DecompressInfo(std::string file) {
         std::vector<Information::Information> infoInFile;
-        std::cout << "DecompressInfo: " << file << std::endl;
         int32_t inputType;
         std::filesystem::path path(file);
 
@@ -205,9 +204,9 @@ namespace LocalMachine {
     std::string SchemaUtils::CompressData(Information::Information * data) {
         // Check if information is correct, creates pointer to stored info
         if (data->GetInfoId() == Information::DEFAULT_ID) {
-            return nullptr; //Nothing to store, TODO get logging going
+            return nullptr; 
         } else if (data->GetInfoValue() == Information::DEFAULT_VALUE) {
-            return nullptr; //Nothing to store, TODO get logging going
+            return nullptr; 
         }
         int32_t infoDataType = data->GetDataType();
         std::string schemaPath = GetSchema(infoDataType);

@@ -127,7 +127,6 @@ bhldr__dataFormat valueToStruct (Value value) {
 int bhldr__lookup(struct soap *soap, std::vector<struct bhldr__requestFormat> input, std::vector<bhldr__dataFormat> &data) {
 	std::vector<struct bhldr__requestFormat>::iterator itRequests = input.begin();
 	std::vector<Value> resultingValues;
-	std::cout << "Size: " << input.size() << std::endl;
 	while (itRequests != input.end()) {
 		// Convert dataFormat to Value
 		std::string timestamp;
@@ -139,9 +138,6 @@ int bhldr__lookup(struct soap *soap, std::vector<struct bhldr__requestFormat> in
 		resultingValues.push_back(value);
 		++itRequests;
 		data.push_back(valueToStruct(value));
-	}
-	for (auto item : data) {
-		std::cout << item.value << std::endl;
 	}
   	return SOAP_OK;
 }
@@ -162,7 +158,6 @@ int bhldr__registerInfo(struct soap *soap, std::vector<bhldr__dataFormat> messag
 		value.storedValue = std::stod(message.value);
 		value.timestamp = message.timestamp.c_str();
 		value.type = (DataType)message.dataType;
-
 		Beholder->storeValue(value);
 	}
 	result = true;

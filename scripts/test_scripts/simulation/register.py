@@ -33,7 +33,7 @@ def end_payload(payload):
 def add_request(current_request, name, value, isAnalog = False, scale = 0):
     if (isAnalog):
         type = "ANALOG"
-        value = value + (randrange(-10,10)*10**scale)/10
+        value = value + (randrange(-10,10, 1)*10**(scale+1))/10
         if (scale < 0):
             value = round(value, 3)
     else:
@@ -74,10 +74,10 @@ item_analog_list = [
 ]
 
 item_digital_list_n = [
-    ['P_QC', 0, False, 9],
-    ['F_QC', 0, False, 9],
-    ['T', 0, False, 9],
-    ['Area_', 0, False, 9]
+    ['P_QC', 9, False, 0],
+    ['F_QC', 9, False, 0],
+    ['T', 9, False, 0],
+    ['Area_', 9, False, 0]
 ]
 
 def increment_payload_n(payload, items, n):
@@ -98,7 +98,7 @@ def simulationLoop():
     while (True):
         payload = generate_default_payload()
 
-        for n in range(1,20):
+        for n in range(1,6):
             payload = increment_payload_n(payload, item_analog_list_n, n)
             payload = increment_payload_n(payload, item_digital_list_n, n)
         payload = increment_payload_n(payload, item_analog_list, 0)
@@ -113,7 +113,7 @@ def simulationLoop():
                 print(response.content)
         except Exception as e:
             print(f"Error: {e}")
-        sleep(100)
+        sleep(5)
     
 
 def main():

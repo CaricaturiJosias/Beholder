@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import requests
+import requests, re
 from time import sleep
 import xml.etree.ElementTree as ET
 
@@ -115,7 +115,7 @@ item_digital_list_n = [
 
 def increment_payload_n(payload, items, n):
     if n == 0:
-        name = ""
+        number = ""
     else:
         number = f"{str(n)}"
 
@@ -127,40 +127,64 @@ def increment_payload_n(payload, items, n):
     return payload
 
 def parse_n_resp(response):
+    data_list = {}
+    for i in range(1,22):
+        data_list[i] = []
     root = ET.fromstring(response.content)
-    print(root)
+
     namespaces = {
-        'SOAP-ENV':"http://schemas.xmlsoap.org/soap/envelope/",
-        'SOAP-ENC':"http://schemas.xmlsoap.org/soap/encoding/",
-        'xsi' : "http://www.w3.org/2001/XMLSchema-instance",
-        'xsd' : "http://www.w3.org/2001/XMLSchema",
-        'bhldr' : "http://tempuri.org/bhldr.xsd"
+        "SOAP-ENV":"http://schemas.xmlsoap.org/soap/envelope/",
+        "bhldr" : "http://tempuri.org/bhldr.xsd"
     }
-    data = root.find('.//Envelope', namespaces=namespaces)
-    print(data)
+    data = root.find('.//SOAP-ENV:Body/bhldr:lookupResponse', namespaces=namespaces)
+    for data_element in data.findall('data', namespaces=namespaces):
+        info = data_element.find('infoName', namespaces=namespaces).text
+        value = str(round(float(data_element.find('value', namespaces=namespaces).text),3))
+        time = data_element.find('timestamp', namespaces=namespaces).text
+        number = re.findall(r'\d+', info)
+        if (number == []):
+            if (data_list[6] == []):
+                data_list[6].append(f"{time}")
+            data_list[6].append(f"{info}: {value}")
+        else:
+            if (data_list[int(number[0])] == []):
+                data_list[int(number[0])].append(f"{time}")
+            data_list[int(number[0])].append(f"{info}: {value}")
+    show_result(data_list)
+
+def show_result(data_list):
+    #  6 on 6 items
+    print(data_list[1][0])
+    for i in range(1,len(data_list)):
+        for j in range(1, len(data_list[i])):
+            if (i < 10):
+                print(" " + data_list[i][j], end="  ")
+            else:
+                print(data_list[i][j], end=" ")
+        print("")
+
 
 def simulationLoop():
     while (True):
         payload = generate_default_payload()
 
-        for n in range(1,20):
-            # payload = increment_payload_n(payload, item_analog_list_n, n)
+        for n in range(1,6):
+            payload = increment_payload_n(payload, item_analog_list_n, n)
             payload = increment_payload_n(payload, item_digital_list_n, n)
-        # payload = increment_payload_n(payload, item_analog_list, 0)
+        payload = increment_payload_n(payload, item_analog_list, 0)
 
         payload = end_payload(payload)
-        print(payload)
         try:
             response = requests.request("POST", url, headers=headers, data=payload)
             if (response.ok) :
-                print("Requisição bem sucedida")
+                print("\033c", end="")
                 parse_n_resp(response)
             else :
                 print(f"Response not ok: {response.status_code}")
                 print(response.content)
         except Exception as e:
             print(f"Error: {e}")
-        sleep(10)
+        sleep(3)
 
 def main():
     simulationLoop()

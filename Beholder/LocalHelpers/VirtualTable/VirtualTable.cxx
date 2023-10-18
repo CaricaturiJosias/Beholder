@@ -16,6 +16,7 @@
 #include <filesystem>
 
 #include <cstring>
+#include <time.h>
 
 namespace LocalMachine {
     
@@ -62,6 +63,7 @@ namespace LocalMachine {
     std::vector<Information::Information> VirtualTable::GetStoredValue(keyName id, std::string timestamp) {
         std::vector<Information::Information> result;
         std::vector<Information::Information> instanceVector;
+        Information::Information returningInfo;
         
         // std::cout << "VirtualTable::GetStoredValue looking for " << id << std::endl;
 
@@ -81,32 +83,38 @@ namespace LocalMachine {
                 ++it;
                 continue;
             }
+            if (instanceVector.size() == 1) {
+                result.push_back(*instanceVector.begin());
+                ++it;
+                continue;
+            }
+
             if (timestamp.empty() || timestamp == Information::DEFAULT_TIME) {
                 // If not defined look for most recent
-                Information::Information mostRecent = *instanceVector.begin();
-                for (auto infoIt : instanceVector) {
-                    /**
-                     * Yes, this works
-                     * 
-                     * Lets say i have 
-                     * 2012/01/24 23:55:21
-                     * and
-                     * 2022/11/30 15:20:04
-                     * 
-                     * c++ compares from left to right,
-                     * since we want the BIGGER value on each
-                     * to be the most recent, we are cool with this
-                     * 201 is lower than 202 because the ascii for 2 is higher
-                    */
-                    bool bigger = 
-                        std::strcmp(infoIt.GetInfoTimeStamp().c_str(),
-                                    mostRecent.GetInfoTimeStamp().c_str()) > 0;
-                    if (bigger) {
-                        mostRecent = infoIt;
-                    }
-                }
-                result.push_back(mostRecent);
+                returningInfo = *instanceVector.begin();
+                struct std::tm tm1{};
+                struct std::tm tm2{};
+                std::vector<Information::Information>::iterator infoIt = instanceVector.begin();
+                while (infoIt != instanceVector.end()) {
 
+                    // get values from time
+                    strptime(returningInfo.GetInfoTimeStamp().c_str(), 
+                            std::string(Information::TIME_FORMAT).c_str(),
+                            &tm1);
+                    strptime(infoIt->GetInfoTimeStamp().c_str(), 
+                            std::string(Information::TIME_FORMAT).c_str(),
+                            &tm2);
+
+                    time_t timeMostRecent = mktime(&tm1);
+                    time_t timeIt = mktime(&tm2);
+                    if (timeMostRecent > timeIt) {
+                        returningInfo = *infoIt;
+                    } else {
+                        ++infoIt;
+                        continue;
+                    }
+                    ++infoIt;
+                }
             } else {
                 for (Information::Information instance : instanceVector) {
                     // If timestamp is defined, look for a match
@@ -118,6 +126,7 @@ namespace LocalMachine {
             }
             ++it;
         }
+
         return result;
     }
 
