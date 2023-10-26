@@ -63,9 +63,17 @@ namespace LocalMachine {
 
     std::string Machine::GetNewStorageFile(char prefix) {
         std::filesystem::path storagePath = GetStoragePath();
-        std::string storageFile{storagePath.generic_string() + prefix + "data_" + std::to_string(GetAmmountOfFiles()) + ".bin"};
+        std::string storageFile{storagePath.generic_string() + prefix + "data_" + std::to_string(GetAmmountOfFiles()) + ".bin"};       
         // Update the counter
-        NewDataFile();        
+        NewDataFile(); 
+        return storageFile;
+    }
+
+    std::string Machine::GetNewTempFile(char prefix) {
+        std::filesystem::path storagePath = GetStoragePath();
+        std::string storageFile{storagePath.generic_string() + prefix + "temp_" + std::to_string(GetAmmountOfFiles()) + ".tmp"};      
+        // Update the counter
+        NewDataFile(); 
         return storageFile;
     }
 }; // Namespace

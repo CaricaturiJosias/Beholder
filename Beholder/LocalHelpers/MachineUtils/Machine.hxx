@@ -44,6 +44,8 @@ namespace LocalMachine {
 
             static std::string GetNewStorageFile(char prefix);
 
+            static std::string GetNewTempFile(char prefix);
+
             static int32_t GetAmmountOfFiles() { return fileAmmount; }
 
             static void NewDataFile() { ++fileAmmount;}

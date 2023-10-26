@@ -337,6 +337,7 @@ namespace LocalMachine {
         
         std::filesystem::path schemaPath = GetSchema(infoDataType);
         std::ifstream schemaStream(schemaPath);
+        char type = (infoDataType == ANALOG) ? 'A' : 'D';
 
         if (schemaPath == UNKNOWN_TYPE) {
             // LOG - We MUST log this scenario
@@ -344,8 +345,18 @@ namespace LocalMachine {
             return "";
         }
         std::filesystem::path storageLocation(Machine::GetStoragePath());
-        std::filesystem::path tempFile = storageLocation / "data.tmp";;
-
+        std::filesystem::path tempFile;
+        bool tempFinished = false;
+        while (!tempFinished) {
+            // Saving file here
+            tempFile = Machine::GetNewTempFile(type);
+            // std::cout << "StoreData: Found files: " << i << std::endl;
+            if (std::filesystem::exists(tempFile)) {
+                // std::cout << "File already exists: " << targetFile << std::endl;
+                continue;
+                // Will try until we find an unused ID
+            }
+        }
         // Quick way to check if exists
         if (!std::filesystem::exists(schemaPath)) {
             // Create
@@ -389,7 +400,6 @@ namespace LocalMachine {
             // Saving file here
             i = LocalMachine::Machine::GetAmmountOfFiles();
             // std::cout << "StoreData: Found files: " << i << std::endl;
-            char type = (infoDataType == ANALOG) ? 'A' : 'D';
             targetFile = Machine::GetNewStorageFile(type);
 
             if (std::filesystem::exists(targetFile)) {
