@@ -350,12 +350,14 @@ namespace LocalMachine {
         while (!tempFinished) {
             // Saving file here
             tempFile = Machine::GetNewTempFile(type);
+            std::cout << "TempFile: " << tempFile.string() << std::endl;
             // std::cout << "StoreData: Found files: " << i << std::endl;
             if (std::filesystem::exists(tempFile)) {
                 // std::cout << "File already exists: " << targetFile << std::endl;
                 continue;
                 // Will try until we find an unused ID
             }
+            tempFinished = true;
         }
         // Quick way to check if exists
         if (!std::filesystem::exists(schemaPath)) {
