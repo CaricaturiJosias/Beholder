@@ -221,11 +221,12 @@ namespace LocalMachine {
         // std::cout << "Schema is known" << std::endl;
         // Check timestamp value sent, if default define the local system time
         std::string timestamp = data->GetInfoTimeStamp();
-        if (timestamp == Information::DEFAULT_TIME) {
+        if (timestamp == Information::DEFAULT_TIME || timestamp.empty()) {
             // TODO - Log occurance
-            // std::cout << "time is the default time" << std::endl;
             timestamp = LocalMachine::MachineUtils::GetCurrentTime();
+            std::cout << "time is the default time: " << timestamp << std::endl;
         }
+        std::cout << "time is: " << timestamp << std::endl;
         // TODO - Remove
         // std::cout << "Timestamp is valid" << std::endl;
         BUFFER_MAP * buffer = virtualTable->getBuffer();
@@ -246,13 +247,13 @@ namespace LocalMachine {
 
         if (LocalMachine::MAX_BUFFER_SIZE == currentList.size()) {
             // TODO - Remove
-            // std::cout << "Saving, pushing it into buffer" << std::endl;
+            std::cout << "Saving, pushing it into buffer" << std::endl;
             std::string fileStored = StoreData(infoDataType, buffer);
             (*buffer)[infoDataType].clear();
             return fileStored;
         }
         // TODO - Remove
-        // std::cout << "Not saving, pushing it into buffer" << std::endl;
+        std::cout << "Not saving, pushing it into buffer" << std::endl;
         (*buffer)[infoDataType].push_back(informationValue(*data));
 
         return "";
@@ -265,10 +266,12 @@ namespace LocalMachine {
     bool SchemaUtils::SaveData(Information::Information data) {
         if (data.empty()) {
             // Log error
+            std::cout << "Data is empty" << std::endl;
             return false;
         }
+        std::cout << "Compressing data" << std::endl;
         std::string compressedPath = CompressData(&data);
-        // std::cout << "compressed Path : " << compressedPath << std::endl;
+        std::cout << "compressed Path : " << compressedPath << std::endl;
         return true;
     }
 
@@ -350,7 +353,6 @@ namespace LocalMachine {
         while (!tempFinished) {
             // Saving file here
             tempFile = Machine::GetNewTempFile(type);
-            std::cout << "TempFile: " << tempFile.string() << std::endl;
             // std::cout << "StoreData: Found files: " << i << std::endl;
             if (std::filesystem::exists(tempFile)) {
                 // std::cout << "File already exists: " << targetFile << std::endl;
@@ -428,6 +430,7 @@ namespace LocalMachine {
             std::filesystem::copy_file(tempFile, targetFile, std::filesystem::copy_options::overwrite_existing );
         }
         bool success = virtualTable->StoreValue(targetFile, fileId, infoDataType);
+        std::filesystem::remove(tempFile);
         if (success) {
             return targetFile;
         }

@@ -65,7 +65,7 @@ namespace LocalMachine {
         std::vector<Information::Information> instanceVector;
         Information::Information returningInfo;
         bool mostRecent = timestamp.empty() || timestamp == Information::DEFAULT_TIME;
-        // std::cout << "VirtualTable::GetStoredValue looking for " << id << std::endl;
+        std::cout << "VirtualTable::GetStoredValue looking for " << id << std::endl;
 
         valueMap::iterator it = dataMapValue.begin();
         std::vector<fileDataValue> instances;
@@ -89,35 +89,7 @@ namespace LocalMachine {
                 continue;
             }
             if (mostRecent) {
-                // If not defined look for most recent
-                if (returningInfo.empty()) {
-                    // Avoid redefinition
-                    returningInfo = *instanceVector.begin();
-                }
-
-                struct std::tm tm1{};
-                struct std::tm tm2{};
-                std::vector<Information::Information>::iterator infoIt = instanceVector.begin();
-
-                while (infoIt != instanceVector.end()) {
-
-                    // get values from time
-                    strptime(returningInfo.GetInfoTimeStamp().c_str(), 
-                            std::string(Information::TIME_FORMAT).c_str(),
-                            &tm1);
-                    strptime(infoIt->GetInfoTimeStamp().c_str(), 
-                            std::string(Information::TIME_FORMAT).c_str(),
-                            &tm2);
-
-                    double timeDiff = difftime(mktime(&tm1), mktime(&tm2));
-                    // Is most recent older than current iterator?
-                    // > 0 : Most recent is the actual most recent
-                    // < 0 : Most recent happened before infoIt
-                    if (timeDiff < 0) {
-                        returningInfo = *infoIt;
-                    }
-                    ++infoIt;
-                }
+                getTimeDiff(returningInfo, instanceVector);
             } else {
                 for (Information::Information instance : instanceVector) {
                     // If timestamp is defined, look for a match
@@ -131,7 +103,14 @@ namespace LocalMachine {
         }
 
         if (mostRecent) {
-            result.push_back(returningInfo);
+            std::cout << "Size of found values: " << instanceVector.size() << std::endl;
+            // Latest on all possible files, lets check the latest of them all
+            getTimeDiff(returningInfo, instanceVector);
+            if (!returningInfo.empty()) {
+                std::cout << "Data\n" << returningInfo.toString() << std::endl;
+                result.clear();
+                result.push_back(returningInfo);
+            }
         }
 
         return result;
@@ -185,4 +164,43 @@ namespace LocalMachine {
         return true;
     }
 
+    void VirtualTable::getTimeDiff( Information::Information & returningInfo,
+                                    infoVec instanceVector) {
+        if (instanceVector.size() == 0) {
+            returningInfo = Information::Information{};
+            return;
+        } else if (instanceVector.size() == 1) {
+            returningInfo = *instanceVector.begin();
+            return;
+        }
+
+        if (returningInfo.empty()) {
+            // Avoid redefinition
+            returningInfo = *instanceVector.begin();
+        }
+
+        struct std::tm tm1{};
+        struct std::tm tm2{};
+        std::vector<Information::Information>::iterator infoIt = instanceVector.begin();
+        while (infoIt != instanceVector.end()) {
+
+            // get values from time
+            strptime(returningInfo.GetInfoTimeStamp().c_str(), 
+                    std::string(Information::TIME_FORMAT).c_str(),
+                    &tm1);
+            strptime(infoIt->GetInfoTimeStamp().c_str(), 
+                    std::string(Information::TIME_FORMAT).c_str(),
+                    &tm2);
+
+            double timeDiff = mktime(&tm1) - mktime(&tm2);
+            // Is most recent older than current iterator?
+            // > 0 : Most recent is the actual most recent
+            // < 0 : Most recent happened before infoIt
+            if (timeDiff < 0) {
+                std::cout << "Change: \n" << infoIt->toString() << std::endl;
+                returningInfo = *infoIt;
+            }
+            ++infoIt;
+        }
+    }
 } // Namespace LocalMachine

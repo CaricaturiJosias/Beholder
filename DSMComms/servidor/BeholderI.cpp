@@ -53,6 +53,7 @@ void Beholder_i::getValue(::DSMComms::Value & toGetValue) {
 }
 
 void Beholder_i::storeValue(const ::DSMComms::Value & toSetValue) {
+  std::cout << "Received store request " << std::endl;
   // We expect the data to have already been checked out
   LocalMachine::SchemaUtils schemaItem;
 
@@ -62,7 +63,7 @@ void Beholder_i::storeValue(const ::DSMComms::Value & toSetValue) {
 
   int32_t typeVal = toSetValue.type;
   Information::Information * info = new Information::Information(id, strValue, timestamp, std::string("1"), typeVal);
-  schemaItem.CompressData(info);
+  schemaItem.SaveData(*info);
 
 }
 

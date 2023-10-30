@@ -22,8 +22,8 @@ namespace Information {
 constexpr std::string_view DEFAULT_ADDRESS {"UNDEFINED_ADDRESS"};
 constexpr std::string_view DEFAULT_ID {"0"};
 constexpr std::string_view DEFAULT_VALUE {"1"};
-constexpr std::string_view DEFAULT_TIME {"2000-01-01 00:00:00"};
-constexpr std::string_view TIME_FORMAT {"%Y-%m-%d %H:%M:%S"};
+constexpr std::string_view DEFAULT_TIME {"2000/01/01 00:00:00"};
+constexpr std::string_view TIME_FORMAT {"%Y/%m/%d %H:%M:%S"};
 constexpr std::string_view DEFAULT_QUALITY {"0"};
 
 enum DataType {

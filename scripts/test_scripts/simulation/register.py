@@ -38,13 +38,13 @@ def add_request(current_request, name, value, isAnalog = False, scale = 0):
             value = round(value, 3)
     else:
         type = "DIGITAL"
-    time = generate_timestamp()
+    # time = generate_timestamp()
 
     return current_request + \
 f"""<inputInfo>
         <infoName>{name}</infoName>
         <value>{value}</value>
-        <timestamp>{time}</timestamp>
+        <timestamp></timestamp>
         <dataType>{type}</dataType>
     </inputInfo>
     """ 
@@ -113,7 +113,9 @@ def simulationLoop():
                 print(response.content)
         except Exception as e:
             print(f"Error: {e}")
-        sleep(5)
+        print("\033c", end="")
+        print(payload)
+        sleep(10)
     
 
 def main():

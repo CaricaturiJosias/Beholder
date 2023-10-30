@@ -47,6 +47,8 @@ namespace LocalMachine {
 
     typedef std::vector<LocalMachine::informationValue> INFO_LIST;
     typedef std::map<int32_t, INFO_LIST> BUFFER_MAP;
+    
+    typedef std::vector<Information::Information> infoVec;
 
     extern uint32_t MAX_BUFFER_SIZE;
 
@@ -109,6 +111,8 @@ namespace LocalMachine {
 
         private:
             
+            void getTimeDiff(Information::Information& toReturn, infoVec instanceVector);
+
             static double numRows;
 
             static valueMap dataMapValue;
