@@ -53,24 +53,24 @@ url = "http://localhost:12332"
 
 # nome, escala, valor esperado
 item_analog_list_n = [
-    ['P',  700, True, 3],
+    ['P',  700, True, 2],
     ['PF', 0.985, True, -2],
-    ['F', 60, True, -1],
-    ['Vv',  3110, True, 2,],
-    ['ED',  32505, True, 3],
-    ['EPGen',  70, True, 0],
-    ['EFGen', 0.1, True, -2],
-    ['PFGen',  13, True, 2,5]
+    ['F', 60, True, -2],
+    ['Vv',  3110, True, 1],
+    ['ED',  32505, True, 2],
+    ['EPGen',  70, True, -1],
+    ['EFGen', 0.1, True, -3],
+    ['PFGen',  13, True, -1]
 ]
 
 item_analog_list = [
-    ['P', 14000, True, 3],
+    ['P', 3500, True, 2],
     ['PF', 0.98, True, -2],
-    ['F', 60, True, 1],
-    ['ED', 7890900, True, 5],
-    ['EPGen', 1400, True, 0],
-    ['EFGen', 0.2, True, -2],
-    ['PFGen', 23, True, 1]
+    ['F', 60, True, -2],
+    ['ED', 162525, True, 2],
+    ['EPGen', 350, True, 1],
+    ['EFGen', 0.2, True, -3],
+    ['PFGen', 23, True, -1]
 ]
 
 item_digital_list_n = [
@@ -106,16 +106,17 @@ def simulationLoop():
         payload = end_payload(payload)
         try:
             response = requests.request("POST", url, headers=headers, data=payload)
-            if (response.ok) :
-                print("Requisição bem sucedida")
-            else :
+            # if (response.ok) :
+                # print("Requisição bem sucedida")
+            if (not response.ok):
+            # else :
                 print(f"Response not ok: {response.status_code}")
                 print(response.content)
         except Exception as e:
             print(f"Error: {e}")
-        print("\033c", end="")
-        print(payload)
-        sleep(10)
+        # print("\033c", end="")
+        # print(payload)
+        sleep(1/100)
     
 
 def main():

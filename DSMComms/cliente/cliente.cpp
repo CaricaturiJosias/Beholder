@@ -127,7 +127,7 @@ bhldr__dataFormat valueToStruct (Value value) {
 int bhldr__lookup(struct soap *soap, std::vector<struct bhldr__requestFormat> input, std::vector<bhldr__dataFormat> &data) {
 	std::vector<struct bhldr__requestFormat>::iterator itRequests = input.begin();
 	std::vector<Value> resultingValues;
-	std::cout << "Received the lookup request" << std::endl;
+	// std::cout << "Received the lookup request" << std::endl;
 	while (itRequests != input.end()) {
 		// Convert dataFormat to Value
 		std::string timestamp;
@@ -140,18 +140,18 @@ int bhldr__lookup(struct soap *soap, std::vector<struct bhldr__requestFormat> in
 		++itRequests;
 		data.push_back(valueToStruct(value));
 	}
-	for (Value item : resultingValues) {
-		std::cout 	<< "Reading item: " << item.id.in() << std::endl
-				 	<< "With value: " << item.storedValue << std::endl
-					<< "With timestamp: " << item.timestamp.in() << std::endl;
-	}
+	// for (Value item : resultingValues) {
+	// 	std::cout 	<< "Reading item: " << item.id.in() << std::endl
+	// 			 	<< "With value: " << item.storedValue << std::endl
+	// 				<< "With timestamp: " << item.timestamp.in() << std::endl;
+	// }
   	return SOAP_OK;
 }
 
 //gsoap MsgProcessor service method: registerInfo register an info
 int bhldr__registerInfo(struct soap *soap, std::vector<bhldr__dataFormat> messageList, bool &result) {
 	::DSMComms::ValueSequence valueList;
-	std::cout << "Received the register request" << std::endl;
+	// std::cout << "Received the register request" << std::endl;
 	for (bhldr__dataFormat message : messageList) {
 		// Checking the validity of the data
 		if (message.infoName.empty() || message.value.empty()) {
@@ -163,9 +163,9 @@ int bhldr__registerInfo(struct soap *soap, std::vector<bhldr__dataFormat> messag
 		value.storedValue = std::stod(message.value);
 		value.timestamp = message.timestamp.c_str();
 		value.type = (DataType)message.dataType;
-		std::cout 	<< "Saving item: " << value.id  << std::endl
-				 	<< "With value: " << value.storedValue << std::endl
-					<< "With timestamp: " << value.timestamp << std::endl;
+		// std::cout 	<< "Saving item: " << value.id  << std::endl
+		// 		 	<< "With value: " << value.storedValue << std::endl
+		// 			<< "With timestamp: " << value.timestamp << std::endl;
 		Beholder->storeValue(value);
 	}
 	result = true;

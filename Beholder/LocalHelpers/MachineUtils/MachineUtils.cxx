@@ -66,7 +66,7 @@ namespace LocalMachine {
         struct tm* timeInfo = localtime(&currentTime);
 
         char timeString[50];
-        strftime(timeString, sizeof(timeString), "%Y-%m-%d %H:%M:%S", timeInfo);
+        strftime(timeString, sizeof(timeString), std::string(Information::TIME_FORMAT).c_str(), timeInfo);
         return std::string(timeString);
     }
 

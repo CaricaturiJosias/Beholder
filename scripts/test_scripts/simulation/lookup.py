@@ -150,8 +150,8 @@ def parse_n_resp(response):
             if (data_list[int(number[0])] == []):
                 data_list[int(number[0])].append(f"{time}")
             data_list[int(number[0])].append(f"{info}: {value}")
-    # show_result(data_list)
-    print(response.content)
+    show_result(data_list)
+    # print(response.content)
 
 def show_result(data_list):
     #  6 on 6 items
@@ -185,7 +185,7 @@ def simulationLoop():
                 print(response.content)
         except Exception as e:
             print(f"Error: {e}")
-        sleep(10)
+        sleep(1/100)
 
 def main():
     simulationLoop()

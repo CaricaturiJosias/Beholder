@@ -224,9 +224,8 @@ namespace LocalMachine {
         if (timestamp == Information::DEFAULT_TIME || timestamp.empty()) {
             // TODO - Log occurance
             timestamp = LocalMachine::MachineUtils::GetCurrentTime();
-            std::cout << "time is the default time: " << timestamp << std::endl;
+            data->SetInfoTimeStamp(timestamp);
         }
-        std::cout << "time is: " << timestamp << std::endl;
         // TODO - Remove
         // std::cout << "Timestamp is valid" << std::endl;
         BUFFER_MAP * buffer = virtualTable->getBuffer();
@@ -239,6 +238,8 @@ namespace LocalMachine {
             return nullptr;
         }
 
+        // std::cout << "Data to be saved " << data->toString() << std::endl;
+
         INFO_LIST currentList = (*buffer)[infoDataType];
         currentList.push_back(informationValue(*data));
 
@@ -247,13 +248,13 @@ namespace LocalMachine {
 
         if (LocalMachine::MAX_BUFFER_SIZE == currentList.size()) {
             // TODO - Remove
-            std::cout << "Saving, pushing it into buffer" << std::endl;
+            // std::cout << "Saving, pushing it into buffer" << std::endl;
             std::string fileStored = StoreData(infoDataType, buffer);
             (*buffer)[infoDataType].clear();
             return fileStored;
         }
         // TODO - Remove
-        std::cout << "Not saving, pushing it into buffer" << std::endl;
+        // std::cout << "Not saving, pushing it into buffer" << std::endl;
         (*buffer)[infoDataType].push_back(informationValue(*data));
 
         return "";
@@ -269,9 +270,7 @@ namespace LocalMachine {
             std::cout << "Data is empty" << std::endl;
             return false;
         }
-        std::cout << "Compressing data" << std::endl;
         std::string compressedPath = CompressData(&data);
-        std::cout << "compressed Path : " << compressedPath << std::endl;
         return true;
     }
 

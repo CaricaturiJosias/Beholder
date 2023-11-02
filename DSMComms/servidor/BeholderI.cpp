@@ -29,14 +29,15 @@ void Beholder_i::getValue(::DSMComms::Value & toGetValue) {
   std::string id = toGetValue.id.in();
   std::vector<Information::Information> result = LocalMachine::MachineUtils::LookUpData(id, timestamp);
 
-
   if (result.size() == 0) {
     toGetValue.storedValue = 0;
     toGetValue.type = DSMComms::DataType::UNKNOWN;
+    std::cout << "Found nothing for id " << toGetValue.id.in() << std::endl;
     return;
   }
 
   Information::Information firstInfo = *(result.begin());
+  // std::cout << "Found " << firstInfo.toString();
   toGetValue.id = firstInfo.GetInfoId().c_str();
   toGetValue.storedValue = std::stod(firstInfo.GetInfoValue());
   toGetValue.timestamp = firstInfo.GetInfoTimeStamp().c_str();
@@ -53,7 +54,7 @@ void Beholder_i::getValue(::DSMComms::Value & toGetValue) {
 }
 
 void Beholder_i::storeValue(const ::DSMComms::Value & toSetValue) {
-  std::cout << "Received store request " << std::endl;
+  // std::cout << "Received store request " << std::endl;
   // We expect the data to have already been checked out
   LocalMachine::SchemaUtils schemaItem;
 
@@ -64,7 +65,6 @@ void Beholder_i::storeValue(const ::DSMComms::Value & toSetValue) {
   int32_t typeVal = toSetValue.type;
   Information::Information * info = new Information::Information(id, strValue, timestamp, std::string("1"), typeVal);
   schemaItem.SaveData(*info);
-
 }
 
 void Beholder_i::shutdown (const string password)

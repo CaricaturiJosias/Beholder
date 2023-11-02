@@ -52,6 +52,11 @@ class Information {
 
         std::string toString();
 
+        void SetInfoId(std::string input) { a_infoId  = input;}
+        void SetInfoValue(std::string input) { a_data  = input;}
+        void SetInfoTimeStamp(std::string input) { a_timeStamp  = input;}
+        void SetInfoQuality(std::string input) { a_quality = input;}
+
     protected:
 
         std::string a_data;

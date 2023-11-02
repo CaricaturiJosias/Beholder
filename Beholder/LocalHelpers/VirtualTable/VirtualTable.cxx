@@ -20,7 +20,7 @@
 
 namespace LocalMachine {
     
-    uint32_t MAX_BUFFER_SIZE = 30;
+    uint32_t MAX_BUFFER_SIZE = 67;
 
     double VirtualTable::numRows = 0;
 
@@ -65,7 +65,7 @@ namespace LocalMachine {
         std::vector<Information::Information> instanceVector;
         Information::Information returningInfo;
         bool mostRecent = timestamp.empty() || timestamp == Information::DEFAULT_TIME;
-        std::cout << "VirtualTable::GetStoredValue looking for " << id << std::endl;
+        // std::cout << "VirtualTable::GetStoredValue looking for " << id << std::endl;
 
         valueMap::iterator it = dataMapValue.begin();
         std::vector<fileDataValue> instances;
@@ -74,9 +74,10 @@ namespace LocalMachine {
             std::cout << "VirtualTable::GetStoredValue empty " << std::endl;
             return result;
         }
-
+        // std::cout << "1" << std::endl;
         // For every instance, look at the encrypted file and search for any ID that matches
         while (it != dataMapValue.end()) {
+            // std::cout << "2" << std::endl;
             fileDataValue dataInstance = it->second;
             instanceVector = SchemaUtils::GetData(dataInstance, id);
             if (instanceVector.empty()) {
@@ -89,6 +90,7 @@ namespace LocalMachine {
                 continue;
             }
             if (mostRecent) {
+                // std::cout << "3" << std::endl;
                 getTimeDiff(returningInfo, instanceVector);
             } else {
                 for (Information::Information instance : instanceVector) {
@@ -100,14 +102,21 @@ namespace LocalMachine {
                 }
             }
             ++it;
+            // std::cout << "4" << std::endl;
+        }
+
+        // std::cout << "5" << std::endl;
+        if (result.size() == 0) {
+            std::cout << "No found information" << std::endl;
+            return result; // No information
         }
 
         if (mostRecent) {
-            std::cout << "Size of found values: " << instanceVector.size() << std::endl;
+            // std::cout << "Size of found values: " << result.size() << std::endl;
             // Latest on all possible files, lets check the latest of them all
-            getTimeDiff(returningInfo, instanceVector);
+            getTimeDiff(returningInfo, result);
             if (!returningInfo.empty()) {
-                std::cout << "Data\n" << returningInfo.toString() << std::endl;
+                // std::cout << "Data\n" << returningInfo.toString() << std::endl;
                 result.clear();
                 result.push_back(returningInfo);
             }
@@ -132,7 +141,7 @@ namespace LocalMachine {
             return false;
         }
         fileDataValue fileInstance = fileDataValue(data, dataType);
-        std::cout <<  "New value for the data map: " << valueId << std::endl;
+        // std::cout <<  "New value for the data map: " << valueId << std::endl;
         dataMapValue[valueId] = fileInstance;
         return true;
     }
@@ -159,21 +168,13 @@ namespace LocalMachine {
         }
 
         fileDataValue fileInstance = fileDataValue(value, dataType);
-        std::cout <<  "New value for the data map: " << valueId << std::endl;
+        // std::cout <<  "New value for the data map: " << valueId << std::endl;
         dataMapValue[valueId] = fileInstance;
         return true;
     }
 
     void VirtualTable::getTimeDiff( Information::Information & returningInfo,
                                     infoVec instanceVector) {
-        if (instanceVector.size() == 0) {
-            returningInfo = Information::Information{};
-            return;
-        } else if (instanceVector.size() == 1) {
-            returningInfo = *instanceVector.begin();
-            return;
-        }
-
         if (returningInfo.empty()) {
             // Avoid redefinition
             returningInfo = *instanceVector.begin();
@@ -196,10 +197,17 @@ namespace LocalMachine {
             // Is most recent older than current iterator?
             // > 0 : Most recent is the actual most recent
             // < 0 : Most recent happened before infoIt
+            // std::cout << "Current iterators time: " << mktime(&tm2) << std::endl
+            //           << "Current most recent time: " << mktime(&tm1) << std::endl
+            //           << "Difference calculated: " << timeDiff << std::endl;
             if (timeDiff < 0) {
-                std::cout << "Change: \n" << infoIt->toString() << std::endl;
+                // std::cout << "Change: \n" << infoIt->toString() << std::endl;
+                // std::cout << infoIt->GetInfoTimeStamp() << " IS MORE RECENT THAN " << returningInfo.GetInfoTimeStamp() << std::endl;
                 returningInfo = *infoIt;
             }
+            //  else {
+                // std::cout << returningInfo.GetInfoTimeStamp() << " IS MORE RECENT THAN " << infoIt->GetInfoTimeStamp() << std::endl;
+            // }
             ++infoIt;
         }
     }
