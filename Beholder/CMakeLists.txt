@@ -18,7 +18,7 @@ set(LIB_DIRS
     Entities
     3PP
     MessageProcessing
-    LocalHelpers        
+    LocalHelpers   
 )
 
 # To make simplified include

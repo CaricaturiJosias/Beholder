@@ -57,6 +57,8 @@ class Information {
         void SetInfoTimeStamp(std::string input) { a_timeStamp  = input;}
         void SetInfoQuality(std::string input) { a_quality = input;}
 
+        bool operator==(Information& other);
+
     protected:
 
         std::string a_data;

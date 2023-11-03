@@ -57,20 +57,14 @@ namespace Entity {
             return false;
         }
 
-        ENTITY_LIST::iterator it = entityList.erase(
-            std::remove(
-                entityList.begin(),
-                entityList.end(),
-                entityToRemove
-            ),
-            entityList.end()
-        );
+        ENTITY_LIST::iterator it = std::find(entityList.begin(), entityList.end(), entityToRemove);
+
+        entityList.erase(it);
 
         // Scenario 1: More than 1 item, after removal new item is returned
         // Scenario 2: Only 1 item, after removal list is empty and it is entityList.end()
-        if (it != entityList.end() || // Scenario 1
-                (entityList.empty() && // Scenario 2
-                it == entityList.end())) {
+        if (it == entityList.end() || // Scenario 1
+                entityList.empty()) {// Scenario 2
             --entityCount;
             return true;
         }
@@ -83,6 +77,7 @@ namespace Entity {
         if (entityList.empty() || entityCount == 0) {
             return nullptr;
         }
+
         for (auto& entity : entityList) {
             if (entity->getEntityId() == entityId){
                 return entity;

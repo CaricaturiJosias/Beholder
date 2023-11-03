@@ -13,11 +13,13 @@
 
 namespace Message {
 
-    class GenericMsg : BaseMsg {
+    class GenericMsg : public BaseMsg {
 
         public:
         
             GenericMsg();
+
+            GenericMsg(Information::Information info, Entity::Entity sender) : BaseMsg(info, sender) {}
             
             ~GenericMsg();
     };

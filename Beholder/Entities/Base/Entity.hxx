@@ -52,6 +52,7 @@ namespace Entity {
             void setEntityType(ENTITY_TYPE newId);
 
             Entity& operator=(const Entity& other);
+            bool operator==(Entity& other);
 
         protected:
 

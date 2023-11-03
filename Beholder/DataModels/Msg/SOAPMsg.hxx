@@ -15,11 +15,13 @@
 
 namespace Message {
 
-    class SOAPMsg : BaseMsg {
+    class SOAPMsg : public BaseMsg {
 
         public:
         
             SOAPMsg();
+
+            SOAPMsg(Information::Information info, Entity::Entity sender) : BaseMsg(info, sender) {}
             
             ~SOAPMsg();
     };

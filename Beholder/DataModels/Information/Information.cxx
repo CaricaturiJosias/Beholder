@@ -88,4 +88,14 @@ std::string Information::toString() {
     return ss.str();
 }
 
+bool Information::operator==(Information& other) {
+    return(
+        this->GetInfoId() == other.GetInfoId() &&
+        this->GetInfoValue() == other.GetInfoValue() &&
+        this->GetInfoTimeStamp() == other.GetInfoTimeStamp() &&
+        this->GetDataType() == other.GetDataType() &&
+        this->GetInfoQuality() == other.GetInfoQuality()
+    );
+}
+
 };

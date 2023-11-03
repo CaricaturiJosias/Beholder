@@ -23,6 +23,12 @@ namespace Entity {
         return *this;
     }
 
+    bool Entity::operator==(Entity& other) {
+        return (entityAddress == other.entityAddress &&
+                entityId == other.entityId &&
+                entityType == other.entityType);
+    }
+
     Entity::Entity() {
         entityAddress = Information::DEFAULT_ADDRESS;
         entityId = Information::DEFAULT_ID;
@@ -30,8 +36,8 @@ namespace Entity {
     }
 
     Entity::Entity(std::string id, std::string address, ENTITY_TYPE type) {
-        entityAddress = id;
-        entityId = address;
+        entityAddress = address;
+        entityId = id;
         entityType = type;
     }
 

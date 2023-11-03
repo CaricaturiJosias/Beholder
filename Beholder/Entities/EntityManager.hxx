@@ -51,5 +51,4 @@ using ENTITY_LIST = std::vector<Entity *>;
 
     };
 
-
 };
