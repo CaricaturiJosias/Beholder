@@ -139,6 +139,30 @@ test.exe/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.exe.dir/build.make CMakeFiles/test.exe.dir/build
 .PHONY : test.exe/fast
 
+AvroTest/ApacheAvroTest.o: AvroTest/ApacheAvroTest.cxx.o
+.PHONY : AvroTest/ApacheAvroTest.o
+
+# target to build an object file
+AvroTest/ApacheAvroTest.cxx.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.exe.dir/build.make CMakeFiles/test.exe.dir/AvroTest/ApacheAvroTest.cxx.o
+.PHONY : AvroTest/ApacheAvroTest.cxx.o
+
+AvroTest/ApacheAvroTest.i: AvroTest/ApacheAvroTest.cxx.i
+.PHONY : AvroTest/ApacheAvroTest.i
+
+# target to preprocess a source file
+AvroTest/ApacheAvroTest.cxx.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.exe.dir/build.make CMakeFiles/test.exe.dir/AvroTest/ApacheAvroTest.cxx.i
+.PHONY : AvroTest/ApacheAvroTest.cxx.i
+
+AvroTest/ApacheAvroTest.s: AvroTest/ApacheAvroTest.cxx.s
+.PHONY : AvroTest/ApacheAvroTest.s
+
+# target to generate assembly for a file
+AvroTest/ApacheAvroTest.cxx.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.exe.dir/build.make CMakeFiles/test.exe.dir/AvroTest/ApacheAvroTest.cxx.s
+.PHONY : AvroTest/ApacheAvroTest.cxx.s
+
 DataModels/InformationTest.o: DataModels/InformationTest.cxx.o
 .PHONY : DataModels/InformationTest.o
 
@@ -245,6 +269,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... test.exe"
+	@echo "... AvroTest/ApacheAvroTest.o"
+	@echo "... AvroTest/ApacheAvroTest.i"
+	@echo "... AvroTest/ApacheAvroTest.s"
 	@echo "... DataModels/InformationTest.o"
 	@echo "... DataModels/InformationTest.i"
 	@echo "... DataModels/InformationTest.s"
