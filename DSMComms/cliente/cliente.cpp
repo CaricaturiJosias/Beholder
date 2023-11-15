@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 		// 2. Obtain object reference
 		CORBA::Object_ptr tmp_ref;
 
-		tmp_ref = orb->string_to_object("file://teste");
+		tmp_ref = orb->string_to_object("file://maquina1");
 		Beholder = POA_Beholder::_narrow(tmp_ref);
 
 		// 3. Use Beholder
