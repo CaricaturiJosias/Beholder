@@ -116,10 +116,13 @@ def simulationLoop():
             print(f"Error: {e}")
         # print("\033c", end="")
         # print(payload)
-        sleep(1/100)
+        sleep(1/50)
     
 
 def main():
-    simulationLoop()
+    try:
+        simulationLoop()
+    except KeyboardInterrupt:
+        print('Interrupted')
 
 main()

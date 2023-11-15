@@ -188,6 +188,9 @@ def simulationLoop():
         sleep(1/100)
 
 def main():
-    simulationLoop()
+    try:
+        simulationLoop()
+    except KeyboardInterrupt:
+        print('Interrupted')
 main()
 
