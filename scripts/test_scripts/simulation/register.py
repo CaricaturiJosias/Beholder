@@ -116,7 +116,7 @@ def simulationLoop():
             print(f"Error: {e}")
         # print("\033c", end="")
         # print(payload)
-        sleep(1/50)
+        sleep(5)
     
 
 def main():
