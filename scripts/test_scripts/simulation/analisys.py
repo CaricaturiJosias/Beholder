@@ -2,7 +2,8 @@
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
-import os, glob, subprocess, threading
+import os, glob
+from itertools import count
 
 # Create a figure and axis
 fig, ax = plt.subplots()
@@ -39,14 +40,8 @@ def get_size():
 # Add legend
 ax.legend()
 
-def execute_script(name):
-    os.system('python3 ' + name)
-a = threading.Thread(target=execute_script, args=('register.py',))
-
 # Function to initialize the plot
 def init():
-    # Run the other script
-    a.start()
 
     line.set_data([], [])
     return line,
@@ -67,14 +62,11 @@ def update(frame):
     return line,
 
 # Create an animation
-animation = FuncAnimation(fig, update, frames=np.arange(0, 60, 1), init_func=init, blit=True, interval=1000)
+animation = FuncAnimation(fig, update, frames=count(), init_func=init, blit=True, interval=1000)
 
 # Set up a signal handler for Ctrl+C
 import signal
 def keyboard_interrupt_handler(signum, frame):
-    global terminate_flag
-    print("Ctrl+C received. Stopping the application gracefully.")
-    terminate_flag = True
     try:
         files_to_delete = glob.glob(os.path.join(file_path, '*'))
         for file_path_item in files_to_delete:
@@ -89,6 +81,3 @@ signal.signal(signal.SIGINT, keyboard_interrupt_handler)
 
 # Show the plot
 plt.show()
-
-# Wait for the collection thread to finish
-a.join()

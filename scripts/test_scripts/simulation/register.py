@@ -1,8 +1,26 @@
 #!/usr/bin/python3
-import requests
+from matplotlib.animation import FuncAnimation
+import requests, os, glob, time
+import matplotlib.pyplot as plt
 from datetime import datetime
 from random import randrange
-from time import sleep
+import numpy as np
+from itertools import count
+
+# Create a figure and axis
+fig, ax = plt.subplots()
+x_data = []
+y_data = []
+
+# Create an empty plot
+line, = ax.plot([], [], label='Dynamic Data')
+
+# Set the axes labels and title
+ax.set_xlabel('Request number [-]')
+ax.set_ylabel('Time consumed per request [s]')
+ax.set_title('Time consumed per request sent')
+
+file_path = "/home/cezario/beholder/"
 
 headers = {
     'Content-Type': 'text/xml; charset=utf-8'
@@ -49,7 +67,7 @@ f"""<inputInfo>
     </inputInfo>
     """ 
 
-url = "http://localhost:12332"
+url = "http://172.25.159.16:12332"
 
 # nome, escala, valor esperado
 item_analog_list_n = [
@@ -80,6 +98,25 @@ item_digital_list_n = [
     ['Area_', 9, False, 0]
 ]
 
+def init():
+    line.set_data([], [])
+    return line,
+
+
+def update(frame):
+    # Add new data points
+    x_data.append(frame)
+    y_data.append(simulationLoop())  # Replace this with your actual data
+
+    # Update the plot with the new data
+    line.set_data(x_data, y_data)
+
+    # Adjust the plot limits if needed
+    ax.relim()
+    ax.autoscale_view()
+
+    return line,
+
 def increment_payload_n(payload, items, n):
     if n == 0:
         number = ""
@@ -95,34 +132,47 @@ def increment_payload_n(payload, items, n):
     return payload
 
 def simulationLoop():
-    while (True):
-        payload = generate_default_payload()
+    payload = generate_default_payload()
 
-        for n in range(1,6):
-            payload = increment_payload_n(payload, item_analog_list_n, n)
-            payload = increment_payload_n(payload, item_digital_list_n, n)
-        payload = increment_payload_n(payload, item_analog_list, 0)
+    for n in range(1,6):
+        payload = increment_payload_n(payload, item_analog_list_n, n)
+        payload = increment_payload_n(payload, item_digital_list_n, n)
+    payload = increment_payload_n(payload, item_analog_list, 0)
 
-        payload = end_payload(payload)
-        try:
-            response = requests.request("POST", url, headers=headers, data=payload)
-            # if (response.ok) :
-                # print("Requisição bem sucedida")
-            if (not response.ok):
-            # else :
-                print(f"Response not ok: {response.status_code}")
-                print(response.content)
-        except Exception as e:
-            print(f"Error: {e}")
-        # print("\033c", end="")
-        # print(payload)
-        sleep(5)
-    
-
-def main():
+    payload = end_payload(payload)
     try:
-        simulationLoop()
-    except KeyboardInterrupt:
-        print('Interrupted')
+        start_time = time.perf_counter()
+        response = requests.request("POST", url, headers=headers, data=payload)
+        end_time = time.perf_counter()
+        if (response.ok) :
+            return end_time - start_time
+        else:
+            print(f"Response not ok: {response.status_code}")
+            print(response.content)
+            return 0
 
-main()
+    except Exception as e:
+        print(f"Error: {e}")
+        return 0
+    # print("\033c", end="")
+    # print(payload)
+
+animation = FuncAnimation(fig, update, frames=count(), init_func=init, blit=True, interval=1000/20)
+
+# Set up a signal handler for Ctrl+C
+import signal
+def keyboard_interrupt_handler(signum, frame):
+    try:
+        files_to_delete = glob.glob(os.path.join(file_path, '*'))
+        for file_path_item in files_to_delete:
+            if os.path.isfile(file_path_item):
+                os.remove(file_path_item)
+        print("All files deleted successfully.")
+        quit()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+signal.signal(signal.SIGINT, keyboard_interrupt_handler)
+
+# Show the plot
+plt.show()
